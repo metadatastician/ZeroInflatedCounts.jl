@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 # TEMPORARY probe workflow — the iteration harness while the implementation is
 # built. It runs the toolchains the real gates will use and publishes their
 # OUTPUT to the branch (job logs are not reachable from the development
@@ -133,6 +134,7 @@ jobs:
 
       - name: Julia — package and RCall
         continue-on-error: true
+        timeout-minutes: 25
         run: |
           {
             echo "==================== julia ===================="

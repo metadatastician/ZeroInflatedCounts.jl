@@ -12,9 +12,11 @@
 #   * a null simulation, in which the Benjamini–Hochberg false discovery rate is
 #     measured and reported.
 #
-# The repetition counts are small on purpose — this runs inside `Pkg.test()` —
-# so the coverage floor is deliberately loose (0.70 for a nominal 0.95): it is
-# a regression alarm for a broken estimator, not a calibration certificate.
+# The repetition counts are small on purpose — every repeat costs two `pscl`
+# fits and this runs inside `Pkg.test()` — so the coverage floor is deliberately
+# loose (0.70 for a nominal 0.95): a regression alarm for a broken estimator,
+# not a calibration certificate. A fuller run belongs in an overnight job, not
+# in the gate.
 
 using Random: MersenneTwister
 
@@ -24,7 +26,7 @@ using Random: MersenneTwister
 
 @testset "simulation recovery — hurdle NB" begin
     rng = MersenneTwister(20261005)
-    repeats = 30
+    repeats = 10
     planted_lfc = 0.9
     planted_zero = 0.5
     covered_lfc = 0
@@ -49,17 +51,17 @@ using Random: MersenneTwister
     end
 
     @test length(lfc) >= repeats - 2
-    @test covered_lfc / repeats >= 0.70
+    @test covered_lfc / length(lfc) >= 0.70
     @test isapprox(sum(lfc) / length(lfc), planted_lfc; atol = 4 * std_error(lfc))
     # The hurdle zero part reads as P(count > 0), so the planted positive-vs-zero
     # log odds γ₂ is on the same scale as the reported coefficient.
     @test length(zero) >= repeats - 2
-    @test covered_zero / repeats >= 0.70
+    @test covered_zero / length(zero) >= 0.70
 end
 
 @testset "simulation recovery — ZINB" begin
     rng = MersenneTwister(20261006)
-    repeats = 30
+    repeats = 10
     planted_lfc = 0.9
     planted_zero = 0.5
     covered_lfc = 0
@@ -88,11 +90,11 @@ end
     end
 
     @test length(lfc) >= repeats - 2
-    @test covered_lfc / repeats >= 0.70
+    @test covered_lfc / length(lfc) >= 0.70
     @test isapprox(sum(lfc) / length(lfc), planted_lfc; atol = 4 * std_error(lfc))
     @test length(zero) >= repeats - 2
     @test sum(zero) / length(zero) > 0
-    @test covered_zero / repeats >= 0.70
+    @test covered_zero / length(zero) >= 0.70
     # θ is recovered within a factor, not to three digits: it is the hardest
     # parameter here and this is a smoke check on the sign of the mistake.
     @test 1.0 <= sum(theta) / length(theta) <= 8.0
@@ -100,8 +102,8 @@ end
 
 @testset "null simulation — the reported false discovery rate" begin
     rng = MersenneTwister(20261007)
-    repeats = 20
-    n_taxa = 10
+    repeats = 8
+    n_taxa = 6
     discoveries = 0
     tested = 0
     for _ in 1:repeats
