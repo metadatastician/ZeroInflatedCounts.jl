@@ -76,8 +76,12 @@ jobs:
             echo "=== src root ==="; ls "$SRC" | head -30
             echo "=== Data/Rational files ==="
             ls "$SRC/Data/Rational" "$SRC/Data/Rational/Unnormalised" 2>/dev/null
-            echo "=== Data/Rational/Properties.agda (first 220 lines) ==="
-            head -220 "$SRC/Data/Rational/Properties.agda"
+            echo "=== Data/Rational/Properties.agda (FULL) ==="
+            cat "$SRC/Data/Rational/Properties.agda"
+            echo "=== Data/Rational/Solver.agda (FULL) ==="
+            cat "$SRC/Data/Rational/Solver.agda"
+            echo "=== Data/List/Properties.agda: sum/++/filter names ==="
+            grep -nE "^[^ ].*(sum|filter|length|\+\+)" "$SRC/Data/List/Properties.agda" | head -60
           } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
       - name: Agda — dump base and unnormalised
@@ -100,8 +104,7 @@ jobs:
           {
             set -x
             sudo apt-get install -y -qq r-base-core r-base-dev || true
-            Rscript -e 'library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n")' || \
-              Rscript -e 'install.packages("pscl", repos="https://cloud.r-project.org")'
+            Rscript -e 'library(pscl)' 2>/dev/null || sudo Rscript -e 'install.packages("pscl", repos="https://cloud.r-project.org", lib="/usr/local/lib/R/site-library")'
             Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
           } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
