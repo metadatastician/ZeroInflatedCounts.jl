@@ -15,18 +15,25 @@ license = "MPL-2.0"
 version = "0.1.0"
 
 [deps]
+# The production fits ARE R pscl fits: RCall is a hard dependency, not an
+# optional one. A machine without R cannot load this package, which is the
+# honest outcome for a package whose production engine is R.
+RCall = "6f49c342-dc21-5d91-9882-a32aef131414"
 
 # Test uuid = stdlib, resolved via Base.identify_package("Test") 2026-09-19
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 # Aqua's deps_compat check requires a compat bound for EVERY extra —
 # a template that omits these fails its own gate (measured 2026-09-19).
 [targets]
-test = ["Test", "Aqua"]
+test = ["Test", "Aqua", "Random"]
 
 [compat]
 julia = "1.9"
 Test = "1.9"
 Aqua = "0.8"
+Random = "1.9"
+RCall = "0.13, 0.14"
