@@ -1,176 +1,142 @@
-# TEMPORARY probe workflow — used while building the implementation.
-# It exists to measure what the GitHub-hosted runner can actually do
-# (Agda/R/Julia toolchains, pscl conventions). Deleted before the PR lands.
+# TEMPORARY probe workflow — the iteration harness while the implementation is
+# built. It runs the toolchains the real gates will use and publishes their
+# OUTPUT to the branch (job logs are not reachable from the development
+# sandbox, so stdout/stderr is committed instead). Deleted before the PR lands.
 name: Probe
+
 on:
   push:
     branches: ["arena/**"]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  agda:
-    name: agda probe
+  probe:
+    name: toolchain probe
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7.0.1
-      - name: Install agda
+
+      - name: Init output
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq agda agda-stdlib
-          agda --version
-          dpkg -L agda-stdlib | grep -E '\.agda-lib$|<root>|/Data/Nat/Base\.agda$' | head -8
-      - name: Configure library
+          mkdir -p "$RUNNER_TEMP/out"
+          : > "$RUNNER_TEMP/out.txt"
+          echo "sha=$GITHUB_SHA ref=$GITHUB_REF_NAME" >> "$RUNNER_TEMP/out.txt"
+
+      - name: Agda — install
+        continue-on-error: true
         run: |
-          set -euo pipefail
-          LIB="$(dpkg -L agda-stdlib | grep -E '/standard-library\.agda-lib$' | head -1 || true)"
-          if [ -z "${LIB:-}" ]; then
-            SRC="$(dpkg -L agda-stdlib | grep -E '/Data/Nat/Base\.agda$' | head -1)"
-            ROOT="${SRC%/Data/Nat/Base.agda}"
-            LIB="$ROOT/standard-library.agda-lib"
-            printf 'name: standard-library\ninclude: .\n' | sudo tee "$LIB" >/dev/null
-          fi
-          sudo chmod -R a+rwX "$(dirname "$LIB")"
-          mkdir -p "$HOME/.agda"
-          echo "$LIB" > "$HOME/.agda/libraries"
-          echo "standard-library" > "$HOME/.agda/defaults"
-          echo "library: $LIB"
-          echo "SRCROOT=$(dirname "$LIB")" >> "$GITHUB_ENV"
-      - name: Typecheck the template proof
+          {
+            set -x
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq agda agda-stdlib
+            agda --version
+            dpkg -l agda agda-stdlib | tail -3
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — configure stdlib
+        continue-on-error: true
         run: |
-          set +e
-          cd verification/proofs/agda
-          agda --safe Properties.agda; echo "safe rc=$?"
-          agda --safe --without-K Properties.agda; echo "safe-without-K rc=$?"
-          exit 0
-      - name: Dump stdlib API (rational + nat properties)
+          {
+            set -x
+            LIB="$(dpkg -L agda-stdlib | grep -E '/standard-library\.agda-lib$' | head -1 || true)"
+            if [ -z "${LIB:-}" ]; then
+              SRC="$(dpkg -L agda-stdlib | grep -E '/Data/Nat/Base\.agda$' | head -1)"
+              ROOT="${SRC%/Data/Nat/Base.agda}"
+              LIB="$ROOT/standard-library.agda-lib"
+              printf 'name: standard-library\ninclude: .\n' | sudo tee "$LIB" >/dev/null
+            fi
+            sudo chmod -R a+rwX "$(dirname "$LIB")"
+            mkdir -p "$HOME/.agda"
+            printf '%s\n' "$LIB" > "$HOME/.agda/libraries"
+            printf '%s\n' "standard-library" > "$HOME/.agda/defaults"
+            echo "SRCROOT=$(dirname "$LIB")" >> "$GITHUB_ENV"
+            cat "$HOME/.agda/libraries"
+            ls "$(dirname "$LIB")" | head
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — probe existing proof
+        continue-on-error: true
         run: |
-          set -euo pipefail
-          SRC="$SRCROOT"
-          echo "=== Data/Rational/Properties.agda: top-level signatures ==="
-          grep -nE '^[a-zA-Z0-9⁺⁻^ᵃ-ᶻ_′′'"'"'→×÷/+-]+ *:' "$SRC/Data/Rational/Properties.agda" | head -80 || true
-          echo "=== Data/Rational/Base.agda exports ==="
-          sed -n '/^open import/,$p' "$SRC/Data/Rational/Base.agda" | grep -nE '^(open|module|record|data|_|infix)' | head -40 || true
-          echo "=== Data.Rational module list ==="
-          ls "$SRC/Data/Rational" || true
-          echo "=== Data/Rational/Properties.agda: imports ==="
-          grep -n '^open import\|^import' "$SRC/Data/Rational/Properties.agda" | head -40
-          echo "=== search: monotonicity / positivity lemma names ==="
-          grep -rnE '^ *(pos\*pos|nonNeg\*nonNeg|≤-reflexive|≤-trans|≤-antisym|\+-mono[^ ]*|mono[^ ]*-≤|nonNeg\*|pos⇒|[^ ]*mono[^ ]*) *:' "$SRC/Data/Rational/Properties.agda" | head -60 || true
-          echo "=== Data/Rational/Unnormalised ==="
-          ls "$SRC/Data/Rational/Unnormalised" 2>/dev/null || true
-          echo "=== does Data.Rational ship _^_ ? ==="
-          grep -rn '_^\|_⋆_\|Monoid' "$SRC/Data/Rational/Base.agda" | head -20 || true
-          echo "=== Data/Nat/Properties: selected names ==="
-          grep -nE '^( \*|- \*)?[^ ].*(m≤m\+n|n≤m\+n|m∸n|∸|mono) *:' "$SRC/Data/Nat/Properties.agda" | head -40 || true
+          {
+            set -x
+            cd verification/proofs/agda
+            agda --safe Properties.agda; echo "rc-safe=$?"
+            agda --safe --without-K Properties.agda; echo "rc-safe-without-K=$?"
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
-  r:
-    name: R pscl probe
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - name: Install R + pscl
+      - name: Agda — dump stdlib rational API
+        continue-on-error: true
         run: |
-          sudo apt-get update -qq
-          apt-cache policy r-base-core r-cran-pscl | sed -n '1,40p'
-          sudo apt-get install -y -qq r-base-core r-base-dev || true
-          if ! Rscript -e 'library(pscl)' 2>/dev/null; then
-            sudo apt-get install -y -qq r-cran-pscl || Rscript -e 'install.packages("pscl", repos="https://cloud.r-project.org")'
-          fi
-          Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
-      - name: Measure pscl parameterisation
+          {
+            set -x
+            SRC="${SRCROOT:-/usr/share/agda-stdlib/src}"
+            echo "=== src root ==="; ls "$SRC" | head -30
+            echo "=== Data/Rational files ==="
+            ls "$SRC/Data/Rational" "$SRC/Data/Rational/Unnormalised" 2>/dev/null
+            echo "=== Data/Rational/Properties.agda (first 220 lines) ==="
+            head -220 "$SRC/Data/Rational/Properties.agda"
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — dump base and unnormalised
+        continue-on-error: true
         run: |
-          cat > /tmp/probe.R <<'RSCRIPT'
-          set.seed(11)
-          n <- 40
-          g <- factor(rep(c("A","B"), each = n/2))
-          s <- exp(rnorm(n, 0, 0.4))
-          logitp <- 0.4 + 0.5 * (g == "B") + 0.8 * log(s)
-          p <- plogis(logitp)
-          mu <- exp(1.2 + 0.9 * (g == "B")) * s
-          theta <- 2.5
-          z <- rbinom(n, 1, p)
-          y <- ifelse(z == 1, rnbinom(n, mu = mu, size = theta), 0)
-          d <- data.frame(y = y, g = g, s = s)
+          {
+            set -x
+            SRC="${SRCROOT:-/usr/share/agda-stdlib/src}"
+            echo "=== Data/Rational/Base.agda ==="
+            cat "$SRC/Data/Rational/Base.agda"
+            echo "=== Data/Rational/Unnormalised/Base.agda (head 160) ==="
+            head -160 "$SRC/Data/Rational/Unnormalised/Base.agda" 2>/dev/null || true
+            echo "=== Data/Nat/Properties.agda: selected lemmas ==="
+            grep -nE "^[^ ].*(∸|mono|≤)" "$SRC/Data/Nat/Properties.agda" | grep ":" | head -80
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
-          fit <- pscl::hurdle(y ~ g + offset(log(s)) | g + log(s), data = d,
-                              dist = "negbin", zero.dist = "binomial")
-          cat("== hurdle ==\n")
-          print(coef(fit, model = "count"))
-          print(coef(fit, model = "zero"))
-          cat("theta:", fit$theta, "\n")
-          cat("logLik:", as.numeric(logLik(fit)), " df:", attr(logLik(fit), "df"), "\n")
-          eta0 <- model.matrix(~ g + log(s), data = d) %*% coef(fit, model = "zero")
-          cat("cor(plogis(eta0), y==0):", cor(plogis(eta0), as.numeric(d$y == 0)), "\n")
-          cat("cor(plogis(eta0), y>0):", cor(plogis(eta0), as.numeric(d$y > 0)), "\n")
-          cat("mean(y==0):", mean(d$y == 0), " mean(plogis(eta0)):", mean(plogis(eta0)), "\n")
-          cat("class(fit):", class(fit), "\n")
-          cat("names(fit):", names(fit), "\n")
+      - name: R — install pscl
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            sudo apt-get install -y -qq r-base-core r-base-dev || true
+            Rscript -e 'library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n")' || \
+              Rscript -e 'install.packages("pscl", repos="https://cloud.r-project.org")'
+            Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
-          fit0 <- pscl::hurdle(y ~ offset(log(s)) | log(s), data = d,
-                               dist = "negbin", zero.dist = "binomial")
-          cat("null logLik:", as.numeric(logLik(fit0)), "\n")
-          cat("LRT:", 2 * (as.numeric(logLik(fit)) - as.numeric(logLik(fit0))), "\n")
-          cat("p(chisq2):", pchisq(2 * (as.numeric(logLik(fit)) - as.numeric(logLik(fit0))), df = 2, lower.tail = FALSE), "\n")
+      - name: R — pscl parameterisation probe
+        continue-on-error: true
+        run: |
+          {
+            echo "==================== R pscl probe ===================="
+            Rscript probe/pscl-probe.R
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
-          fitz <- pscl::zeroinfl(y ~ g + offset(log(s)) | g + log(s), data = d,
-                                 dist = "negbin")
-          cat("== zeroinfl ==\n")
-          print(coef(fitz, model = "count"))
-          print(coef(fitz, model = "zero"))
-          cat("theta:", fitz$theta, "\n")
-          cat("logLik:", as.numeric(logLik(fitz)), " df:", attr(logLik(fitz), "df"), "\n")
-          cat("converged:", fitz$converged, "\n")
-          cat("se-count:", summary(fitz)$coefficients$count[, 2], "\n")
-          cat("se-zero:", summary(fitz)$coefficients$zero[, 2], "\n")
-          cat("rownames count:", rownames(summary(fitz)$coefficients$count), "\n")
-          cat("rownames zero:", rownames(summary(fitz)$coefficients$zero), "\n")
-          fitz0 <- pscl::zeroinfl(y ~ offset(log(s)) | log(s), data = d, dist = "negbin")
-          cat("null logLik:", as.numeric(logLik(fitz0)), "\n")
-          lrtz <- 2 * (as.numeric(logLik(fitz)) - as.numeric(logLik(fitz0)))
-          cat("LRT:", lrtz, " p:", pchisq(lrtz, df = 2, lower.tail = FALSE), "\n")
-
-          cat("== hurdle se + names ==\n")
-          print(summary(fit)$coefficients$count)
-          print(summary(fit)$coefficients$zero)
-
-          cat("== degenerate cases ==\n")
-          d2 <- d; d2$y[d2$g == "A"] <- 0
-          r2 <- try(pscl::hurdle(y ~ g + offset(log(s)) | g + log(s), data = d2, dist = "negbin", zero.dist = "binomial"), silent = TRUE)
-          cat("all-zero group A:", class(r2), "\n")
-          d3 <- d; d3$y <- d3$y + 1
-          r3 <- try(pscl::hurdle(y ~ g + offset(log(s)) | g + log(s), data = d3, dist = "negbin", zero.dist = "binomial"), silent = TRUE)
-          cat("no zeros at all:", class(r3), if (!inherits(r3, "try-error")) paste(coef(r3, "zero"), collapse = ",") else "", "\n")
-          RSCRIPT
-          Rscript /tmp/probe.R 2>&1
-
-  julia:
-    name: julia probe
-    runs-on: ubuntu-24.04
-    timeout-minutes: 45
-    steps:
-      - uses: actions/checkout@v7.0.1
-      - uses: julia-actions/setup-julia@v3.0.2
+      - name: Julia — setup
+        continue-on-error: true
+        uses: julia-actions/setup-julia@v3.0.2
         with:
           version: "1"
-      - name: Install R for RCall
+
+      - name: Julia — package and RCall
+        continue-on-error: true
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq r-base-core r-base-dev || true
-      - name: Julia version + RCall smoke
+          {
+            echo "==================== julia ===================="
+            julia -e 'println(VERSION)'
+            julia -e 'using Pkg; Pkg.activate(mktempdir()); Pkg.add("RCall"); using RCall; R"cat(R.version.string, \"\\n\")"; println("RCALL-OK")'
+            julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Publish probe output
+        if: always()
         run: |
-          julia -e 'println(VERSION); println(Sys.KERNEL)'
-          julia -e '
-            using Pkg
-            Pkg.activate(mktempdir())
-            Pkg.add("RCall")
-            using RCall
-            R"cat(R.version.string, \"\\n\")"
-            R"library(MASS); cat(\"MASS ok\\n\")"
-            println("RCALL-OK")'
-      - name: Package test smoke
-        run: |
-          julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+          set -euo pipefail
+          mkdir -p probe
+          cp "$RUNNER_TEMP/out.txt" probe/last-probe.txt
+          git config user.email "j.d.a.jewell@open.ac.uk"
+          git config user.name "Jonathan D.A. Jewell"
+          git add probe
+          git commit -m "probe: publish toolchain output [skip ci]" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true
