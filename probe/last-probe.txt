@@ -1,4 +1,4 @@
-sha=93a404848b498ee8aee94826b82cf634ab53fbd3 ref=arena/01a10883-zeroinflatedcounts-jl
+sha=9f120050e9a949833df073e0e55d33f85abc6baa ref=arena/01a10883-zeroinflatedcounts-jl
 + sudo apt-get update -qq
 + sudo apt-get install -y -qq agda agda-stdlib
 Preconfiguring packages ...
@@ -348,12 +348,12 @@ info: Not creating home directory `/var/spool/postfix'.
 Creating /etc/postfix/dynamicmaps.cf
 info: Selecting GID from range 100 to 999 ...
 info: Adding group `postdrop' (GID 120) ...
-setting myhostname: runnervm8df0l.gc4osuyiydxeppf0ynjrb0qtla.bx.internal.cloudapp.net
+setting myhostname: runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net
 setting alias maps
 setting alias database
-changing /etc/mailname to runnervm8df0l.gc4osuyiydxeppf0ynjrb0qtla.bx.internal.cloudapp.net
+changing /etc/mailname to runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net
 setting myorigin
-setting destinations: $myhostname, runnervm8df0l.gc4osuyiydxeppf0ynjrb0qtla.bx.internal.cloudapp.net, localhost.gc4osuyiydxeppf0ynjrb0qtla.bx.internal.cloudapp.net, , localhost
+setting destinations: $myhostname, runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net, localhost.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net, , localhost
 setting relayhost: 
 setting mynetworks: 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 setting mailbox_size_limit: 0
@@ -448,11 +448,11 @@ update-alternatives: using /usr/bin/emacs-gtk to provide /usr/bin/emacs (emacs) 
 update-alternatives: using /usr/bin/emacsclient.emacs to provide /usr/bin/emacsclient (emacsclient) in auto mode
 Install emacsen-common for emacs
 emacsen-common: Handling install of emacsen flavor emacs
+Install dictionaries-common for emacs
+install/dictionaries-common: Byte-compiling for emacsen flavour emacs
 Install elpa-agda2-mode for emacs
 install/agda2-mode-2.6.3: Handling install of emacsen flavor emacs
 install/agda2-mode-2.6.3: byte-compiling for emacs
-Install dictionaries-common for emacs
-install/dictionaries-common: Byte-compiling for emacsen flavour emacs
 Setting up emacs (1:29.3+1-1ubuntu2) ...
 
 Running kernel seems to be up-to-date.
@@ -5290,8 +5290,8 @@ rc-safe-without-K=0
 + SRC=/usr/share/agda-stdlib
 + echo '=== src root ==='
 === src root ===
-+ head -30
 + ls /usr/share/agda-stdlib
++ head -30
 Algebra
 Algebra.agda
 Algebra.agdai
@@ -7865,7 +7865,7 @@ installing to /usr/local/lib/R/site-library/00LOCK-pscl/00new/pscl/libs
 * DONE (pscl)
 
 The downloaded source packages are in
-	‘/tmp/Rtmp9y1VnI/downloaded_packages’
+	‘/tmp/RtmpUcD7wO/downloaded_packages’
 + Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
 R version 4.3.3 (2024-02-29) 
 Classes and Methods for R originally developed in the
@@ -7877,91 +7877,182 @@ hurdle and zeroinfl functions by Achim Zeileis.
 pscl 1.5.9 
 MASS 7.3.60.0.1 
 ==================== R pscl probe ====================
+
 == hurdle ==
+count coef:
 (Intercept)          gB 
-   1.180273    1.094108 
+  0.9860435   1.0276628 
+zero coef:
 (Intercept)          gB      log(s) 
-  0.1755256   1.1075211   2.7703383 
-theta: 4.917102 
-logLik: -83.4136  df: 6 
-cor(plogis(eta0), y==0): -0.4168139 
-cor(plogis(eta0), y>0): 0.4168139 
-mean(y==0): 0.425  mean(plogis(eta0)): 0.575 
-names(fit): coefficients residuals fitted.values optim method control start weights offset n df.null df.residual terms theta SE.logtheta loglik vcov dist link linkinv separate converged call formula levels contrasts model y 
-            Estimate Std. Error  z value     Pr(>|z|)
-(Intercept) 1.180273  0.2582994 4.569398 4.891262e-06
-gB          1.094108  0.2973947 3.678975 2.341734e-04
-Log(theta)  1.592719  0.6059979 2.628259 8.582322e-03
-             Estimate Std. Error   z value   Pr(>|z|)
-(Intercept) 0.1755256  0.5254542 0.3340454 0.73834528
-gB          1.1075211  0.7124484 1.5545282 0.12005846
-log(s)      2.7703383  1.3301794 2.0826802 0.03728039
-null logLik: -90.2313 
-LRT: 13.6354  p: 0.001094237 
-lrtest:
-Error: 'lrtest' is not an exported object from 'namespace:pscl'
-Execution halted
-==================== julia ====================
-1.13.1
-  Activating new project at `/tmp/jl_MJWRiz`
+ -0.3454103   1.4787028   1.7441463 
+theta: 4.646962 
+logLik: -117.8122  df: 6 
+converged: TRUE 
+cor(plogis(eta0), y==0): -0.4347047  cor(plogis(eta0), y>0): 0.4347047 
+mean(y==0): 0.45  mean(plogis(eta0)): 0.55  mean(y>0): 0.55 
+sd(plogis(eta0)): 0.2197034 
+zero-part SEs:
+            Std. Error
+(Intercept)  0.4008642
+gB           0.5801102
+log(s)       0.9151973
+null logLik: -127.5852  df: 4 
+LRT: 19.54614  p(chi2_2): 5.696518e-05 
+
+== zeroinfl ==
+count coef:
+(Intercept)          gB 
+  0.9798484   1.0357686 
+zero coef:
+(Intercept)          gB      log(s) 
+ 0.09510909 -1.26943186 -1.56662747 
+theta: 4.667841 
+logLik: -117.7356  df: 6 
+converged: TRUE 
+cor(plogis(eta0), y==0): 0.4374252  cor(plogis(eta0), y>0): -0.4374252 
+mean(y==0): 0.45  mean(plogis(eta0)): 0.4138875 
+zero-part SEs:
+            Std. Error
+(Intercept)  0.4606076
+gB           0.6319633
+log(s)       0.9679968
+null logLik: -127.6271  df: 4 
+LRT: 19.78302  p(chi2_2): 5.060242e-05 
+
+== degenerate cases ==
+(sep) all-zero group A, hurdle: WARNING: system is computationally singular: reciprocal condition number = 7.02085e-30FALSE 
+(sep) all-zero group A, zinb: WARNING: system is computationally singular: reciprocal condition number = 4.99392e-18FALSE 
+(sep) no zeros in group A, hurdle: ok
+(sep) no zeros in group A, zinb: ok
+(sep) no zeros at all, hurdle: ERROR: invalid dependent variable, minimum count is not zero 
+(sep) no zeros at all, zinb: ERROR: invalid dependent variable, minimum count is not zero 
+
+== small-sample floors ==
+(tiny) 6 samples, zinb: ERROR: contrasts can be applied only to factors with 2 or more levels 
+(tiny) 8 samples, zinb: ERROR: contrasts can be applied only to factors with 2 or more levels 
+(tiny) 3 samples, hurdle: ERROR: contrasts can be applied only to factors with 2 or more levels 
+(tiny) 4 samples, hurdle: ERROR: contrasts can be applied only to factors with 2 or more levels 
+
+== theta at bound ==
+(bound) poisson-ish data, zinb: ok
+  theta: 14.99049  logLik: -116.5005 
+(bound) poisson-ish data, hurdle: ok
+  theta: 5.449868  logLik: -113.0033 
+
+== versions ==
+R.version: R version 4.3.3 (2024-02-29) 
+pscl: 1.5.9  MASS: 7.3.60.0.1 
+==================== julia format ====================
+  Activating new project at `/tmp/jl_c9ZlG2`
   Installing known registries into `~/.julia`
        Added `General` registry to ~/.julia/registries
    Resolving package versions...
-   Installed Rmath_jll ─────────────────── v0.5.2+0
-   Installed VersionParsing ────────────── v1.3.0
-   Installed InlineStrings ─────────────── v1.4.6
-   Installed RCall ─────────────────────── v0.14.14
-   Installed StatsModels ───────────────── v0.7.10
+   Installed JuliaSyntax ───── v1.0.2
+   Installed Preferences ───── v1.6.0
+   Installed Glob ──────────── v1.5.0
+   Installed JuliaFormatter ── v2.14.0
+   Installed PrecompileTools ─ v1.3.4
+   Installed CommonMark ────── v1.0.4
+    Updating `/tmp/jl_c9ZlG2/Project.toml`
+  [98e50ef6] + JuliaFormatter v2.14.0
+    Updating `/tmp/jl_c9ZlG2/Manifest.toml`
+  [a80b9123] + CommonMark v1.0.4
+  [c27321d9] + Glob v1.5.0
+  [98e50ef6] + JuliaFormatter v2.14.0
+  [70703baa] + JuliaSyntax v1.0.2
+  [aea7be01] + PrecompileTools v1.3.4
+  [21216c6a] + Preferences v1.6.0
+  [2a0f44e3] + Base64 v1.11.0
+  [ade2ca70] + Dates v1.11.0
+  [b77e0a4c] + InteractiveUtils v1.11.0
+  [ac6e5ff7] + JuliaSyntaxHighlighting v1.12.0
+  [56ddb016] + Logging v1.11.0
+  [d6f4376e] + Markdown v1.11.0
+  [de0858da] + Printf v1.11.0
+  [9a3f8284] + Random v1.11.0
+  [ea8e919c] + SHA v1.0.0
+  [9e88b42a] + Serialization v1.11.0
+  [f489334b] + StyledStrings v1.11.0
+  [fa267f1f] + TOML v1.0.3
+  [8dfed614] + Test v1.11.0
+  [4ec0a83e] + Unicode v1.11.0
+Precompiling packages...
+   0.6 s  ✓ Glob
+   0.8 s  ✓ Preferences
+   0.6 s  ✓ PrecompileTools
+  13.8 s  ✓ CommonMark
+   1.0 s  ✓ CommonMark → CommonMarkMarkdownExt
+  16.9 s  ✓ JuliaSyntax
+  26.8 s  ✓ JuliaFormatter
+  7 dependencies successfully precompiled in 44 seconds. 12 already precompiled.
+ M src/ZeroInflatedCounts.jl
+ M src/core/inputs.jl
+ M src/core/models.jl
+ M src/core/pscl.jl
+ M src/core/results.jl
+ M test/cases/10-oracle-known-answers.jl
+ M test/cases/30-refusals.jl
+ M test/cases/40-pscl-cross-check.jl
+ M test/cases/50-simulation-recovery.jl
+ M test/helpers/simulation.jl
+ M test/oracle/Likelihoods.jl
+==================== julia ====================
+1.13.1
+  Activating new project at `/tmp/jl_brAEQL`
+   Resolving package versions...
    Installed HypergeometricFunctions ───── v0.3.30
+   Installed Rmath_jll ─────────────────── v0.5.2+0
+   Installed InlineStrings ─────────────── v1.4.6
+   Installed VersionParsing ────────────── v1.3.0
+   Installed StatsModels ───────────────── v0.7.10
    Installed DataStructures ────────────── v0.19.6
+   Installed RCall ─────────────────────── v0.14.14
+   Installed OrderedCollections ────────── v2.0.2
+   Installed ShiftedArrays ─────────────── v2.0.0
    Installed StatsBase ─────────────────── v0.34.13
    Installed Statistics ────────────────── v1.11.5
-   Installed InvertedIndices ───────────── v1.3.1
    Installed AliasTables ───────────────── v1.1.3
-   Installed OrderedCollections ────────── v2.0.2
-   Installed Conda ─────────────────────── v1.10.3
-   Installed IteratorInterfaceExtensions ─ v1.0.0
+   Installed InvertedIndices ───────────── v1.3.1
    Installed StatsAPI ──────────────────── v1.8.0
-   Installed ShiftedArrays ─────────────── v2.0.0
-   Installed Compat ────────────────────── v4.18.1
-   Installed DataAPI ───────────────────── v1.16.0
-   Installed PrecompileTools ───────────── v1.3.4
+   Installed Conda ─────────────────────── v1.10.3
    Installed SentinelArrays ────────────── v1.4.10
-   Installed StructUtils ───────────────── v2.9.2
    Installed StringManipulation ────────── v0.6.1
-   Installed DataValueInterfaces ───────── v1.0.0
+   Installed IteratorInterfaceExtensions ─ v1.0.0
+   Installed StructUtils ───────────────── v2.9.2
+   Installed DataAPI ───────────────────── v1.16.0
+   Installed Compat ────────────────────── v4.18.1
    Installed LogExpFunctions ───────────── v1.0.2
    Installed JSON ──────────────────────── v1.10.0
-   Installed Parsers ───────────────────── v3.0.0
-   Installed StatsFuns ─────────────────── v2.2.1
    Installed Gamma ─────────────────────── v1.2.0
+   Installed Parsers ───────────────────── v3.0.0
+   Installed DataValueInterfaces ───────── v1.0.0
    Installed WinReg ────────────────────── v1.0.0
-   Installed Tables ────────────────────── v1.14.0
-   Installed OpenSpecFun_jll ───────────── v0.5.6+0
-   Installed IrrationalConstants ───────── v0.2.6
-   Installed Requires ──────────────────── v1.3.1
-   Installed PtrArrays ─────────────────── v1.4.0
-   Installed Rmath ─────────────────────── v0.9.0
-   Installed SpecialFunctions ──────────── v2.9.0
-   Installed Preferences ───────────────── v1.6.0
    Installed PrettyTables ──────────────── v3.5.0
+   Installed IrrationalConstants ───────── v0.2.6
+   Installed PtrArrays ─────────────────── v1.4.0
+   Installed Tables ────────────────────── v1.14.0
+   Installed StatsFuns ─────────────────── v2.2.1
+   Installed SpecialFunctions ──────────── v2.9.0
+   Installed OpenSpecFun_jll ───────────── v0.5.6+0
    Installed PooledArrays ──────────────── v1.4.3
-   Installed DataFrames ────────────────── v1.8.2
+   Installed Requires ──────────────────── v1.3.1
+   Installed SortingAlgorithms ─────────── v1.2.3
    Installed LaTeXStrings ──────────────── v1.4.1
    Installed Crayons ───────────────────── v4.2.0
    Installed CategoricalArrays ─────────── v1.1.1
-   Installed SortingAlgorithms ─────────── v1.2.3
-   Installed Reexport ──────────────────── v1.2.2
+   Installed Rmath ─────────────────────── v0.9.0
    Installed Missings ──────────────────── v1.2.0
-   Installed JLLWrappers ───────────────── v1.8.0
    Installed TableTraits ───────────────── v1.0.1
+   Installed DataFrames ────────────────── v1.8.2
+   Installed Reexport ──────────────────── v1.2.2
+   Installed JLLWrappers ───────────────── v1.8.0
    Installed DocStringExtensions ───────── v0.9.5
   Installing 2 artifacts
-   Installed artifact Rmath       111.3 KiB
    Installed artifact OpenSpecFun 105.4 KiB
-    Updating `/tmp/jl_MJWRiz/Project.toml`
+   Installed artifact Rmath       111.3 KiB
+    Updating `/tmp/jl_brAEQL/Project.toml`
   [6f49c342] + RCall v0.14.14
-    Updating `/tmp/jl_MJWRiz/Manifest.toml`
+    Updating `/tmp/jl_brAEQL/Manifest.toml`
   [66dad0bd] + AliasTables v1.1.3
   [324d7699] + CategoricalArrays v1.1.1
   [34da2185] + Compat v4.18.1
@@ -8053,97 +8144,240 @@ Execution halted
     Building Conda → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/8f06b0cfa4c514c7b9546756dbae91fcfbc92dc9/build.log`
     Building RCall → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/a22e6179e35c0b504c4328cc79b6287c2e3cb74c/build.log`
 Precompiling packages...
-   1.0 s  ✓ InlineStrings
-   0.9 s  ✓ Reexport
-   0.9 s  ✓ DataAPI
-   1.1 s  ✓ Statistics
-   0.5 s  ✓ DataValueInterfaces
+   0.6 s  ✓ DataAPI
+   0.7 s  ✓ Statistics
+   0.8 s  ✓ Reexport
+   1.2 s  ✓ InlineStrings
+   0.7 s  ✓ DataValueInterfaces
    0.6 s  ✓ StatsAPI
-   1.3 s  ✓ OrderedCollections
-   1.0 s  ✓ InvertedIndices
+   0.7 s  ✓ InvertedIndices
    1.4 s  ✓ Requires
-   2.5 s  ✓ IrrationalConstants
-   1.3 s  ✓ DocStringExtensions
-   0.5 s  ✓ WinReg
-   0.7 s  ✓ ShiftedArrays
-   0.4 s  ✓ IteratorInterfaceExtensions
-   0.8 s  ✓ PtrArrays
-   0.7 s  ✓ LaTeXStrings
-   1.4 s  ✓ VersionParsing
-   1.0 s  ✓ Compat
-   1.1 s  ✓ Preferences
-   2.2 s  ✓ StructUtils
-   2.5 s  ✓ Crayons
-   1.6 s  ✓ Missings
-   3.0 s  ✓ SentinelArrays
-   1.3 s  ✓ PooledArrays
-   1.0 s  ✓ Statistics → SparseArraysExt
+   1.1 s  ✓ OrderedCollections
+   1.2 s  ✓ DocStringExtensions
+   2.8 s  ✓ IrrationalConstants
+   0.8 s  ✓ ShiftedArrays
+   0.7 s  ✓ WinReg
+   1.0 s  ✓ VersionParsing
+   0.6 s  ✓ PtrArrays
+   0.9 s  ✓ IteratorInterfaceExtensions
+   0.9 s  ✓ LaTeXStrings
+   1.3 s  ✓ StructUtils
+   1.8 s  ✓ Crayons
+   1.3 s  ✓ Compat
+   1.7 s  ✓ JLLWrappers
+   0.9 s  ✓ Missings
+   2.7 s  ✓ SentinelArrays
+   0.8 s  ✓ PooledArrays
+   1.0 s  ✓ LogExpFunctions
+   1.4 s  ✓ Statistics → SparseArraysExt
    0.7 s  ✓ TableTraits
-   0.7 s  ✓ AliasTables
-   0.8 s  ✓ Compat → CompatLinearAlgebraExt
-   1.2 s  ✓ LogExpFunctions
-   1.1 s  ✓ PrecompileTools
-   3.0 s  ✓ DataStructures
-   1.9 s  ✓ JLLWrappers
-   1.2 s  ✓ Gamma
-   2.0 s  ✓ Tables
-   0.7 s  ✓ SortingAlgorithms
-   2.7 s  ✓ CategoricalArrays
-   1.2 s  ✓ OpenSpecFun_jll
-   2.1 s  ✓ Rmath_jll
-   1.7 s  ✓ HypergeometricFunctions
-   0.8 s  ✓ StructUtils → StructUtilsTablesExt
-   0.7 s  ✓ CategoricalArrays → CategoricalArraysSentinelArraysExt
-   1.2 s  ✓ Rmath
-   4.2 s  ✓ SpecialFunctions
-   5.2 s  ✓ StatsBase
-   9.1 s  ✓ StringManipulation
-   1.8 s  ✓ StatsFuns
-   1.6 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
+   1.0 s  ✓ AliasTables
+   0.9 s  ✓ Compat → CompatLinearAlgebraExt
+   3.1 s  ✓ DataStructures
+   2.4 s  ✓ Rmath_jll
+   2.1 s  ✓ OpenSpecFun_jll
+   2.1 s  ✓ Gamma
+   1.1 s  ✓ SortingAlgorithms
+   8.2 s  ✓ StringManipulation
+   2.4 s  ✓ Tables
+   3.0 s  ✓ CategoricalArrays
+   1.7 s  ✓ Rmath
+   0.9 s  ✓ StructUtils → StructUtilsTablesExt
+   1.9 s  ✓ HypergeometricFunctions
+   0.8 s  ✓ CategoricalArrays → CategoricalArraysSentinelArraysExt
+   4.0 s  ✓ SpecialFunctions
+   4.1 s  ✓ StatsBase
+   1.5 s  ✓ StatsFuns
+   0.9 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
    1.9 s  ✓ StatsModels
-  32.4 s  ✓ Parsers
-   0.9 s  ✓ InlineStrings → ParsersExt
-  34.3 s  ✓ PrettyTables
-  15.5 s  ✓ JSON
+  33.1 s  ✓ Parsers
+   0.6 s  ✓ InlineStrings → ParsersExt
+  35.5 s  ✓ PrettyTables
+  13.7 s  ✓ JSON
    0.8 s  ✓ Conda
-   0.9 s  ✓ CategoricalArrays → CategoricalArraysJSONExt
-  46.8 s  ✓ DataFrames
-   5.7 s  ✓ RCall
-  56 dependencies successfully precompiled in 105 seconds. 29 already precompiled.
+   0.8 s  ✓ CategoricalArrays → CategoricalArraysJSONExt
+  41.8 s  ✓ DataFrames
+   5.5 s  ✓ RCall
+  54 dependencies successfully precompiled in 98 seconds. 31 already precompiled.
 R version 4.3.3 (2024-02-29) \nRCALL-OK
-     Project No packages added to or removed from `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Project.toml`
-    Manifest No packages added to or removed from `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Manifest.toml`
+    Updating registry at `~/.julia/registries/General.toml`
+    Updating `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Project.toml`
+  [6f49c342] + RCall v0.14.14
+    Updating `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Manifest.toml`
+  [66dad0bd] + AliasTables v1.1.3
+  [324d7699] + CategoricalArrays v1.1.1
+  [34da2185] + Compat v4.18.1
+  [8f4d0f93] + Conda v1.10.3
+  [a8cc5b0e] + Crayons v4.2.0
+  [9a962f9c] + DataAPI v1.16.0
+  [a93c6f00] + DataFrames v1.8.2
+  [864edb3b] + DataStructures v0.19.6
+  [e2d170a0] + DataValueInterfaces v1.0.0
+  [ffbed154] + DocStringExtensions v0.9.5
+  [a0844989] + Gamma v1.2.0
+  [34004b35] + HypergeometricFunctions v0.3.30
+⌅ [842dd82b] + InlineStrings v1.4.6
+  [41ab1584] + InvertedIndices v1.3.1
+  [92d709cd] + IrrationalConstants v0.2.6
+  [82899510] + IteratorInterfaceExtensions v1.0.0
+  [692b3bcd] + JLLWrappers v1.8.0
+  [682c06a0] + JSON v1.10.0
+  [b964fa9f] + LaTeXStrings v1.4.1
+  [2ab3a3ac] + LogExpFunctions v1.0.2
+  [e1d29d7a] + Missings v1.2.0
+  [bac558e1] + OrderedCollections v2.0.2
+  [69de0a69] + Parsers v3.0.0
+  [2dfb63ee] + PooledArrays v1.4.3
+  [aea7be01] + PrecompileTools v1.3.4
+  [21216c6a] + Preferences v1.6.0
+  [08abe8d2] + PrettyTables v3.5.0
+  [43287f4e] + PtrArrays v1.4.0
+  [6f49c342] + RCall v0.14.14
+  [189a3867] + Reexport v1.2.2
+  [ae029012] + Requires v1.3.1
+  [79098fc4] + Rmath v0.9.0
+  [91c51154] + SentinelArrays v1.4.10
+  [1277b4bf] + ShiftedArrays v2.0.0
+  [a2af1166] + SortingAlgorithms v1.2.3
+  [276daf66] + SpecialFunctions v2.9.0
+  [10745b16] + Statistics v1.11.5
+  [82ae8749] + StatsAPI v1.8.0
+  [2913bbd2] + StatsBase v0.34.13
+  [4c63d2b9] + StatsFuns v2.2.1
+  [3eaba693] + StatsModels v0.7.10
+  [892a3eda] + StringManipulation v0.6.1
+  [ec057cc2] + StructUtils v2.9.2
+  [3783bdb8] + TableTraits v1.0.1
+  [bd369af6] + Tables v1.14.0
+  [81def892] + VersionParsing v1.3.0
+  [1b915085] + WinReg v1.0.0
+  [efe28fd5] + OpenSpecFun_jll v0.5.6+0
+  [f50d1b31] + Rmath_jll v0.5.2+0
+  [0dad84c5] + ArgTools v1.1.2
+  [56f22d72] + Artifacts v1.11.0
+  [2a0f44e3] + Base64 v1.11.0
+  [ade2ca70] + Dates v1.11.0
+  [f43a241f] + Downloads v1.7.0
+  [7b1f6079] + FileWatching v1.11.0
+  [9fa8497b] + Future v1.11.0
+  [b77e0a4c] + InteractiveUtils v1.11.0
+  [ac6e5ff7] + JuliaSyntaxHighlighting v1.12.0
+  [b27032c2] + LibCURL v1.0.0
+  [8f399da3] + Libdl v1.11.0
+  [37e2e46d] + LinearAlgebra v1.13.0
+  [56ddb016] + Logging v1.11.0
+  [d6f4376e] + Markdown v1.11.0
+  [ca575930] + NetworkOptions v1.3.0
+  [de0858da] + Printf v1.11.0
+  [3fa0cd96] + REPL v1.11.0
+  [9a3f8284] + Random v1.11.0
+  [ea8e919c] + SHA v1.0.0
+  [9e88b42a] + Serialization v1.11.0
+  [6462fe0b] + Sockets v1.11.0
+  [2f01184e] + SparseArrays v1.13.0
+  [f489334b] + StyledStrings v1.11.0
+  [fa267f1f] + TOML v1.0.3
+  [cf7118a7] + UUIDs v1.11.0
+  [4ec0a83e] + Unicode v1.11.0
+  [e66e0078] + CompilerSupportLibraries_jll v1.5.5+2
+  [deac9b47] + LibCURL_jll v8.18.0+1
+  [29816b5a] + LibSSH2_jll v1.11.104+0
+  [14a3606d] + MozillaCACerts_jll v2026.8.13
+  [4536629a] + OpenBLAS_jll v0.3.30+0
+  [05823500] + OpenLibm_jll v0.8.7+0
+  [458c3c95] + OpenSSL_jll v3.5.6+0
+  [bea87d4a] + SuiteSparse_jll v7.10.1+0
+  [83775a58] + Zlib_jll v1.3.1+2
+  [3161d3a3] + Zstd_jll v1.5.7+1
+  [8e850b90] + libblastrampoline_jll v5.15.0+0
+  [8e850ede] + nghttp2_jll v1.67.1+0
+        Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading. To see why use `status --outdated -m`
 Precompiling packages...
-   0.3 s  ✓ ZeroInflatedCounts
-  1 dependency successfully precompiled in 0 seconds
+   2.1 s  ✓ ZeroInflatedCounts
+  1 dependency successfully precompiled in 2 seconds. 85 already precompiled.
      Testing ZeroInflatedCounts
-      Status `/tmp/jl_ZiwWIY/Project.toml`
+      Status `/tmp/jl_SPJLkO/Project.toml`
   [4c88cf16] Aqua v0.8.18
+  [6f49c342] RCall v0.14.14
   [a3e242c2] ZeroInflatedCounts v0.1.0 `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl`
+  [9a3f8284] Random v1.11.0
   [8dfed614] Test v1.11.0
-      Status `/tmp/jl_ZiwWIY/Manifest.toml`
+      Status `/tmp/jl_SPJLkO/Manifest.toml`
+  [66dad0bd] AliasTables v1.1.3
   [4c88cf16] Aqua v0.8.18
+  [324d7699] CategoricalArrays v1.1.1
   [34da2185] Compat v4.18.1
+  [8f4d0f93] Conda v1.10.3
+  [a8cc5b0e] Crayons v4.2.0
+  [9a962f9c] DataAPI v1.16.0
+  [a93c6f00] DataFrames v1.8.2
+  [864edb3b] DataStructures v0.19.6
+  [e2d170a0] DataValueInterfaces v1.0.0
+  [ffbed154] DocStringExtensions v0.9.5
+  [a0844989] Gamma v1.2.0
+  [34004b35] HypergeometricFunctions v0.3.30
+⌅ [842dd82b] InlineStrings v1.4.6
+  [41ab1584] InvertedIndices v1.3.1
+  [92d709cd] IrrationalConstants v0.2.6
+  [82899510] IteratorInterfaceExtensions v1.0.0
+  [692b3bcd] JLLWrappers v1.8.0
+  [682c06a0] JSON v1.10.0
+  [b964fa9f] LaTeXStrings v1.4.1
+  [2ab3a3ac] LogExpFunctions v1.0.2
+  [e1d29d7a] Missings v1.2.0
+  [bac558e1] OrderedCollections v2.0.2
+  [69de0a69] Parsers v3.0.0
+  [2dfb63ee] PooledArrays v1.4.3
+  [aea7be01] PrecompileTools v1.3.4
+  [21216c6a] Preferences v1.6.0
+  [08abe8d2] PrettyTables v3.5.0
+  [43287f4e] PtrArrays v1.4.0
+  [6f49c342] RCall v0.14.14
+  [189a3867] Reexport v1.2.2
+  [ae029012] Requires v1.3.1
+  [79098fc4] Rmath v0.9.0
+  [91c51154] SentinelArrays v1.4.10
+  [1277b4bf] ShiftedArrays v2.0.0
+  [a2af1166] SortingAlgorithms v1.2.3
+  [276daf66] SpecialFunctions v2.9.0
+  [10745b16] Statistics v1.11.5
+  [82ae8749] StatsAPI v1.8.0
+  [2913bbd2] StatsBase v0.34.13
+  [4c63d2b9] StatsFuns v2.2.1
+  [3eaba693] StatsModels v0.7.10
+  [892a3eda] StringManipulation v0.6.1
+  [ec057cc2] StructUtils v2.9.2
+  [3783bdb8] TableTraits v1.0.1
+  [bd369af6] Tables v1.14.0
+  [81def892] VersionParsing v1.3.0
+  [1b915085] WinReg v1.0.0
   [a3e242c2] ZeroInflatedCounts v0.1.0 `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl`
+  [efe28fd5] OpenSpecFun_jll v0.5.6+0
+  [f50d1b31] Rmath_jll v0.5.2+0
   [0dad84c5] ArgTools v1.1.2
   [56f22d72] Artifacts v1.11.0
   [2a0f44e3] Base64 v1.11.0
   [ade2ca70] Dates v1.11.0
   [f43a241f] Downloads v1.7.0
   [7b1f6079] FileWatching v1.11.0
+  [9fa8497b] Future v1.11.0
   [b77e0a4c] InteractiveUtils v1.11.0
   [ac6e5ff7] JuliaSyntaxHighlighting v1.12.0
   [b27032c2] LibCURL v1.0.0
   [76f85450] LibGit2 v1.11.0
   [8f399da3] Libdl v1.11.0
+  [37e2e46d] LinearAlgebra v1.13.0
   [56ddb016] Logging v1.11.0
   [d6f4376e] Markdown v1.11.0
   [ca575930] NetworkOptions v1.3.0
   [44cfe95a] Pkg v1.13.0
   [de0858da] Printf v1.11.0
+  [3fa0cd96] REPL v1.11.0
   [9a3f8284] Random v1.11.0
   [ea8e919c] SHA v1.0.0
   [9e88b42a] Serialization v1.11.0
+  [6462fe0b] Sockets v1.11.0
+  [2f01184e] SparseArrays v1.13.0
   [f489334b] StyledStrings v1.11.0
   [fa267f1f] TOML v1.0.3
   [a4e569a6] Tar v1.10.0
@@ -8155,18 +8389,18 @@ Precompiling packages...
   [e37daf67] LibGit2_jll v1.9.1+0
   [29816b5a] LibSSH2_jll v1.11.104+0
   [14a3606d] MozillaCACerts_jll v2026.8.13
+  [4536629a] OpenBLAS_jll v0.3.30+0
+  [05823500] OpenLibm_jll v0.8.7+0
   [458c3c95] OpenSSL_jll v3.5.6+0
   [efcefdf7] PCRE2_jll v10.46.0+0
+  [bea87d4a] SuiteSparse_jll v7.10.1+0
   [83775a58] Zlib_jll v1.3.1+2
   [3161d3a3] Zstd_jll v1.5.7+1
+  [8e850b90] libblastrampoline_jll v5.15.0+0
   [8e850ede] nghttp2_jll v1.67.1+0
   [3f19e933] p7zip_jll v17.8.2+0
+        Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading.
 Precompiling for configuration --code-coverage=none --color=auto --warn-overwrite=yes --depwarn=yes --inline=yes --startup-file=no --track-allocation=none
-   2.0 s  ✓ Aqua
-  1 dependency successfully precompiled in 2 seconds. 34 already precompiled.
+   1.8 s  ✓ Aqua
+  1 dependency successfully precompiled in 2 seconds. 94 already precompiled.
      Testing Running tests...
-Test Summary:                           | Pass  Total  Time
-ZeroInflatedCounts — Aqua package shape |   11     11  8.2s
-Test Summary:                  | Pass  Total  Time
-ZeroInflatedCounts — behaviour |    1      1  0.1s
-     Testing ZeroInflatedCounts tests passed 

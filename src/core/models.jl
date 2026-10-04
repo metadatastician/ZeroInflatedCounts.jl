@@ -36,7 +36,7 @@ function bh_adjust(p::AbstractVector{<:Real})
     ord = sortperm(p)
     adj = Vector{Float64}(undef, n)
     running = 1.0
-    for k in n:-1:1
+    for k = n:-1:1
         i = ord[k]
         running = min(running, Float64(p[i]) * n / k)
         adj[i] = running
@@ -180,8 +180,11 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
     se_zero = _as_float(raw, "zero_se")
 
     if !(isfinite(loglik_full) && isfinite(loglik_null) && isfinite(theta))
-        return TaxonFailed(taxon, "the fit returned a non-finite log-likelihood or " *
-                                  "negative-binomial size parameter")
+        return TaxonFailed(
+            taxon,
+            "the fit returned a non-finite log-likelihood or " *
+            "negative-binomial size parameter",
+        )
     end
 
     if !_as_bool(raw, "converged", true)
@@ -189,8 +192,11 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
     end
 
     if !isfinite(se_count) || !isfinite(se_zero)
-        return TaxonFailed(taxon, "the covariance matrix is not positive definite: " *
-                                  "the standard error of the group coefficient is not finite")
+        return TaxonFailed(
+            taxon,
+            "the covariance matrix is not positive definite: " *
+            "the standard error of the group coefficient is not finite",
+        )
     end
 
     theta_note = theta_note_for(theta)
@@ -198,23 +204,45 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
     if kind === :zinb
         zero_prob = _as_floats(raw, "zero_part_prob")
         if isempty(zero_prob)
-            return TaxonFailed(taxon, "the pscl result carries no fitted zero-part probability")
+            return TaxonFailed(
+                taxon,
+                "the pscl result carries no fitted zero-part probability",
+            )
         end
         if !zero_inflation_detectable(zero_prob)
-            return TaxonRefused(taxon, "no zero inflation is detectable; the NB GLM result applies")
+            return TaxonRefused(
+                taxon,
+                "no zero inflation is detectable; the NB GLM result applies",
+            )
         end
     end
 
     lr = 2 * (loglik_full - loglik_null)
     if lr < 0
-        push!(warnings, "the reduced model fitted better than the full model " *
-                        "(2*delta = $(lr)); the likelihood-ratio statistic is reported as 0")
+        push!(
+            warnings,
+            "the reduced model fitted better than the full model " *
+            "(2*delta = $(lr)); the likelihood-ratio statistic is reported as 0",
+        )
         lr = 0.0
     end
 
-    return TaxonFit(taxon, _as_float(raw, "count_coef"), se_count,
-        _as_float(raw, "zero_coef"), se_zero, theta, loglik_full, loglik_null, lr,
-        2, chi2_2_sf(lr), NaN, theta_note, warnings)
+    return TaxonFit(
+        taxon,
+        _as_float(raw, "count_coef"),
+        se_count,
+        _as_float(raw, "zero_coef"),
+        se_zero,
+        theta,
+        loglik_full,
+        loglik_null,
+        lr,
+        2,
+        chi2_2_sf(lr),
+        NaN,
+        theta_note,
+        warnings,
+    )
 end
 
 """
@@ -224,21 +252,35 @@ The shared body of [`hurdle_nb`](@ref) and [`zinb`](@ref): validate once, fit
 taxon by taxon, then apply Benjamini–Hochberg across exactly the taxa that
 produced a p-value.
 """
-function fit_table(kind::Symbol, counts::AbstractMatrix, groups::AbstractVector,
-    size_factors::AbstractVector; taxa = nothing, ref = nothing,
-    min_prevalence::Real = 0.0)
-    inputs = check_inputs(counts, groups, size_factors; taxa = taxa, ref = ref,
-        min_prevalence = min_prevalence)
+function fit_table(
+    kind::Symbol,
+    counts::AbstractMatrix,
+    groups::AbstractVector,
+    size_factors::AbstractVector;
+    taxa = nothing,
+    ref = nothing,
+    min_prevalence::Real = 0.0,
+)
+    inputs = check_inputs(
+        counts,
+        groups,
+        size_factors;
+        taxa = taxa,
+        ref = ref,
+        min_prevalence = min_prevalence,
+    )
 
     if !pscl_available()
-        error("the R package `pscl` is not installed for this RCall session: the " *
-              "$(kind) method is unavailable. Install it in the R that RCall uses " *
-              "with install.packages(\"pscl\").")
+        error(
+            "the R package `pscl` is not installed for this RCall session: the " *
+            "$(kind) method is unavailable. Install it in the R that RCall uses " *
+            "with install.packages(\"pscl\").",
+        )
     end
 
     versions = pscl_versions()
 
-    fits = TaxonResult[fit_taxon(kind, inputs, j) for j in 1:size(inputs.counts, 2)]
+    fits = TaxonResult[fit_taxon(kind, inputs, j) for j = 1:size(inputs.counts, 2)]
 
     tested = findall(r -> r isa TaxonFit, fits)
     if !isempty(tested)
@@ -262,13 +304,25 @@ function fit_table(kind::Symbol, counts::AbstractMatrix, groups::AbstractVector,
 
     count_formula = "count ~ group + offset(log(size_factor))"
     zero_formula = "~ group + log(size_factor)"
-    offset_method = "count part: log(size_factor) as an offset; " *
-                    "zero part: log(size_factor) as a covariate"
+    offset_method =
+        "count part: log(size_factor) as an offset; " *
+        "zero part: log(size_factor) as a covariate"
 
-    provenance = Provenance(kind, count_formula, zero_formula,
-        "count ~ offset(log(size_factor))", "~ log(size_factor)", offset_method,
-        versions.r_version, versions.pscl_version, versions.mass_version,
-        n_tested, n_refused, n_failed, all_warnings)
+    provenance = Provenance(
+        kind,
+        count_formula,
+        zero_formula,
+        "count ~ offset(log(size_factor))",
+        "~ log(size_factor)",
+        offset_method,
+        versions.r_version,
+        versions.pscl_version,
+        versions.mass_version,
+        n_tested,
+        n_refused,
+        n_failed,
+        all_warnings,
+    )
 
     return ZIFit(kind, inputs.taxa, fits, provenance)
 end

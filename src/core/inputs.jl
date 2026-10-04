@@ -42,28 +42,40 @@ silently repaired:
 `ref` chooses the reference group. Left at `nothing`, the reference is the
 first group in sorted order, so the same table always gives the same contrast.
 """
-function check_inputs(counts::AbstractMatrix, groups::AbstractVector,
-    size_factors::AbstractVector; taxa = nothing, ref = nothing,
-    min_prevalence::Real = 0.0)
+function check_inputs(
+    counts::AbstractMatrix,
+    groups::AbstractVector,
+    size_factors::AbstractVector;
+    taxa = nothing,
+    ref = nothing,
+    min_prevalence::Real = 0.0,
+)
     n, p = size(counts)
 
     if !(eltype(counts) <: Integer)
-        throw(ArgumentError("counts must be an integer matrix (got eltype " *
-                            "$(eltype(counts))); non-integer counts are refused, not rounded"))
+        throw(
+            ArgumentError(
+                "counts must be an integer matrix (got eltype " *
+                "$(eltype(counts))); non-integer counts are refused, not rounded",
+            ),
+        )
     end
     if any(counts .< 0)
         throw(ArgumentError("counts must be non-negative; negative entries are refused"))
     end
     if n != length(groups) || n != length(size_factors)
-        throw(ArgumentError("counts has $n rows but groups has $(length(groups)) " *
-                            "and size_factors has $(length(size_factors)) entries"))
+        throw(
+            ArgumentError(
+                "counts has $n rows but groups has $(length(groups)) " *
+                "and size_factors has $(length(size_factors)) entries",
+            ),
+        )
     end
     if p == 0 || n == 0
         throw(ArgumentError("counts must have at least one sample and one taxon"))
     end
 
-    if length(size_factors) > 0 &&
-       any(!isfinite(s) for s in size_factors)
+    if length(size_factors) > 0 && any(!isfinite(s) for s in size_factors)
         throw(ArgumentError("size factors must be finite"))
     end
     if any(s -> s <= 0, size_factors)
@@ -72,18 +84,24 @@ function check_inputs(counts::AbstractMatrix, groups::AbstractVector,
 
     levels = sort(unique(string.(groups)))
     if length(levels) != 2
-        throw(ArgumentError("exactly two groups are required (got " *
-                            "$(length(levels)): $(join(levels, ", ")))"))
+        throw(
+            ArgumentError(
+                "exactly two groups are required (got " *
+                "$(length(levels)): $(join(levels, ", ")))",
+            ),
+        )
     end
     if ref === nothing
         reference = levels[1]
         contrast = levels[2]
     else
         reference = string(ref)
-        reference in levels ||
-            throw(ArgumentError("ref = $(reference) is not one of the groups " *
-                                "($(join(levels, ", ")))"))
-        contrast = levels[levels.!= reference][1]
+        reference in levels || throw(
+            ArgumentError(
+                "ref = $(reference) is not one of the groups " * "($(join(levels, ", ")))",
+            ),
+        )
+        contrast = levels[levels .!= reference][1]
     end
 
     if !(0 <= min_prevalence <= 1)
@@ -91,13 +109,21 @@ function check_inputs(counts::AbstractMatrix, groups::AbstractVector,
     end
 
     if taxa === nothing
-        taxon_names = ["taxon-" * string(j) for j in 1:p]
+        taxon_names = ["taxon-" * string(j) for j = 1:p]
     else
-        length(taxa) == p ||
-            throw(ArgumentError("taxa has $(length(taxa)) entries but counts has $p columns"))
+        length(taxa) == p || throw(
+            ArgumentError("taxa has $(length(taxa)) entries but counts has $p columns"),
+        )
         taxon_names = string.(taxa)
     end
 
-    return ZIInputs(Matrix{Int}(counts), string.(groups), Float64.(size_factors),
-        taxon_names, reference, contrast, Float64(min_prevalence))
+    return ZIInputs(
+        Matrix{Int}(counts),
+        string.(groups),
+        Float64.(size_factors),
+        taxon_names,
+        reference,
+        contrast,
+        Float64(min_prevalence),
+    )
 end

@@ -32,8 +32,8 @@ using Random: MersenneTwister
 
     # Both densities sum to 1 over the support (the truncation normaliser is
     # 1 - f(0), so the truncated one must too).
-    @test sum(Likelihoods.nb_pmf(k, 3.0, 2.0) for k in 0:2000) ≈ 1.0 atol = 1.0e-10
-    @test sum(Likelihoods.tnb_pmf(k, 3.0, 2.0) for k in 1:2000) ≈ 1.0 atol = 1.0e-10
+    @test sum(Likelihoods.nb_pmf(k, 3.0, 2.0) for k = 0:2000) ≈ 1.0 atol = 1.0e-10
+    @test sum(Likelihoods.tnb_pmf(k, 3.0, 2.0) for k = 1:2000) ≈ 1.0 atol = 1.0e-10
 end
 
 @testset "oracle — hurdle separability, numerically" begin
@@ -43,23 +43,29 @@ end
     θ = 2.5
 
     zero_part = sum(Likelihoods.hurdle_zero_loglik(y[i], p[i]) for i in eachindex(y))
-    count_part = sum(Likelihoods.tnb_logpdf(y[i], μ[i], θ) for i in eachindex(y) if y[i] > 0)
+    count_part =
+        sum(Likelihoods.tnb_logpdf(y[i], μ[i], θ) for i in eachindex(y) if y[i] > 0)
 
-    @test isapprox(Likelihoods.hurdle_loglik(y, μ, p, θ), zero_part + count_part; rtol = 1.0e-14)
+    @test isapprox(
+        Likelihoods.hurdle_loglik(y, μ, p, θ),
+        zero_part + count_part;
+        rtol = 1.0e-14,
+    )
 
     # Moving a count-part parameter leaves the zero part alone: the two parts
     # are separate sums, which is what makes the joint MLE the pair of
     # separately fitted MLEs.
     μ2 = [1.5, 2.0, 3.5, 2.5, 1.0, 4.0, 2.2] .* 3
     moved = Likelihoods.hurdle_loglik(y, μ2, p, θ) - Likelihoods.hurdle_loglik(y, μ, p, θ)
-    expected = sum(Likelihoods.tnb_logpdf(y[i], μ2[i], θ) -
-                   Likelihoods.tnb_logpdf(y[i], μ[i], θ)
-                   for i in eachindex(y) if y[i] > 0)
+    expected = sum(
+        Likelihoods.tnb_logpdf(y[i], μ2[i], θ) - Likelihoods.tnb_logpdf(y[i], μ[i], θ)
+        for i in eachindex(y) if y[i] > 0
+    )
     @test isapprox(moved, expected; rtol = 1.0e-12)
 end
 
 @testset "oracle — ZINB zero probability stays in [0, 1]" begin
-    for π in 0.0:0.1:1.0, f0 in 0.0:0.1:1.0
+    for π = 0.0:0.1:1.0, f0 = 0.0:0.1:1.0
         q = π + (1 - π) * f0
         @test 0.0 <= q <= 1.0
     end
@@ -86,7 +92,7 @@ end
     p = 0.6
 
     nb_total = 0
-    for _ in 1:draws
+    for _ = 1:draws
         nb_total += Likelihoods.rand_nb(rng, μ, θ)
     end
     nb_mean = nb_total / draws
@@ -95,7 +101,7 @@ end
 
     f0 = Likelihoods.nb_pmf(0, μ, θ)
     hurdle_total = 0
-    for _ in 1:draws
+    for _ = 1:draws
         hurdle_total += Likelihoods.rand_hurdle(rng, μ, p, θ)
     end
     hurdle_mean = hurdle_total / draws
@@ -103,7 +109,7 @@ end
     @test isapprox(hurdle_mean, theoretical; rtol = 0.05)
 
     zinb_total = 0
-    for _ in 1:draws
+    for _ = 1:draws
         zinb_total += Likelihoods.rand_zinb(rng, μ, 0.3, θ)
     end
     @test isapprox(zinb_total / draws, 0.7 * μ; rtol = 0.05)

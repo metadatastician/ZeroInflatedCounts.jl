@@ -17,9 +17,21 @@
 
 module Likelihoods
 
-export nb_logpdf, nb_pmf, tnb_logpdf, tnb_pmf, hurdle_loglik, hurdle_zero_loglik,
-    zinb_loglik, loggamma, invlogit, logit, rand_nb, rand_tnb, rand_hurdle,
-    rand_zinb, mean_of_nb
+export nb_logpdf,
+    nb_pmf,
+    tnb_logpdf,
+    tnb_pmf,
+    hurdle_loglik,
+    hurdle_zero_loglik,
+    zinb_loglik,
+    loggamma,
+    invlogit,
+    logit,
+    rand_nb,
+    rand_tnb,
+    rand_hurdle,
+    rand_zinb,
+    mean_of_nb
 
 using Random: Random, AbstractRNG, randn, rand, randexp
 
@@ -27,9 +39,17 @@ using Random: Random, AbstractRNG, randn, rand, randexp
 # Lanczos (g = 7, n = 9), written out rather than taken from a special-functions
 # package so that the oracle shares no code with the code it checks.
 const LANCZOS_G = 7.0
-const LANCZOS_C = (0.99999999999980993, 676.5203681218851, -1259.1392167224028,
-    771.32342877765313, -176.61502916214059, 12.507343278686905,
-    -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7)
+const LANCZOS_C = (
+    0.99999999999980993,
+    676.5203681218851,
+    -1259.1392167224028,
+    771.32342877765313,
+    -176.61502916214059,
+    12.507343278686905,
+    -0.13857109526572012,
+    9.9843695780195716e-6,
+    1.5056327351493116e-7,
+)
 
 """
     loggamma(x) -> Float64
@@ -45,7 +65,7 @@ function loggamma(x::Real)
     end
     z = xf - 1
     acc = LANCZOS_C[1]
-    for i in 2:9
+    for i = 2:9
         acc += LANCZOS_C[i] / (z + i - 1)
     end
     t = z + LANCZOS_G + 0.5
@@ -67,7 +87,8 @@ Log density of the negative binomial with mean `μ` and size (dispersion) `θ`:
 """
 function nb_logpdf(y::Real, μ::Real, θ::Real)
     return loggamma(y + θ) - loggamma(θ) - loggamma(y + 1) +
-           θ * log(θ / (θ + μ)) + y * log(μ / (θ + μ))
+           θ * log(θ / (θ + μ)) +
+           y * log(μ / (θ + μ))
 end
 
 """

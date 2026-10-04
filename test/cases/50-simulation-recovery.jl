@@ -33,9 +33,15 @@ using Random: MersenneTwister
     covered_zero = 0
     lfc = Float64[]
     zero = Float64[]
-    for _ in 1:repeats
-        sim = simulate_table(:hurdle_nb, rng; n_per_group = 20,
-            beta = (1.2, planted_lfc), gamma = (0.4, planted_zero, 0.8), theta = 2.5)
+    for _ = 1:repeats
+        sim = simulate_table(
+            :hurdle_nb,
+            rng;
+            n_per_group = 20,
+            beta = (1.2, planted_lfc),
+            gamma = (0.4, planted_zero, 0.8),
+            theta = 2.5,
+        )
         res = hurdle_nb(sim.counts, sim.groups, sim.size_factors; ref = "control")
         f = fitted(res)
         if length(f) == 1
@@ -69,9 +75,15 @@ end
     lfc = Float64[]
     zero = Float64[]
     theta = Float64[]
-    for _ in 1:repeats
-        sim = simulate_table(:zinb, rng; n_per_group = 20,
-            beta = (1.2, planted_lfc), gamma = (0.4, planted_zero, 0.8), theta = 2.5)
+    for _ = 1:repeats
+        sim = simulate_table(
+            :zinb,
+            rng;
+            n_per_group = 20,
+            beta = (1.2, planted_lfc),
+            gamma = (0.4, planted_zero, 0.8),
+            theta = 2.5,
+        )
         res = zinb(sim.counts, sim.groups, sim.size_factors; ref = "control")
         f = fitted(res)
         if length(f) == 1
@@ -106,17 +118,33 @@ end
     n_taxa = 6
     discoveries = 0
     tested = 0
-    for _ in 1:repeats
-        seed_taxon = simulate_table(:hurdle_nb, rng; n_per_group = 20,
-            beta = (1.2, 0.0), gamma = (0.4, 0.0, 0.8), theta = 2.5)
+    for _ = 1:repeats
+        seed_taxon = simulate_table(
+            :hurdle_nb,
+            rng;
+            n_per_group = 20,
+            beta = (1.2, 0.0),
+            gamma = (0.4, 0.0, 0.8),
+            theta = 2.5,
+        )
         groups = seed_taxon.groups
         sizes = seed_taxon.size_factors
         columns = Vector{Vector{Int}}(undef, n_taxa)
         columns[1] = seed_taxon.counts[:, 1]
-        for j in 2:n_taxa
-            columns[j] = simulate_table(:hurdle_nb, rng; n_per_group = 20,
-                beta = (1.2, 0.0), gamma = (0.4, 0.0, 0.8), theta = 2.5,
-                size_factors = sizes, groups_in = groups).counts[:, 1]
+        for j = 2:n_taxa
+            columns[j] = simulate_table(
+                :hurdle_nb,
+                rng;
+                n_per_group = 20,
+                beta = (1.2, 0.0),
+                gamma = (0.4, 0.0, 0.8),
+                theta = 2.5,
+                size_factors = sizes,
+                groups_in = groups,
+            ).counts[
+                :,
+                1,
+            ]
         end
         counts = reduce(hcat, columns)
         res = hurdle_nb(counts, groups, sizes)
@@ -127,7 +155,8 @@ end
     end
 
     fdr = tested == 0 ? 0.0 : discoveries / tested
-    @info "null simulation: Benjamini–Hochberg false discovery rate" fdr = fdr tested = tested
+    @info "null simulation: Benjamini–Hochberg false discovery rate" fdr = fdr tested =
+        tested
     @test tested > 0
     @test fdr <= 0.15
 end

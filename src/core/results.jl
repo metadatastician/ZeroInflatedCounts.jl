@@ -148,18 +148,41 @@ adjusted_pvalues(res::ZIFit) = [r.p_adjusted for r in fitted(res)]
 
 function Base.show(io::IO, res::ZIFit)
     p = res.provenance
-    print(io, "ZIFit(", res.method, ": ", p.n_tested, " tested, ", p.n_refused,
-        " refused, ", p.n_failed, " failed)")
+    print(
+        io,
+        "ZIFit(",
+        res.method,
+        ": ",
+        p.n_tested,
+        " tested, ",
+        p.n_refused,
+        " refused, ",
+        p.n_failed,
+        " failed)",
+    )
 end
 
 function Base.show(io::IO, fit::TaxonFit)
-    print(io, "TaxonFit(", fit.taxon, ": LFC=", round(fit.log_fold_change; digits = 4),
-        " (SE ", round(fit.se_log_fold_change; digits = 4), "), zero-log-odds=",
-        round(fit.zero_log_odds; digits = 4), ", p=", fit.pvalue,
-        ", p_adj=", fit.p_adjusted, ")")
+    print(
+        io,
+        "TaxonFit(",
+        fit.taxon,
+        ": LFC=",
+        round(fit.log_fold_change; digits = 4),
+        " (SE ",
+        round(fit.se_log_fold_change; digits = 4),
+        "), zero-log-odds=",
+        round(fit.zero_log_odds; digits = 4),
+        ", p=",
+        fit.pvalue,
+        ", p_adj=",
+        fit.p_adjusted,
+        ")",
+    )
 end
 
-Base.show(io::IO, r::TaxonRefused) = print(io, "TaxonRefused(", r.taxon, ": ", r.reason, ")")
+Base.show(io::IO, r::TaxonRefused) =
+    print(io, "TaxonRefused(", r.taxon, ": ", r.reason, ")")
 Base.show(io::IO, r::TaxonFailed) = print(io, "TaxonFailed(", r.taxon, ": ", r.message, ")")
 
 """
@@ -169,9 +192,22 @@ Return `fit` with `p_adjusted` replaced. Used once, after the whole table has
 been fitted and Benjamini–Hochberg has been applied across the family.
 """
 function set_adjusted_p(fit::TaxonFit, p::Float64)
-    return TaxonFit(fit.taxon, fit.log_fold_change, fit.se_log_fold_change, fit.zero_log_odds,
-        fit.se_zero_log_odds, fit.theta, fit.loglik_full, fit.loglik_null,
-        fit.lr_statistic, fit.df, fit.pvalue, p, fit.theta_note, fit.warnings)
+    return TaxonFit(
+        fit.taxon,
+        fit.log_fold_change,
+        fit.se_log_fold_change,
+        fit.zero_log_odds,
+        fit.se_zero_log_odds,
+        fit.theta,
+        fit.loglik_full,
+        fit.loglik_null,
+        fit.lr_statistic,
+        fit.df,
+        fit.pvalue,
+        p,
+        fit.theta_note,
+        fit.warnings,
+    )
 end
 
 """
@@ -183,28 +219,72 @@ table renderer of its own.
 function summary_table(res::ZIFit)
     out = IOBuffer()
     println(out, "method: ", res.method)
-    println(out, res.method === :hurdle_nb ?
-                "zero part reads as P(count > 0) on the logit scale (pscl's hurdle convention)" :
-                "zero part reads as P(structural zero) on the logit scale (pscl's zeroinfl convention)")
-    println(out, rpad("taxon", 24), rpad("LFC", 12), rpad("SE", 12), rpad("zero-log-odds", 16),
-        rpad("theta", 12), rpad("p", 12), rpad("p_adj", 12), "state")
+    println(
+        out,
+        res.method === :hurdle_nb ?
+        "zero part reads as P(count > 0) on the logit scale (pscl's hurdle convention)" :
+        "zero part reads as P(structural zero) on the logit scale (pscl's zeroinfl convention)",
+    )
+    println(
+        out,
+        rpad("taxon", 24),
+        rpad("LFC", 12),
+        rpad("SE", 12),
+        rpad("zero-log-odds", 16),
+        rpad("theta", 12),
+        rpad("p", 12),
+        rpad("p_adj", 12),
+        "state",
+    )
     for r in res.fits
         if r isa TaxonFit
-            println(out, rpad(r.taxon, 24), rpad(string(round(r.log_fold_change; digits = 4)), 12),
+            println(
+                out,
+                rpad(r.taxon, 24),
+                rpad(string(round(r.log_fold_change; digits = 4)), 12),
                 rpad(string(round(r.se_log_fold_change; digits = 4)), 12),
                 rpad(string(round(r.zero_log_odds; digits = 4)), 16),
                 rpad(string(round(r.theta; digits = 4)), 12),
                 rpad(string(round(r.pvalue; digits = 6)), 12),
-                rpad(string(round(r.p_adjusted; digits = 6)), 12), "tested")
+                rpad(string(round(r.p_adjusted; digits = 6)), 12),
+                "tested",
+            )
         elseif r isa TaxonRefused
-            println(out, rpad(r.taxon, 24), rpad("-", 12), rpad("-", 12), rpad("-", 16),
-                rpad("-", 12), rpad("-", 12), rpad("-", 12), "refused: ", r.reason)
+            println(
+                out,
+                rpad(r.taxon, 24),
+                rpad("-", 12),
+                rpad("-", 12),
+                rpad("-", 16),
+                rpad("-", 12),
+                rpad("-", 12),
+                rpad("-", 12),
+                "refused: ",
+                r.reason,
+            )
         else
-            println(out, rpad(r.taxon, 24), rpad("-", 12), rpad("-", 12), rpad("-", 16),
-                rpad("-", 12), rpad("-", 12), rpad("-", 12), "failed: ", r.message)
+            println(
+                out,
+                rpad(r.taxon, 24),
+                rpad("-", 12),
+                rpad("-", 12),
+                rpad("-", 16),
+                rpad("-", 12),
+                rpad("-", 12),
+                rpad("-", 12),
+                "failed: ",
+                r.message,
+            )
         end
     end
-    print(out, "R ", res.provenance.r_version, "; pscl ", res.provenance.pscl_version,
-        "; MASS ", res.provenance.mass_version)
+    print(
+        out,
+        "R ",
+        res.provenance.r_version,
+        "; pscl ",
+        res.provenance.pscl_version,
+        "; MASS ",
+        res.provenance.mass_version,
+    )
     return String(take!(out))
 end

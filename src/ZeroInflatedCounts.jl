@@ -24,8 +24,19 @@ include("core/pscl.jl")
 include("core/inputs.jl")
 include("core/models.jl")
 
-export hurdle_nb, zinb, fitted, refused, failed, pvalues, adjusted_pvalues,
-    summary_table, TaxonFit, TaxonRefused, TaxonFailed, ZIFit, Provenance
+export hurdle_nb,
+    zinb,
+    fitted,
+    refused,
+    failed,
+    pvalues,
+    adjusted_pvalues,
+    summary_table,
+    TaxonFit,
+    TaxonRefused,
+    TaxonFailed,
+    ZIFit,
+    Provenance
 
 """
     hurdle_nb(counts, groups, size_factors; taxa=nothing, ref=nothing,
@@ -69,11 +80,23 @@ res = hurdle_nb(counts, groups, sizes; taxa = ["a", "b", "c"])
 summary_table(res)
 ```
 """
-function hurdle_nb(counts::AbstractMatrix, groups::AbstractVector,
-    size_factors::AbstractVector; taxa = nothing, ref = nothing,
-    min_prevalence::Real = 0.0)
-    return fit_table(:hurdle_nb, counts, groups, size_factors; taxa = taxa, ref = ref,
-        min_prevalence = min_prevalence)
+function hurdle_nb(
+    counts::AbstractMatrix,
+    groups::AbstractVector,
+    size_factors::AbstractVector;
+    taxa = nothing,
+    ref = nothing,
+    min_prevalence::Real = 0.0,
+)
+    return fit_table(
+        :hurdle_nb,
+        counts,
+        groups,
+        size_factors;
+        taxa = taxa,
+        ref = ref,
+        min_prevalence = min_prevalence,
+    )
 end
 
 """
@@ -101,11 +124,23 @@ test is not reported rather than reported as a null result.
 One p-value per taxon, from a likelihood-ratio test of the group effect in both
 parts together (2 degrees of freedom), Benjamini–Hochberg across taxa.
 """
-function zinb(counts::AbstractMatrix, groups::AbstractVector,
-    size_factors::AbstractVector; taxa = nothing, ref = nothing,
-    min_prevalence::Real = 0.0)
-    return fit_table(:zinb, counts, groups, size_factors; taxa = taxa, ref = ref,
-        min_prevalence = min_prevalence)
+function zinb(
+    counts::AbstractMatrix,
+    groups::AbstractVector,
+    size_factors::AbstractVector;
+    taxa = nothing,
+    ref = nothing,
+    min_prevalence::Real = 0.0,
+)
+    return fit_table(
+        :zinb,
+        counts,
+        groups,
+        size_factors;
+        taxa = taxa,
+        ref = ref,
+        min_prevalence = min_prevalence,
+    )
 end
 
 end # module ZeroInflatedCounts

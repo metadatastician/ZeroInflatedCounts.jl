@@ -9,16 +9,26 @@
     #  1 "separated"      — only zeros in the control group
     #  2 "few-positives"  — 2 positive counts in the control group
     #  3 "fine"           — fittable in both models
-    counts = [0 3 1;
-              0 0 2;
-              0 0 0;
-              0 2 4;
-              2 1 0;
-              3 0 2;
-              1 4 1;
-              4 3 3]
-    groups = ["control", "control", "control", "control",
-        "treated", "treated", "treated", "treated"]
+    counts = [
+        0 3 1;
+        0 0 2;
+        0 0 0;
+        0 2 4;
+        2 1 0;
+        3 0 2;
+        1 4 1;
+        4 3 3
+    ]
+    groups = [
+        "control",
+        "control",
+        "control",
+        "control",
+        "treated",
+        "treated",
+        "treated",
+        "treated",
+    ]
     sizes = ones(8)
     taxa = ["separated", "few-positives", "fine"]
 
@@ -28,10 +38,11 @@
     @test "few-positives" in refused_names
     @test [f.taxon for f in fitted(res)] == ["fine"]
     reason_of(r, name) = r.taxon == name ? r.reason : ""
-    @test occursin("zero part is separated",
-        reason_of(refused(res)[1], "separated"))
-    @test occursin("at least 3 positive counts",
-        reason_of(refused(res)[2], "few-positives"))
+    @test occursin("zero part is separated", reason_of(refused(res)[1], "separated"))
+    @test occursin(
+        "at least 3 positive counts",
+        reason_of(refused(res)[2], "few-positives"),
+    )
 
     # A refused taxon has no p-value: the family is exactly the fitted taxa.
     @test length(pvalues(res)) == 1
@@ -65,14 +76,16 @@
     # The caller's prevalence floor is applied, and says so. This table passes
     # every earlier check — 8 samples, no separation, 3 positives per group — so
     # the prevalence floor is the only reason left to refuse it (6/8 = 0.75).
-    prev_counts = [0 1 1 1;
-                   1 0 1 1;
-                   1 1 0 1;
-                   1 1 1 0;
-                   0 1 1 1;
-                   1 0 1 1;
-                   1 1 0 1;
-                   1 1 1 0]
+    prev_counts = [
+        0 1 1 1;
+        1 0 1 1;
+        1 1 0 1;
+        1 1 1 0;
+        0 1 1 1;
+        1 0 1 1;
+        1 1 0 1;
+        1 1 1 0
+    ]
     prev_taxa = ["p1", "p2", "p3", "p4"]
     res_prev = hurdle_nb(prev_counts, groups, sizes; taxa = prev_taxa, min_prevalence = 0.9)
     @test length(fitted(res_prev)) == 0

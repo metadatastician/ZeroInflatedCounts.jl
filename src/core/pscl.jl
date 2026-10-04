@@ -115,9 +115,11 @@ once per table fit, and recorded in the [`Provenance`](@ref).
 """
 function pscl_versions()
     raw = rcopy(R"zic_versions()")
-    return (r_version = _as_string(_rfield(raw, "r_version")),
+    return (
+        r_version = _as_string(_rfield(raw, "r_version")),
         pscl_version = _as_string(_rfield(raw, "pscl_version")),
-        mass_version = _as_string(_rfield(raw, "mass_version")))
+        mass_version = _as_string(_rfield(raw, "mass_version")),
+    )
 end
 
 """

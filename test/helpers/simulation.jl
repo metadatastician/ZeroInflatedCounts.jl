@@ -46,17 +46,27 @@ samplers and the same formulas:
 `counts` is returned as an `n × 1` matrix so it can be handed to the package
 unchanged.
 """
-function simulate_table(kind::Symbol, rng; n_per_group::Int = 20,
-    beta::Tuple = (1.2, 0.9), gamma::Tuple = (0.4, 0.5, 0.8),
-    theta::Real = 2.5, ref::String = "control", contrast::String = "treated",
-    size_factor_spread::Real = 0.4, size_factors::Union{Nothing,AbstractVector} = nothing,
-    groups_in::Union{Nothing,AbstractVector} = nothing)
+function simulate_table(
+    kind::Symbol,
+    rng;
+    n_per_group::Int = 20,
+    beta::Tuple = (1.2, 0.9),
+    gamma::Tuple = (0.4, 0.5, 0.8),
+    theta::Real = 2.5,
+    ref::String = "control",
+    contrast::String = "treated",
+    size_factor_spread::Real = 0.4,
+    size_factors::Union{Nothing,AbstractVector} = nothing,
+    groups_in::Union{Nothing,AbstractVector} = nothing,
+)
     n = 2 * n_per_group
-    groups = groups_in === nothing ? vcat(fill(ref, n_per_group), fill(contrast, n_per_group)) :
-             string.(groups_in)
+    groups =
+        groups_in === nothing ? vcat(fill(ref, n_per_group), fill(contrast, n_per_group)) :
+        string.(groups_in)
     n = length(groups)
     g = Float64.(groups .!= ref)
-    s = size_factors === nothing ? exp.(size_factor_spread .* randn(rng, n)) :
+    s =
+        size_factors === nothing ? exp.(size_factor_spread .* randn(rng, n)) :
         Float64.(size_factors)
     log_s = log.(s)
 
@@ -66,19 +76,26 @@ function simulate_table(kind::Symbol, rng; n_per_group::Int = 20,
 
     y = Vector{Int}(undef, n)
     if kind === :hurdle_nb
-        for i in 1:n
+        for i = 1:n
             y[i] = Likelihoods.rand_hurdle(rng, μ[i], rate[i], theta)
         end
     elseif kind === :zinb
-        for i in 1:n
+        for i = 1:n
             y[i] = Likelihoods.rand_zinb(rng, μ[i], rate[i], theta)
         end
     else
         throw(ArgumentError("unknown kind $(kind)"))
     end
 
-    return Simulation(reshape(y, n, 1), groups, s, [beta[1], beta[2]],
-        [gamma[1], gamma[2], gamma[3]], Float64(theta), kind)
+    return Simulation(
+        reshape(y, n, 1),
+        groups,
+        s,
+        [beta[1], beta[2]],
+        [gamma[1], gamma[2], gamma[3]],
+        Float64(theta),
+        kind,
+    )
 end
 
 """
@@ -95,7 +112,11 @@ group_indicator(groups::AbstractVector, ref::String) = Float64.(groups .!= ref)
 `p_i = logistic(γ₁ + γ₂ g_i + γ₃ log s_i)`, the probability the count is
 positive, from a coefficient vector in the order the package reports.
 """
-function hurdle_probabilities(log_s::AbstractVector, g::AbstractVector, gamma::AbstractVector)
+function hurdle_probabilities(
+    log_s::AbstractVector,
+    g::AbstractVector,
+    gamma::AbstractVector,
+)
     return Likelihoods.invlogit.(gamma[1] .+ gamma[2] .* g .+ gamma[3] .* log_s)
 end
 

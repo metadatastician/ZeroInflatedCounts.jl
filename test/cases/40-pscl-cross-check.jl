@@ -49,11 +49,19 @@ zic_reference <- function(y, g, s, kind, levels) {
 
     for kind in (:hurdle_nb, :zinb)
         rng = MersenneTwister(kind === :hurdle_nb ? 20261011 : 20261012)
-        sim = simulate_table(kind, rng; n_per_group = 25, beta = (1.3, 0.8),
-            gamma = (0.5, 0.6, 0.7), theta = 3.0, size_factor_spread = 0.5)
-        res = kind === :hurdle_nb ?
-              hurdle_nb(sim.counts, sim.groups, sim.size_factors; ref = "control") :
-              zinb(sim.counts, sim.groups, sim.size_factors; ref = "control")
+        sim = simulate_table(
+            kind,
+            rng;
+            n_per_group = 25,
+            beta = (1.3, 0.8),
+            gamma = (0.5, 0.6, 0.7),
+            theta = 3.0,
+            size_factor_spread = 0.5,
+        )
+        res =
+            kind === :hurdle_nb ?
+            hurdle_nb(sim.counts, sim.groups, sim.size_factors; ref = "control") :
+            zinb(sim.counts, sim.groups, sim.size_factors; ref = "control")
         f = fitted(res)
         @test length(f) == 1
         fit = f[1]
@@ -89,11 +97,17 @@ zic_reference <- function(y, g, s, kind, levels) {
         eta_zero = v[4] .+ v[5] .* gind .+ v[6] .* log_s
         zero_prob = Likelihoods.invlogit.(eta_zero)
         if kind === :hurdle_nb
-            @test isapprox(Likelihoods.hurdle_loglik(y, mu, zero_prob, v[8]), v[9];
-                rtol = 1.0e-9)
+            @test isapprox(
+                Likelihoods.hurdle_loglik(y, mu, zero_prob, v[8]),
+                v[9];
+                rtol = 1.0e-9,
+            )
         else
-            @test isapprox(Likelihoods.zinb_loglik(y, mu, zero_prob, v[8]), v[9];
-                rtol = 1.0e-9)
+            @test isapprox(
+                Likelihoods.zinb_loglik(y, mu, zero_prob, v[8]),
+                v[9];
+                rtol = 1.0e-9,
+            )
         end
     end
 end
@@ -106,22 +120,35 @@ end
 
     # ZINB, contrast with MORE structural zeros: the log-odds of a structural
     # zero must come back positive.
-    simz = simulate_table(:zinb, rng; n_per_group = 60, beta = (1.5, 0.2),
-        gamma = (-0.5, 1.5, 0.3), theta = 4.0)
+    simz = simulate_table(
+        :zinb,
+        rng;
+        n_per_group = 60,
+        beta = (1.5, 0.2),
+        gamma = (-0.5, 1.5, 0.3),
+        theta = 4.0,
+    )
     fitz = fitted(zinb(simz.counts, simz.groups, simz.size_factors; ref = "control"))[1]
-    zeros_ref = sum(simz.counts[simz.groups.=="control"] .== 0) / 60
-    zeros_con = sum(simz.counts[simz.groups.=="treated"] .== 0) / 60
+    zeros_ref = sum(simz.counts[simz.groups .== "control"] .== 0) / 60
+    zeros_con = sum(simz.counts[simz.groups .== "treated"] .== 0) / 60
     @test zeros_con > zeros_ref
     @test fitz.zero_log_odds > 0
 
     # Hurdle, contrast with MORE positives (fewer zeros): pscl's hurdle zero
     # part reads as P(count > 0), so its group coefficient must also come back
     # positive here.
-    simh = simulate_table(:hurdle_nb, rng; n_per_group = 60, beta = (1.5, 0.2),
-        gamma = (0.5, 1.5, 0.3), theta = 4.0)
-    fith = fitted(hurdle_nb(simh.counts, simh.groups, simh.size_factors; ref = "control"))[1]
-    zeros_ref_h = sum(simh.counts[simh.groups.=="control"] .== 0) / 60
-    zeros_con_h = sum(simh.counts[simh.groups.=="treated"] .== 0) / 60
+    simh = simulate_table(
+        :hurdle_nb,
+        rng;
+        n_per_group = 60,
+        beta = (1.5, 0.2),
+        gamma = (0.5, 1.5, 0.3),
+        theta = 4.0,
+    )
+    fith =
+        fitted(hurdle_nb(simh.counts, simh.groups, simh.size_factors; ref = "control"))[1]
+    zeros_ref_h = sum(simh.counts[simh.groups .== "control"] .== 0) / 60
+    zeros_con_h = sum(simh.counts[simh.groups .== "treated"] .== 0) / 60
     @test zeros_con_h < zeros_ref_h
     @test fith.zero_log_odds > 0
 
@@ -134,6 +161,7 @@ end
     kind_string = "hurdle"
     levels = ["control", "treated"]
     v = rcopy(R"zic_reference($y, $gg, $s, $kind_string, $levels)")
-    p_hat = Likelihoods.invlogit.(v[4] .+ v[5] .* Float64.(gg .!= "control") .+ v[6] .* log.(s))
+    p_hat =
+        Likelihoods.invlogit.(v[4] .+ v[5] .* Float64.(gg .!= "control") .+ v[6] .* log.(s))
     @test isapprox(sum(p_hat) / length(p_hat), sum(y .> 0) / length(y); atol = 0.05)
 end
