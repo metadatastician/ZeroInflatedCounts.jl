@@ -1,0 +1,12 @@
+# probe — will be removed
+name: Probe
+on:
+  push:
+    branches: ["arena/**"]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "probe ok"
