@@ -1,16 +1,13 @@
-# probe bisect 2 — temporary
-name: Probe E
+# probe — temporary
+name: Probe I
 on:
   push:
     branches: ["arena/**"]
 permissions:
   contents: read
 jobs:
-  e:
-    name: checkout + echo
+  i:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7.0.1
-      - run: echo hi
-
+      - run: echo "checkout-tag ok"
