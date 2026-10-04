@@ -137,7 +137,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p probe
-          cp "$RUNNER_TEMP/out.txt" probe/last-probe.txt
+          tr -d "\r" < "$RUNNER_TEMP/out.txt" > probe/last-probe.txt
           git config user.email "j.d.a.jewell@open.ac.uk"
           git config user.name "Jonathan D.A. Jewell"
           git add probe
