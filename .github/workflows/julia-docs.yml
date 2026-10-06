@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MPL-2.0
 # ZeroInflatedCounts — docs build & deploy (julia-library archetype)
 #
 # Fails LOUD while docs/ is absent: a declared `docs-site` capability with
@@ -17,10 +18,16 @@ on:
     branches: [main, master]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   docs:
     name: Build and deploy
     runs-on: ubuntu-24.04
+    # julia-docdeploy pushes the built site to the gh-pages branch.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Layout gate — fail loud while docs/ is absent
