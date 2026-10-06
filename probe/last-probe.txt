@@ -1,4 +1,4 @@
-sha=9f120050e9a949833df073e0e55d33f85abc6baa ref=arena/01a10883-zeroinflatedcounts-jl
+sha=2751f6ab3d907a620408e95946c4c8d273f40260 ref=arena/01a10883-zeroinflatedcounts-jl
 + sudo apt-get update -qq
 + sudo apt-get install -y -qq agda agda-stdlib
 Preconfiguring packages ...
@@ -238,8 +238,8 @@ Selecting previously unselected package libm17n-0:amd64.
 Preparing to unpack .../77-libm17n-0_1.8.4-1build2_amd64.deb ...
 Unpacking libm17n-0:amd64 (1.8.4-1build2) ...
 Selecting previously unselected package librsvg2-2:amd64.
-Preparing to unpack .../78-librsvg2-2_2.58.0+dfsg-1build1_amd64.deb ...
-Unpacking librsvg2-2:amd64 (2.58.0+dfsg-1build1) ...
+Preparing to unpack .../78-librsvg2-2_2.58.0+dfsg-1ubuntu0.1_amd64.deb ...
+Unpacking librsvg2-2:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
 Selecting previously unselected package libtree-sitter0:amd64.
 Preparing to unpack .../79-libtree-sitter0_0.20.8-2_amd64.deb ...
 Unpacking libtree-sitter0:amd64 (0.20.8-2) ...
@@ -277,8 +277,8 @@ Selecting previously unselected package libmailutils9t64:amd64.
 Preparing to unpack .../90-libmailutils9t64_1%3a3.17-1.1build3_amd64.deb ...
 Unpacking libmailutils9t64:amd64 (1:3.17-1.1build3) ...
 Selecting previously unselected package librsvg2-common:amd64.
-Preparing to unpack .../91-librsvg2-common_2.58.0+dfsg-1build1_amd64.deb ...
-Unpacking librsvg2-common:amd64 (2.58.0+dfsg-1build1) ...
+Preparing to unpack .../91-librsvg2-common_2.58.0+dfsg-1ubuntu0.1_amd64.deb ...
+Unpacking librsvg2-common:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
 Selecting previously unselected package mailutils.
 Preparing to unpack .../92-mailutils_1%3a3.17-1.1build3_amd64.deb ...
 Unpacking mailutils (1:3.17-1.1build3) ...
@@ -299,14 +299,14 @@ Setting up guile-3.0-libs:amd64 (3.0.9-1build2) ...
 Setting up m17n-db (1.8.5-1) ...
 Setting up libwebpdecoder3:amd64 (1.3.2-0.4build3) ...
 Setting up libm17n-0:amd64 (1.8.4-1build2) ...
-Setting up librsvg2-2:amd64 (2.58.0+dfsg-1build1) ...
+Setting up librsvg2-2:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
 Setting up libtree-sitter0:amd64 (0.20.8-2) ...
 Setting up libntlm0:amd64 (1.7-1build1) ...
 Setting up dh-elpa-helper (2.0.17ubuntu1) ...
 Setting up libidn12:amd64 (1.42-1ubuntu0.1) ...
 Setting up mailutils-common (1:3.17-1.1build3) ...
 Setting up libgssglue1:amd64 (0.9-1build1) ...
-Setting up librsvg2-common:amd64 (2.58.0+dfsg-1build1) ...
+Setting up librsvg2-common:amd64 (2.58.0+dfsg-1ubuntu0.1) ...
 Setting up libgsasl18:amd64 (2.2.1-1willsync1ubuntu0.1) ...
 Setting up libgif7:amd64 (5.2.2-1ubuntu1.2) ...
 Setting up libnsl2:amd64 (1.3.0-3build3) ...
@@ -348,12 +348,11 @@ info: Not creating home directory `/var/spool/postfix'.
 Creating /etc/postfix/dynamicmaps.cf
 info: Selecting GID from range 100 to 999 ...
 info: Adding group `postdrop' (GID 120) ...
-setting myhostname: runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net
+setting myhostname: runnervm8df0l.fjxtfgsjh5xezlzfbnqjfnxk1c.gx.internal.cloudapp.net
 setting alias maps
 setting alias database
-changing /etc/mailname to runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net
-setting myorigin
-setting destinations: $myhostname, runnervm8df0l.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net, localhost.snips3mox2xerparepb4m2hs3e.bx.internal.cloudapp.net, , localhost
+mailname is not a fully qualified domain name.  Not changing /etc/mailname.
+setting destinations: $myhostname, runnervm8df0l, localhost.localdomain, , localhost
 setting relayhost: 
 setting mynetworks: 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 setting mailbox_size_limit: 0
@@ -448,11 +447,11 @@ update-alternatives: using /usr/bin/emacs-gtk to provide /usr/bin/emacs (emacs) 
 update-alternatives: using /usr/bin/emacsclient.emacs to provide /usr/bin/emacsclient (emacsclient) in auto mode
 Install emacsen-common for emacs
 emacsen-common: Handling install of emacsen flavor emacs
-Install dictionaries-common for emacs
-install/dictionaries-common: Byte-compiling for emacsen flavour emacs
 Install elpa-agda2-mode for emacs
 install/agda2-mode-2.6.3: Handling install of emacsen flavor emacs
 install/agda2-mode-2.6.3: byte-compiling for emacs
+Install dictionaries-common for emacs
+install/dictionaries-common: Byte-compiling for emacsen flavour emacs
 Setting up emacs (1:29.3+1-1ubuntu2) ...
 
 Running kernel seems to be up-to-date.
@@ -7865,7 +7864,7 @@ installing to /usr/local/lib/R/site-library/00LOCK-pscl/00new/pscl/libs
 * DONE (pscl)
 
 The downloaded source packages are in
-	‘/tmp/RtmpUcD7wO/downloaded_packages’
+	‘/tmp/RtmpqUGitQ/downloaded_packages’
 + Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
 R version 4.3.3 (2024-02-29) 
 Classes and Methods for R originally developed in the
@@ -7943,19 +7942,19 @@ LRT: 19.78302  p(chi2_2): 5.060242e-05
 R.version: R version 4.3.3 (2024-02-29) 
 pscl: 1.5.9  MASS: 7.3.60.0.1 
 ==================== julia format ====================
-  Activating new project at `/tmp/jl_c9ZlG2`
+  Activating new project at `/tmp/jl_gz1TCJ`
   Installing known registries into `~/.julia`
        Added `General` registry to ~/.julia/registries
    Resolving package versions...
-   Installed JuliaSyntax ───── v1.0.2
    Installed Preferences ───── v1.6.0
+   Installed JuliaSyntax ───── v1.0.2
+   Installed PrecompileTools ─ v1.3.4
    Installed Glob ──────────── v1.5.0
    Installed JuliaFormatter ── v2.14.0
-   Installed PrecompileTools ─ v1.3.4
    Installed CommonMark ────── v1.0.4
-    Updating `/tmp/jl_c9ZlG2/Project.toml`
+    Updating `/tmp/jl_gz1TCJ/Project.toml`
   [98e50ef6] + JuliaFormatter v2.14.0
-    Updating `/tmp/jl_c9ZlG2/Manifest.toml`
+    Updating `/tmp/jl_gz1TCJ/Manifest.toml`
   [a80b9123] + CommonMark v1.0.4
   [c27321d9] + Glob v1.5.0
   [98e50ef6] + JuliaFormatter v2.14.0
@@ -7980,79 +7979,68 @@ Precompiling packages...
    0.6 s  ✓ Glob
    0.8 s  ✓ Preferences
    0.6 s  ✓ PrecompileTools
-  13.8 s  ✓ CommonMark
-   1.0 s  ✓ CommonMark → CommonMarkMarkdownExt
-  16.9 s  ✓ JuliaSyntax
-  26.8 s  ✓ JuliaFormatter
+  13.6 s  ✓ CommonMark
+   0.6 s  ✓ CommonMark → CommonMarkMarkdownExt
+  16.6 s  ✓ JuliaSyntax
+  27.1 s  ✓ JuliaFormatter
   7 dependencies successfully precompiled in 44 seconds. 12 already precompiled.
- M src/ZeroInflatedCounts.jl
- M src/core/inputs.jl
- M src/core/models.jl
- M src/core/pscl.jl
- M src/core/results.jl
- M test/cases/10-oracle-known-answers.jl
- M test/cases/30-refusals.jl
- M test/cases/40-pscl-cross-check.jl
- M test/cases/50-simulation-recovery.jl
- M test/helpers/simulation.jl
- M test/oracle/Likelihoods.jl
 ==================== julia ====================
 1.13.1
-  Activating new project at `/tmp/jl_brAEQL`
+  Activating new project at `/tmp/jl_W0GW9W`
    Resolving package versions...
-   Installed HypergeometricFunctions ───── v0.3.30
-   Installed Rmath_jll ─────────────────── v0.5.2+0
-   Installed InlineStrings ─────────────── v1.4.6
-   Installed VersionParsing ────────────── v1.3.0
    Installed StatsModels ───────────────── v0.7.10
+   Installed Rmath_jll ─────────────────── v0.5.2+0
+   Installed HypergeometricFunctions ───── v0.3.30
+   Installed InlineStrings ─────────────── v1.4.6
    Installed DataStructures ────────────── v0.19.6
-   Installed RCall ─────────────────────── v0.14.14
-   Installed OrderedCollections ────────── v2.0.2
-   Installed ShiftedArrays ─────────────── v2.0.0
-   Installed StatsBase ─────────────────── v0.34.13
-   Installed Statistics ────────────────── v1.11.5
    Installed AliasTables ───────────────── v1.1.3
+   Installed VersionParsing ────────────── v1.3.0
+   Installed OrderedCollections ────────── v2.0.2
+   Installed RCall ─────────────────────── v0.14.14
+   Installed ShiftedArrays ─────────────── v2.0.0
+   Installed IteratorInterfaceExtensions ─ v1.0.0
    Installed InvertedIndices ───────────── v1.3.1
+   Installed Compat ────────────────────── v4.18.1
+   Installed Statistics ────────────────── v1.11.5
+   Installed StatsBase ─────────────────── v0.34.13
+   Installed DataAPI ───────────────────── v1.16.0
    Installed StatsAPI ──────────────────── v1.8.0
-   Installed Conda ─────────────────────── v1.10.3
    Installed SentinelArrays ────────────── v1.4.10
    Installed StringManipulation ────────── v0.6.1
-   Installed IteratorInterfaceExtensions ─ v1.0.0
-   Installed StructUtils ───────────────── v2.9.2
-   Installed DataAPI ───────────────────── v1.16.0
-   Installed Compat ────────────────────── v4.18.1
-   Installed LogExpFunctions ───────────── v1.0.2
-   Installed JSON ──────────────────────── v1.10.0
-   Installed Gamma ─────────────────────── v1.2.0
-   Installed Parsers ───────────────────── v3.0.0
-   Installed DataValueInterfaces ───────── v1.0.0
+   Installed Conda ─────────────────────── v1.10.3
    Installed WinReg ────────────────────── v1.0.0
-   Installed PrettyTables ──────────────── v3.5.0
+   Installed StructUtils ───────────────── v2.9.2
+   Installed DataValueInterfaces ───────── v1.0.0
    Installed IrrationalConstants ───────── v0.2.6
+   Installed Requires ──────────────────── v1.3.1
+   Installed Parsers ───────────────────── v3.0.0
+   Installed Gamma ─────────────────────── v1.2.0
+   Installed PrettyTables ──────────────── v3.5.0
+   Installed OpenSpecFun_jll ───────────── v0.5.6+0
+   Installed StatsFuns ─────────────────── v2.2.1
+   Installed LogExpFunctions ───────────── v1.0.2
    Installed PtrArrays ─────────────────── v1.4.0
    Installed Tables ────────────────────── v1.14.0
-   Installed StatsFuns ─────────────────── v2.2.1
+   Installed JSON ──────────────────────── v1.10.0
+   Installed Rmath ─────────────────────── v0.9.0
    Installed SpecialFunctions ──────────── v2.9.0
-   Installed OpenSpecFun_jll ───────────── v0.5.6+0
+   Installed DataFrames ────────────────── v1.8.2
    Installed PooledArrays ──────────────── v1.4.3
-   Installed Requires ──────────────────── v1.3.1
+   Installed Reexport ──────────────────── v1.2.2
+   Installed JLLWrappers ───────────────── v1.8.0
+   Installed Missings ──────────────────── v1.2.0
+   Installed TableTraits ───────────────── v1.0.1
    Installed SortingAlgorithms ─────────── v1.2.3
    Installed LaTeXStrings ──────────────── v1.4.1
    Installed Crayons ───────────────────── v4.2.0
    Installed CategoricalArrays ─────────── v1.1.1
-   Installed Rmath ─────────────────────── v0.9.0
-   Installed Missings ──────────────────── v1.2.0
-   Installed TableTraits ───────────────── v1.0.1
-   Installed DataFrames ────────────────── v1.8.2
-   Installed Reexport ──────────────────── v1.2.2
-   Installed JLLWrappers ───────────────── v1.8.0
    Installed DocStringExtensions ───────── v0.9.5
   Installing 2 artifacts
-   Installed artifact OpenSpecFun 105.4 KiB
    Installed artifact Rmath       111.3 KiB
-    Updating `/tmp/jl_brAEQL/Project.toml`
+   Installed artifact OpenSpecFun 105.4 KiB
+    Updating `/tmp/jl_W0GW9W/Project.toml`
   [6f49c342] + RCall v0.14.14
-    Updating `/tmp/jl_brAEQL/Manifest.toml`
+    Updating `/tmp/jl_W0GW9W/Manifest.toml`
   [66dad0bd] + AliasTables v1.1.3
   [324d7699] + CategoricalArrays v1.1.1
   [34da2185] + Compat v4.18.1
@@ -8144,61 +8132,61 @@ Precompiling packages...
     Building Conda → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/8f06b0cfa4c514c7b9546756dbae91fcfbc92dc9/build.log`
     Building RCall → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/a22e6179e35c0b504c4328cc79b6287c2e3cb74c/build.log`
 Precompiling packages...
-   0.6 s  ✓ DataAPI
-   0.7 s  ✓ Statistics
    0.8 s  ✓ Reexport
-   1.2 s  ✓ InlineStrings
-   0.7 s  ✓ DataValueInterfaces
-   0.6 s  ✓ StatsAPI
-   0.7 s  ✓ InvertedIndices
+   0.8 s  ✓ Statistics
+   0.8 s  ✓ DataAPI
+   1.1 s  ✓ InlineStrings
+   0.6 s  ✓ DataValueInterfaces
+   0.8 s  ✓ StatsAPI
+   0.9 s  ✓ InvertedIndices
    1.4 s  ✓ Requires
-   1.1 s  ✓ OrderedCollections
-   1.2 s  ✓ DocStringExtensions
-   2.8 s  ✓ IrrationalConstants
-   0.8 s  ✓ ShiftedArrays
-   0.7 s  ✓ WinReg
-   1.0 s  ✓ VersionParsing
-   0.6 s  ✓ PtrArrays
-   0.9 s  ✓ IteratorInterfaceExtensions
-   0.9 s  ✓ LaTeXStrings
-   1.3 s  ✓ StructUtils
-   1.8 s  ✓ Crayons
-   1.3 s  ✓ Compat
+   1.3 s  ✓ OrderedCollections
+   2.4 s  ✓ IrrationalConstants
+   1.1 s  ✓ DocStringExtensions
+   0.6 s  ✓ ShiftedArrays
+   0.8 s  ✓ PtrArrays
+   0.9 s  ✓ VersionParsing
+   0.9 s  ✓ WinReg
+   0.7 s  ✓ IteratorInterfaceExtensions
+   0.6 s  ✓ LaTeXStrings
+   1.1 s  ✓ Compat
+   1.4 s  ✓ StructUtils
    1.7 s  ✓ JLLWrappers
-   0.9 s  ✓ Missings
-   2.7 s  ✓ SentinelArrays
-   0.8 s  ✓ PooledArrays
-   1.0 s  ✓ LogExpFunctions
-   1.4 s  ✓ Statistics → SparseArraysExt
-   0.7 s  ✓ TableTraits
-   1.0 s  ✓ AliasTables
-   0.9 s  ✓ Compat → CompatLinearAlgebraExt
+   2.1 s  ✓ Crayons
+   0.8 s  ✓ Missings
+   3.0 s  ✓ SentinelArrays
+   1.6 s  ✓ Statistics → SparseArraysExt
+   1.0 s  ✓ PooledArrays
+   0.9 s  ✓ AliasTables
+   1.3 s  ✓ LogExpFunctions
+   0.6 s  ✓ TableTraits
+   0.7 s  ✓ Compat → CompatLinearAlgebraExt
    3.1 s  ✓ DataStructures
-   2.4 s  ✓ Rmath_jll
+   1.0 s  ✓ Gamma
    2.1 s  ✓ OpenSpecFun_jll
-   2.1 s  ✓ Gamma
-   1.1 s  ✓ SortingAlgorithms
-   8.2 s  ✓ StringManipulation
+   2.4 s  ✓ Rmath_jll
+   1.0 s  ✓ SortingAlgorithms
    2.4 s  ✓ Tables
-   3.0 s  ✓ CategoricalArrays
-   1.7 s  ✓ Rmath
-   0.9 s  ✓ StructUtils → StructUtilsTablesExt
-   1.9 s  ✓ HypergeometricFunctions
+   2.6 s  ✓ CategoricalArrays
+   9.4 s  ✓ StringManipulation
+   2.0 s  ✓ HypergeometricFunctions
+   1.1 s  ✓ Rmath
+   1.0 s  ✓ StructUtils → StructUtilsTablesExt
    0.8 s  ✓ CategoricalArrays → CategoricalArraysSentinelArraysExt
-   4.0 s  ✓ SpecialFunctions
-   4.1 s  ✓ StatsBase
-   1.5 s  ✓ StatsFuns
-   0.9 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
-   1.9 s  ✓ StatsModels
-  33.1 s  ✓ Parsers
-   0.6 s  ✓ InlineStrings → ParsersExt
-  35.5 s  ✓ PrettyTables
-  13.7 s  ✓ JSON
-   0.8 s  ✓ Conda
+   4.4 s  ✓ SpecialFunctions
+   3.7 s  ✓ StatsBase
+   1.0 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
+   1.4 s  ✓ StatsFuns
+   2.6 s  ✓ StatsModels
+  33.5 s  ✓ Parsers
+   0.8 s  ✓ InlineStrings → ParsersExt
+  34.9 s  ✓ PrettyTables
+  12.4 s  ✓ JSON
    0.8 s  ✓ CategoricalArrays → CategoricalArraysJSONExt
-  41.8 s  ✓ DataFrames
+   1.0 s  ✓ Conda
+  42.0 s  ✓ DataFrames
    5.5 s  ✓ RCall
-  54 dependencies successfully precompiled in 98 seconds. 31 already precompiled.
+  54 dependencies successfully precompiled in 97 seconds. 31 already precompiled.
 R version 4.3.3 (2024-02-29) \nRCALL-OK
     Updating registry at `~/.julia/registries/General.toml`
     Updating `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Project.toml`
@@ -8296,13 +8284,13 @@ Precompiling packages...
    2.1 s  ✓ ZeroInflatedCounts
   1 dependency successfully precompiled in 2 seconds. 85 already precompiled.
      Testing ZeroInflatedCounts
-      Status `/tmp/jl_SPJLkO/Project.toml`
+      Status `/tmp/jl_lL1naq/Project.toml`
   [4c88cf16] Aqua v0.8.18
   [6f49c342] RCall v0.14.14
   [a3e242c2] ZeroInflatedCounts v0.1.0 `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl`
   [9a3f8284] Random v1.11.0
   [8dfed614] Test v1.11.0
-      Status `/tmp/jl_SPJLkO/Manifest.toml`
+      Status `/tmp/jl_lL1naq/Manifest.toml`
   [66dad0bd] AliasTables v1.1.3
   [4c88cf16] Aqua v0.8.18
   [324d7699] CategoricalArrays v1.1.1
@@ -8401,6 +8389,6 @@ Precompiling packages...
   [3f19e933] p7zip_jll v17.8.2+0
         Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading.
 Precompiling for configuration --code-coverage=none --color=auto --warn-overwrite=yes --depwarn=yes --inline=yes --startup-file=no --track-allocation=none
-   1.8 s  ✓ Aqua
+   1.9 s  ✓ Aqua
   1 dependency successfully precompiled in 2 seconds. 94 already precompiled.
      Testing Running tests...
