@@ -81,7 +81,7 @@ empty vector (the fit returned no probabilities at all) is not detectable, so
 the taxon cannot be reported as tested.
 """
 zero_inflation_detectable(zero_part_prob::AbstractVector) =
-    !isempty(zero_part_prob) && !all(w -> w < ZERO_WEIGHT_FLOOR, zero_part_prob)
+    !isempty(zero_part_prob) && !all(w < ZERO_WEIGHT_FLOOR for w in zero_part_prob)
 
 """
     prefit_refusal(kind, inputs, j) -> Union{Nothing,String}
@@ -153,14 +153,14 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
     refusal = prefit_refusal(kind, inputs, j)
     refusal === nothing || return TaxonRefused(taxon, refusal)
 
-    y = Float64.(view(inputs.counts, :, j))
+    y = Vector{Float64}(inputs.counts[:, j])
     g = inputs.groups
     s = inputs.size_factors
     kind_string = kind === :hurdle_nb ? "hurdle" : "zeroinfl"
     levels = [inputs.ref, inputs.contrast]
 
     raw = try
-        rcopy(R"zic_fit($y, $g, $s, $kind_string, $levels)")
+        rcopy(rcall(:zic_fit, y, g, s, kind_string, levels))
     catch err
         return TaxonFailed(taxon, "RCall: " * sprint(showerror, err))
     end
@@ -284,9 +284,11 @@ function fit_table(
 
     tested = findall(r -> r isa TaxonFit, fits)
     if !isempty(tested)
-        adjusted = bh_adjust([fits[i].pvalue for i in tested])
+        # `tested` holds exactly the indices of the TaxonFit entries; the
+        # assertion states that invariant where the element type cannot.
+        adjusted = bh_adjust([(fits[i]::TaxonFit).pvalue for i in tested])
         for (k, i) in enumerate(tested)
-            fits[i] = set_adjusted_p(fits[i], adjusted[k])
+            fits[i] = set_adjusted_p(fits[i]::TaxonFit, adjusted[k])
         end
     end
 
