@@ -17,7 +17,9 @@
 #
 #     count ~ group + offset(log(size_factor)) | group + log(size_factor)
 #
-# and the null model drops the group term from BOTH parts, as specified.
+# and the null model drops the group term from BOTH parts, as specified. The one
+# exception is an aliased `log(size_factor)` (every size factor equal), which is
+# dropped from the zero part of both models and reported in the fit's warnings.
 
 const _R_HELPERS = raw"""
 zic_fit <- function(y, g, s, kind, levels) {
@@ -32,23 +34,38 @@ zic_fit <- function(y, g, s, kind, levels) {
             w <<- c(w, conditionMessage(cond))
             invokeRestart("muffleWarning")
         })
-    full <- if (kind == "hurdle") {
-        run(pscl::hurdle(y ~ g + offset(log(s)) | g + log(s), data = d,
-                         dist = "negbin", zero.dist = "binomial"))
+    # log(s) is a zero-part covariate. When every size factor is equal it is
+    # constant, so its column is aliased with the intercept: the zero part with
+    # it is the same model as the zero part without it (same likelihood), but
+    # the design is singular and pscl's optim fails with "non-finite value
+    # supplied by optim". Drop the aliased column from BOTH the full and the
+    # null model, as glm() would, so the likelihood-ratio df is unchanged, and
+    # say so in the warnings rather than silently.
+    if (length(unique(s)) == 1) {
+        zfull <- "g"
+        znull <- "1"
+        w <- c(w, paste0("every size factor is equal (", s[1], "): log(s) is ",
+                         "aliased with the zero-part intercept and was dropped ",
+                         "from the zero part of both models"))
     } else {
-        run(pscl::zeroinfl(y ~ g + offset(log(s)) | g + log(s), data = d,
-                           dist = "negbin"))
+        zfull <- "g + log(s)"
+        znull <- "log(s)"
+    }
+    ffull <- as.formula(paste("y ~ g + offset(log(s)) |", zfull))
+    fnull <- as.formula(paste("y ~ offset(log(s)) |", znull))
+    full <- if (kind == "hurdle") {
+        run(pscl::hurdle(ffull, data = d, dist = "negbin", zero.dist = "binomial"))
+    } else {
+        run(pscl::zeroinfl(ffull, data = d, dist = "negbin"))
     }
     if (inherits(full, "error")) {
         return(list(ok = FALSE, message = conditionMessage(full),
                     warnings = w, stage = "full"))
     }
     null <- if (kind == "hurdle") {
-        run(pscl::hurdle(y ~ offset(log(s)) | log(s), data = d,
-                         dist = "negbin", zero.dist = "binomial"))
+        run(pscl::hurdle(fnull, data = d, dist = "negbin", zero.dist = "binomial"))
     } else {
-        run(pscl::zeroinfl(y ~ offset(log(s)) | log(s), data = d,
-                           dist = "negbin"))
+        run(pscl::zeroinfl(fnull, data = d, dist = "negbin"))
     }
     if (inherits(null, "error")) {
         return(list(ok = FALSE, message = conditionMessage(null),
@@ -66,7 +83,7 @@ zic_fit <- function(y, g, s, kind, levels) {
                                      " zero-part group coefficients"),
                     warnings = w, stage = "extract"))
     }
-    Xz <- model.matrix(~ g + log(s), data = d)
+    Xz <- model.matrix(as.formula(paste("~", zfull)), data = d)
     # The zero part's fitted probability, in pscl's own parameterisation:
     # for `hurdle` this is P(count > 0) (the spec's "whether any reads were
     # observed"), for `zeroinfl` it is P(structural zero) (the mixture weight).
@@ -102,8 +119,15 @@ zic_has_pscl <- function() requireNamespace("pscl", quietly = TRUE)
 # time, because RCall is a hard dependency: a machine without R cannot load
 # this package, which is the honest outcome for a package whose production path
 # IS R.
+"""
+    __init__()
+
+Define the R helpers above in R's global environment, by calling R's own
+`parse(text = ...)` and then `eval(..., globalenv())`. Unlike an `R"..."`
+string, this parses no R source through RCall on the Julia side.
+"""
 function __init__()
-    R"eval(parse(text = $(_R_HELPERS)))"
+    rcall(:eval, rcall(:parse; text = _R_HELPERS), globalEnv)
     return nothing
 end
 
@@ -114,7 +138,7 @@ The R, `pscl` and `MASS` versions of the R this session is talking to. Called
 once per table fit, and recorded in the [`Provenance`](@ref).
 """
 function pscl_versions()
-    raw = rcopy(R"zic_versions()")
+    raw = rcopy(rcall(:zic_versions))
     return (
         r_version = _as_string(_rfield(raw, "r_version")),
         pscl_version = _as_string(_rfield(raw, "pscl_version")),
@@ -127,8 +151,11 @@ end
 
 Whether R's `pscl` package is installed and loadable. The method-conditions
 document requires this to be reported with the package named, not guessed at.
+
+A direct call of the helper defined in `__init__`: there is no R source to
+parse, and the answer is converted to a `Bool` by RCall itself.
 """
-pscl_available() = rcopy(R"zic_has_pscl()")::Bool
+pscl_available() = rcopy(Bool, rcall(:zic_has_pscl))::Bool
 
 # --- reading an R named list --------------------------------------------------
 # RCall turns an R named list into a Dict whose values are vectors or scalars,
@@ -182,24 +209,36 @@ function _as_bool(res, name::String, default::Bool)
     return v isa Bool ? v : default
 end
 
+"""
+    _as_floats(res, name) -> Vector{Float64}
+
+The named field of an R list as a vector of floats: empty when the field is
+absent or `NA`, and `NaN` for any element that is not a number.
+"""
 function _as_floats(res, name::String)
     v = _rfield(res, name)
     v === nothing && return Float64[]
     v isa Missing && return Float64[]
     v isa Number && return [Float64(v)]
     if v isa AbstractVector
-        return [x isa Number ? Float64(x) : NaN for x in v]
+        return Float64[x isa Number ? Float64(x) : NaN for x in v]
     end
     return Float64[]
 end
 
+"""
+    _as_strings(res, name) -> Vector{String}
+
+The named field of an R list as a vector of strings: empty when the field is
+absent or `NA`.
+"""
 function _as_strings(res, name::String)
     v = _rfield(res, name)
     v === nothing && return String[]
     v isa Missing && return String[]
     v isa AbstractString && return [String(v)]
     if v isa AbstractVector
-        return [_as_string(x) for x in v]
+        return String[_as_string(x) for x in v]
     end
     return String[]
 end

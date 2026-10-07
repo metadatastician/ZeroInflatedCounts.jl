@@ -32,23 +32,39 @@ jobs:
         with:
           version: "1"
       - name: Check formatting (check mode — never writes in CI)
+        # Every *.jl under src/ and test/, at any depth. The previous walker
+        # called `filter(isfile, ::Iterators.Flatten)`, which has no method, so
+        # the job died with a MethodError before checking one file; it also
+        # read only one directory level, so src/core/, test/oracle/ and
+        # test/helpers/ would never have been checked had it run. Behind that
+        # was a second latent defect: `JuliaFormatter.format_string` does not
+        # exist in JuliaFormatter 2.x; `format_text` is the string API.
+        #
+        # As in the JET job, the formatter goes into a throwaway environment
+        # with a pinned major version: it no longer mutates this package's
+        # Project.toml (which would also resolve and build RCall on a runner
+        # with no R), and a new formatter major cannot arrive unannounced.
         run: |
-          julia --project=. -e '
+          julia -e '
             using Pkg
-            Pkg.add("JuliaFormatter")
+            Pkg.activate(mktempdir())
+            Pkg.add(Pkg.PackageSpec(name="JuliaFormatter", version="2"))
             using JuliaFormatter
-            for f in filter(isfile, Iterators.flatten((
-                [joinpath("src", x) for x in readdir("src")],
-                [joinpath("test", x) for x in readdir("test") if x != "cases"],
-                [joinpath("test", "cases", x) for x in readdir(joinpath("test", "cases"))],
-            )))
+            files = String[]
+            for root in ("src", "test"), (dir, _, names) in walkdir(root)
+                append!(files, joinpath(dir, n) for n in names if endswith(n, ".jl"))
+            end
+            isempty(files) && error("format check found no .jl files under src/ or test/")
+            bad = String[]
+            for f in sort(files)
                 text = read(f, String)
-                formatted = JuliaFormatter.format_string(text)
-                if text != formatted
+                if text != JuliaFormatter.format_text(text)
                     @error "not formatted" file=f
-                    exit(1)
+                    push!(bad, f)
                 end
-            end'
+            end
+            println(length(files), " files checked, ", length(bad), " not formatted")
+            isempty(bad) || exit(1)'
 
   jet:
     name: Static analysis (JET)
@@ -59,6 +75,19 @@ jobs:
         with:
           version: "1"
       - uses: julia-actions/cache@v3
+      # RCall is a hard dependency (Project.toml [deps]): the production fits
+      # are R pscl fits, so the package cannot load on a runner without R.
+      # ubuntu-24.04 ships no R, which is why every job that loads the
+      # package died in RCall's __init__/precompile before any test or
+      # analysis ran. install.packages() only WARNS on failure, so the last
+      # line loads pscl to make a failed install fail this step.
+      - name: Install R and pscl
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq r-base-core r-base-dev
+          sudo Rscript -e 'install.packages("pscl", repos = "https://cloud.r-project.org", lib = "/usr/local/lib/R/site-library")'
+          Rscript -e 'library(pscl); cat(R.version.string, "| pscl", as.character(packageVersion("pscl")), "\n")'
+          echo "R_HOME=$(R RHOME)" >> "$GITHUB_ENV"
       - name: JET analysis (supported API)
         # JET's path/string entry points were REMOVED in v0.12.0, having been
         # deprecated since v0.11: `report_package(::AbstractString)`,
@@ -82,6 +111,9 @@ jobs:
             using Pkg
             Pkg.activate(mktempdir())
             Pkg.develop(path=".")
+            # Rebuild RCall against the R installed above: a cached depot may
+            # hold a build from a run that had no R.
+            Pkg.build("RCall")
             Pkg.add(Pkg.PackageSpec(name="JET", version="0.12"))
             using ZeroInflatedCounts, JET
 
@@ -112,5 +144,22 @@ jobs:
         with:
           version: ${{ matrix.julia }}
       - uses: julia-actions/cache@v3
+      # RCall is a hard dependency (Project.toml [deps]): the production fits
+      # are R pscl fits, so the package cannot load on a runner without R.
+      # ubuntu-24.04 ships no R, which is why every job that loads the
+      # package died in RCall's __init__/precompile before any test or
+      # analysis ran. install.packages() only WARNS on failure, so the last
+      # line loads pscl to make a failed install fail this step.
+      - name: Install R and pscl
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq r-base-core r-base-dev
+          sudo Rscript -e 'install.packages("pscl", repos = "https://cloud.r-project.org", lib = "/usr/local/lib/R/site-library")'
+          Rscript -e 'library(pscl); cat(R.version.string, "| pscl", as.character(packageVersion("pscl")), "\n")'
+          echo "R_HOME=$(R RHOME)" >> "$GITHUB_ENV"
       - name: Pkg.test()
-        run: julia --project=. -e 'using Pkg; Pkg.test()'
+        # Rebuild RCall against the R installed above: a cached depot may hold
+        # a build from a run that had no R. Manifest.toml is not committed, so
+        # instantiate first: Pkg.build("RCall") on a fresh checkout otherwise
+        # fails with "RCall (not found in project or manifest)".
+        run: julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.build("RCall"); Pkg.test()'

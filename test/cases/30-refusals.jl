@@ -68,8 +68,11 @@
     @test length(refused(res_small)) == 3
     @test all(r -> occursin("6 or fewer samples", r.reason), refused(res_small))
 
-    # The hurdle zero part needs at least 4 samples.
-    res_tiny = hurdle_nb(counts[1:3, :], groups[1:3], sizes[1:3]; taxa = taxa)
+    # The hurdle zero part needs at least 4 samples. The 3 rows span BOTH groups:
+    # rows 1:3 are all "control", which check_inputs refuses outright (exactly
+    # two groups are required) before the per-taxon sample floor is reached.
+    tiny = [1, 2, 5]
+    res_tiny = hurdle_nb(counts[tiny, :], groups[tiny], sizes[tiny]; taxa = taxa)
     @test length(fitted(res_tiny)) == 0
     @test all(r -> occursin("at least 4 samples", r.reason), refused(res_tiny))
 
@@ -114,8 +117,11 @@ end
     @test ZeroInflatedCounts.theta_note_for(2.5) === nothing
     @test ZeroInflatedCounts.theta_note_for(1.0e8) !== nothing
     @test ZeroInflatedCounts.theta_note_for(1.0e-9) !== nothing
-    @test ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-8])
-    @test !ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-4])
+    # docs/method-conditions/: "zinb zero part collapsed: the fitted zero weight
+    # is below 1e-6 in every sample" is refused. Every weight below the floor is
+    # collapsed (not detectable); one weight at or above it is detectable.
+    @test !ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-8])
+    @test ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-4])
     # No probabilities at all is not "detectable": nothing was fitted, so
     # nothing may be reported as tested.
     @test !ZeroInflatedCounts.zero_inflation_detectable(Float64[])

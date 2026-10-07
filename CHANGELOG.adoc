@@ -8,6 +8,25 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 === [Unreleased]
 
+==== Fixed
+
+* A table whose size factors are all equal no longer fails every taxon.
+  `log(size_factor)` is then constant, aliased with the zero-part intercept,
+  and `pscl` failed with "non-finite value supplied by optim". It is now
+  dropped from the zero part of both the full and the null model (the
+  likelihood-ratio degrees of freedom are unchanged), and the fit's warnings
+  say so.
+* The package calls its R helpers with `rcall` instead of `R"..."` strings, so
+  no R source is parsed through RCall on the Julia side (this was where the
+  remaining JET reports were).
+* Test suite: the oracle's Poisson sampler always returned 0 (and so the
+  zero-truncated sampler never terminated); two zero-weight-floor assertions
+  were inverted against the specification; the hurdle 4-sample refusal used
+  rows from one group only; the ZINB θ recovery check now uses the median.
+* CI: R and `pscl` are installed for the JET and test jobs (RCall is a hard
+  dependency); the format check runs; the PR #7 probe workflow and `probe/`
+  directory are removed.
+
 ==== Removed
 
 * Every `.a2ml` file. The repo deed (`ZeroInflatedCounts.jl_chora.deed`)
