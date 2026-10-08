@@ -69,8 +69,15 @@
     @test all(r -> occursin("6 or fewer samples", r.reason), refused(res_small))
 
     # The hurdle zero part needs at least 4 samples.
-    res_tiny = hurdle_nb(counts[1:3, :], groups[1:3], sizes[1:3]; taxa = taxa)
+    tiny_rows = [1, 2, 5] # Keep both groups so input validation reaches the sample floor.
+    res_tiny = hurdle_nb(
+        counts[tiny_rows, :],
+        groups[tiny_rows],
+        sizes[tiny_rows];
+        taxa = taxa,
+    )
     @test length(fitted(res_tiny)) == 0
+    @test length(refused(res_tiny)) == 3
     @test all(r -> occursin("at least 4 samples", r.reason), refused(res_tiny))
 
     # The caller's prevalence floor is applied, and says so. This table passes
@@ -114,8 +121,8 @@ end
     @test ZeroInflatedCounts.theta_note_for(2.5) === nothing
     @test ZeroInflatedCounts.theta_note_for(1.0e8) !== nothing
     @test ZeroInflatedCounts.theta_note_for(1.0e-9) !== nothing
-    @test ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-8])
-    @test !ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-4])
+    @test !ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-8])
+    @test ZeroInflatedCounts.zero_inflation_detectable([1.0e-9, 1.0e-4])
     # No probabilities at all is not "detectable": nothing was fitted, so
     # nothing may be reported as tested.
     @test !ZeroInflatedCounts.zero_inflation_detectable(Float64[])
