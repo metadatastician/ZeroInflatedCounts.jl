@@ -3,8 +3,20 @@
 
 @testset "result accessors, adjustment, and human-readable summaries" begin
     original = TaxonFit(
-        "tested", 0.75, 0.25, -0.5, 0.125, 2.5, -10.0, -13.0,
-        6.0, 2, 0.05, NaN, "theta note", ["fit warning"],
+        "tested",
+        0.75,
+        0.25,
+        -0.5,
+        0.125,
+        2.5,
+        -10.0,
+        -13.0,
+        6.0,
+        2,
+        0.05,
+        NaN,
+        "theta note",
+        ["fit warning"],
     )
     adjusted = ZeroInflatedCounts.set_adjusted_p(original, 0.1)
     @test adjusted.p_adjusted == 0.1
@@ -19,12 +31,26 @@
 
     for kind in (:hurdle_nb, :zinb)
         provenance = Provenance(
-            kind, "count formula", "zero formula", "null count", "null zero",
-            "offset method", "fixture-R", "fixture-pscl", "fixture-MASS",
-            1, 1, 1, ["tested: fit warning"],
+            kind,
+            "count formula",
+            "zero formula",
+            "null count",
+            "null zero",
+            "offset method",
+            "fixture-R",
+            "fixture-pscl",
+            "fixture-MASS",
+            1,
+            1,
+            1,
+            ["tested: fit warning"],
         )
-        res = ZIFit(kind, ["refused", "tested", "failed"],
-                    ZeroInflatedCounts.TaxonResult[refusal, adjusted, failure], provenance)
+        res = ZIFit(
+            kind,
+            ["refused", "tested", "failed"],
+            ZeroInflatedCounts.TaxonResult[refusal, adjusted, failure],
+            provenance,
+        )
         @test fitted(res) == [adjusted]
         @test refused(res) == [refusal]
         @test failed(res) == [failure]
@@ -39,15 +65,16 @@
         # Tokenise columns so whitespace padding is not part of the contract.
         @test split(lines[4])[1:7] == ["refused", "-", "-", "-", "-", "-", "-"]
         @test endswith(lines[4], "refused: too few positives")
-        @test split(lines[5]) == ["tested", "0.75", "0.25", "-0.5", "2.5", "0.05", "0.1", "tested"]
+        @test split(lines[5]) ==
+              ["tested", "0.75", "0.25", "-0.5", "2.5", "0.05", "0.1", "tested"]
         @test split(lines[6])[1:7] == ["failed", "-", "-", "-", "-", "-", "-"]
         @test endswith(lines[6], "failed: singular covariance")
         @test lines[7] == "R fixture-R; pscl fixture-pscl; MASS fixture-MASS"
 
-        empty_provenance = Provenance(
-            kind, "", "", "", "", "", "R", "pscl", "MASS", 0, 0, 0, String[],
-        )
-        empty_result = ZIFit(kind, String[], ZeroInflatedCounts.TaxonResult[], empty_provenance)
+        empty_provenance =
+            Provenance(kind, "", "", "", "", "", "R", "pscl", "MASS", 0, 0, 0, String[])
+        empty_result =
+            ZIFit(kind, String[], ZeroInflatedCounts.TaxonResult[], empty_provenance)
         @test fitted(empty_result) isa Vector{TaxonFit}
         @test refused(empty_result) isa Vector{TaxonRefused}
         @test failed(empty_result) isa Vector{TaxonFailed}

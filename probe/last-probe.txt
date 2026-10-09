@@ -1,9 +1,9 @@
-sha=2751f6ab3d907a620408e95946c4c8d273f40260 ref=arena/01a10883-zeroinflatedcounts-jl
+sha=0fedf8ccaae89418d0d57f320a2714bdb691b51d ref=arena/01a10883-zeroinflatedcounts-jl
 + sudo apt-get update -qq
 + sudo apt-get install -y -qq agda agda-stdlib
 Preconfiguring packages ...
 Selecting previously unselected package libnsl2:amd64.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 202296 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 203191 files and directories currently installed.)
 Preparing to unpack .../00-libnsl2_1.3.0-3build3_amd64.deb ...
 Unpacking libnsl2:amd64 (1.3.0-3build3) ...
 Selecting previously unselected package postfix.
@@ -348,11 +348,12 @@ info: Not creating home directory `/var/spool/postfix'.
 Creating /etc/postfix/dynamicmaps.cf
 info: Selecting GID from range 100 to 999 ...
 info: Adding group `postdrop' (GID 120) ...
-setting myhostname: runnervm8df0l.fjxtfgsjh5xezlzfbnqjfnxk1c.gx.internal.cloudapp.net
+setting myhostname: runnervmmprz5.igbddbrtjltuze2tbdbd45gehh.phxx.internal.cloudapp.net
 setting alias maps
 setting alias database
-mailname is not a fully qualified domain name.  Not changing /etc/mailname.
-setting destinations: $myhostname, runnervm8df0l, localhost.localdomain, , localhost
+changing /etc/mailname to runnervmmprz5.igbddbrtjltuze2tbdbd45gehh.phxx.internal.cloudapp.net
+setting myorigin
+setting destinations: $myhostname, runnervmmprz5.igbddbrtjltuze2tbdbd45gehh.phxx.internal.cloudapp.net, localhost.igbddbrtjltuze2tbdbd45gehh.phxx.internal.cloudapp.net, , localhost
 setting relayhost: 
 setting mynetworks: 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 setting mailbox_size_limit: 0
@@ -7647,111 +7648,113 @@ grep: write error: Broken pipe
 grep: write error: Broken pipe
 + sudo apt-get install -y -qq r-base-core r-base-dev
 Preconfiguring packages ...
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 220107 files and directories currently installed.)
+Preparing to unpack .../00-libpng16-16t64_1.6.43-5ubuntu0.7_amd64.deb ...
+Unpacking libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) over (1.6.43-5ubuntu0.6) ...
 Selecting previously unselected package build-essential.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 219212 files and directories currently installed.)
-Preparing to unpack .../00-build-essential_12.10ubuntu1_amd64.deb ...
+Preparing to unpack .../01-build-essential_12.10ubuntu1_amd64.deb ...
 Unpacking build-essential (12.10ubuntu1) ...
 Selecting previously unselected package bzip2-doc.
-Preparing to unpack .../01-bzip2-doc_1.0.8-5.1ubuntu0.1_all.deb ...
+Preparing to unpack .../02-bzip2-doc_1.0.8-5.1ubuntu0.1_all.deb ...
 Unpacking bzip2-doc (1.0.8-5.1ubuntu0.1) ...
 Selecting previously unselected package libblas3:amd64.
-Preparing to unpack .../02-libblas3_3.12.0-3build1.1_amd64.deb ...
+Preparing to unpack .../03-libblas3_3.12.0-3build1.1_amd64.deb ...
 Unpacking libblas3:amd64 (3.12.0-3build1.1) ...
 Selecting previously unselected package libblas-dev:amd64.
-Preparing to unpack .../03-libblas-dev_3.12.0-3build1.1_amd64.deb ...
+Preparing to unpack .../04-libblas-dev_3.12.0-3build1.1_amd64.deb ...
 Unpacking libblas-dev:amd64 (3.12.0-3build1.1) ...
 Selecting previously unselected package libbz2-dev:amd64.
-Preparing to unpack .../04-libbz2-dev_1.0.8-5.1ubuntu0.1_amd64.deb ...
+Preparing to unpack .../05-libbz2-dev_1.0.8-5.1ubuntu0.1_amd64.deb ...
 Unpacking libbz2-dev:amd64 (1.0.8-5.1ubuntu0.1) ...
 Selecting previously unselected package libjpeg-turbo8-dev:amd64.
-Preparing to unpack .../05-libjpeg-turbo8-dev_2.1.5-2ubuntu2_amd64.deb ...
+Preparing to unpack .../06-libjpeg-turbo8-dev_2.1.5-2ubuntu2_amd64.deb ...
 Unpacking libjpeg-turbo8-dev:amd64 (2.1.5-2ubuntu2) ...
 Selecting previously unselected package libjpeg8-dev:amd64.
-Preparing to unpack .../06-libjpeg8-dev_8c-2ubuntu11_amd64.deb ...
+Preparing to unpack .../07-libjpeg8-dev_8c-2ubuntu11_amd64.deb ...
 Unpacking libjpeg8-dev:amd64 (8c-2ubuntu11) ...
 Selecting previously unselected package libjpeg-dev:amd64.
-Preparing to unpack .../07-libjpeg-dev_8c-2ubuntu11_amd64.deb ...
+Preparing to unpack .../08-libjpeg-dev_8c-2ubuntu11_amd64.deb ...
 Unpacking libjpeg-dev:amd64 (8c-2ubuntu11) ...
 Selecting previously unselected package liblapack3:amd64.
-Preparing to unpack .../08-liblapack3_3.12.0-3build1.1_amd64.deb ...
+Preparing to unpack .../09-liblapack3_3.12.0-3build1.1_amd64.deb ...
 Unpacking liblapack3:amd64 (3.12.0-3build1.1) ...
 Selecting previously unselected package liblapack-dev:amd64.
-Preparing to unpack .../09-liblapack-dev_3.12.0-3build1.1_amd64.deb ...
+Preparing to unpack .../10-liblapack-dev_3.12.0-3build1.1_amd64.deb ...
 Unpacking liblapack-dev:amd64 (3.12.0-3build1.1) ...
 Selecting previously unselected package libpaper1:amd64.
-Preparing to unpack .../10-libpaper1_1.1.29build1_amd64.deb ...
+Preparing to unpack .../11-libpaper1_1.1.29build1_amd64.deb ...
 Unpacking libpaper1:amd64 (1.1.29build1) ...
 Selecting previously unselected package libpaper-utils.
-Preparing to unpack .../11-libpaper-utils_1.1.29build1_amd64.deb ...
+Preparing to unpack .../12-libpaper-utils_1.1.29build1_amd64.deb ...
 Unpacking libpaper-utils (1.1.29build1) ...
 Selecting previously unselected package libpng-dev:amd64.
-Preparing to unpack .../12-libpng-dev_1.6.43-5ubuntu0.6_amd64.deb ...
-Unpacking libpng-dev:amd64 (1.6.43-5ubuntu0.6) ...
+Preparing to unpack .../13-libpng-dev_1.6.43-5ubuntu0.7_amd64.deb ...
+Unpacking libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
 Selecting previously unselected package libpng-tools.
-Preparing to unpack .../13-libpng-tools_1.6.43-5ubuntu0.6_amd64.deb ...
-Unpacking libpng-tools (1.6.43-5ubuntu0.6) ...
+Preparing to unpack .../14-libpng-tools_1.6.43-5ubuntu0.7_amd64.deb ...
+Unpacking libpng-tools (1.6.43-5ubuntu0.7) ...
 Selecting previously unselected package libreadline-dev:amd64.
-Preparing to unpack .../14-libreadline-dev_8.2-4build1_amd64.deb ...
+Preparing to unpack .../15-libreadline-dev_8.2-4build1_amd64.deb ...
 Unpacking libreadline-dev:amd64 (8.2-4build1) ...
 Selecting previously unselected package r-base-core.
-Preparing to unpack .../15-r-base-core_4.3.3-2build2_amd64.deb ...
+Preparing to unpack .../16-r-base-core_4.3.3-2build2_amd64.deb ...
 Unpacking r-base-core (4.3.3-2build2) ...
 Selecting previously unselected package liblzma-dev:amd64.
-Preparing to unpack .../16-liblzma-dev_5.6.1+really5.4.5-1ubuntu0.3_amd64.deb ...
+Preparing to unpack .../17-liblzma-dev_5.6.1+really5.4.5-1ubuntu0.3_amd64.deb ...
 Unpacking liblzma-dev:amd64 (5.6.1+really5.4.5-1ubuntu0.3) ...
 Selecting previously unselected package r-base-dev.
-Preparing to unpack .../17-r-base-dev_4.3.3-2build2_all.deb ...
+Preparing to unpack .../18-r-base-dev_4.3.3-2build2_all.deb ...
 Unpacking r-base-dev (4.3.3-2build2) ...
 Selecting previously unselected package r-cran-boot.
-Preparing to unpack .../18-r-cran-boot_1.3-30-1_all.deb ...
+Preparing to unpack .../19-r-cran-boot_1.3-30-1_all.deb ...
 Unpacking r-cran-boot (1.3-30-1) ...
 Selecting previously unselected package r-cran-mass.
-Preparing to unpack .../19-r-cran-mass_7.3-60.0.1-1_amd64.deb ...
+Preparing to unpack .../20-r-cran-mass_7.3-60.0.1-1_amd64.deb ...
 Unpacking r-cran-mass (7.3-60.0.1-1) ...
 Selecting previously unselected package r-cran-class.
-Preparing to unpack .../20-r-cran-class_7.3-22-2build1_amd64.deb ...
+Preparing to unpack .../21-r-cran-class_7.3-22-2build1_amd64.deb ...
 Unpacking r-cran-class (7.3-22-2build1) ...
 Selecting previously unselected package r-cran-cluster.
-Preparing to unpack .../21-r-cran-cluster_2.1.6-1build1_amd64.deb ...
+Preparing to unpack .../22-r-cran-cluster_2.1.6-1build1_amd64.deb ...
 Unpacking r-cran-cluster (2.1.6-1build1) ...
 Selecting previously unselected package r-cran-codetools.
-Preparing to unpack .../22-r-cran-codetools_0.2-19-1_all.deb ...
+Preparing to unpack .../23-r-cran-codetools_0.2-19-1_all.deb ...
 Unpacking r-cran-codetools (0.2-19-1) ...
 Selecting previously unselected package r-cran-foreign.
-Preparing to unpack .../23-r-cran-foreign_0.8.86-1build1_amd64.deb ...
+Preparing to unpack .../24-r-cran-foreign_0.8.86-1build1_amd64.deb ...
 Unpacking r-cran-foreign (0.8.86-1build1) ...
 Selecting previously unselected package r-cran-kernsmooth.
-Preparing to unpack .../24-r-cran-kernsmooth_2.23-22-1build1_amd64.deb ...
+Preparing to unpack .../25-r-cran-kernsmooth_2.23-22-1build1_amd64.deb ...
 Unpacking r-cran-kernsmooth (2.23-22-1build1) ...
 Selecting previously unselected package r-cran-lattice.
-Preparing to unpack .../25-r-cran-lattice_0.22-5-1build1_amd64.deb ...
+Preparing to unpack .../26-r-cran-lattice_0.22-5-1build1_amd64.deb ...
 Unpacking r-cran-lattice (0.22-5-1build1) ...
 Selecting previously unselected package r-cran-matrix.
-Preparing to unpack .../26-r-cran-matrix_1.6-5-1_amd64.deb ...
+Preparing to unpack .../27-r-cran-matrix_1.6-5-1_amd64.deb ...
 Unpacking r-cran-matrix (1.6-5-1) ...
 Selecting previously unselected package r-cran-nlme.
-Preparing to unpack .../27-r-cran-nlme_3.1.164-1build1_amd64.deb ...
+Preparing to unpack .../28-r-cran-nlme_3.1.164-1build1_amd64.deb ...
 Unpacking r-cran-nlme (3.1.164-1build1) ...
 Selecting previously unselected package r-cran-mgcv.
-Preparing to unpack .../28-r-cran-mgcv_1.9-1-1_amd64.deb ...
+Preparing to unpack .../29-r-cran-mgcv_1.9-1-1_amd64.deb ...
 Unpacking r-cran-mgcv (1.9-1-1) ...
 Selecting previously unselected package r-cran-nnet.
-Preparing to unpack .../29-r-cran-nnet_7.3-19-2build1_amd64.deb ...
+Preparing to unpack .../30-r-cran-nnet_7.3-19-2build1_amd64.deb ...
 Unpacking r-cran-nnet (7.3-19-2build1) ...
 Selecting previously unselected package r-cran-survival.
-Preparing to unpack .../30-r-cran-survival_3.5-8-1_amd64.deb ...
+Preparing to unpack .../31-r-cran-survival_3.5-8-1_amd64.deb ...
 Unpacking r-cran-survival (3.5-8-1) ...
 Selecting previously unselected package r-cran-rpart.
-Preparing to unpack .../31-r-cran-rpart_4.1.23-1build1_amd64.deb ...
+Preparing to unpack .../32-r-cran-rpart_4.1.23-1build1_amd64.deb ...
 Unpacking r-cran-rpart (4.1.23-1build1) ...
 Selecting previously unselected package r-cran-spatial.
-Preparing to unpack .../32-r-cran-spatial_7.3-17-1build1_amd64.deb ...
+Preparing to unpack .../33-r-cran-spatial_7.3-17-1build1_amd64.deb ...
 Unpacking r-cran-spatial (7.3-17-1build1) ...
 Selecting previously unselected package r-doc-html.
-Preparing to unpack .../33-r-doc-html_4.3.3-2build2_all.deb ...
+Preparing to unpack .../34-r-doc-html_4.3.3-2build2_all.deb ...
 Unpacking r-doc-html (4.3.3-2build2) ...
 Selecting previously unselected package r-recommended.
-Preparing to unpack .../34-r-recommended_4.3.3-2build2_all.deb ...
+Preparing to unpack .../35-r-recommended_4.3.3-2build2_all.deb ...
 Unpacking r-recommended (4.3.3-2build2) ...
 Setting up bzip2-doc (1.0.8-5.1ubuntu0.1) ...
 Setting up libpaper1:amd64 (1.1.29build1) ...
@@ -7759,12 +7762,11 @@ Setting up libpaper1:amd64 (1.1.29build1) ...
 Creating config file /etc/papersize with new version
 Setting up libjpeg-turbo8-dev:amd64 (2.1.5-2ubuntu2) ...
 Setting up r-doc-html (4.3.3-2build2) ...
-Setting up libpng-tools (1.6.43-5ubuntu0.6) ...
-Setting up libpng-dev:amd64 (1.6.43-5ubuntu0.6) ...
 Setting up libpaper-utils (1.1.29build1) ...
 Setting up libreadline-dev:amd64 (8.2-4build1) ...
 Setting up libblas3:amd64 (3.12.0-3build1.1) ...
 update-alternatives: using /usr/lib/x86_64-linux-gnu/blas/libblas.so.3 to provide /usr/lib/x86_64-linux-gnu/libblas.so.3 (libblas.so.3-x86_64-linux-gnu) in auto mode
+Setting up libpng16-16t64:amd64 (1.6.43-5ubuntu0.7) ...
 Setting up liblzma-dev:amd64 (5.6.1+really5.4.5-1ubuntu0.3) ...
 Setting up build-essential (12.10ubuntu1) ...
 Setting up libjpeg8-dev:amd64 (8c-2ubuntu11) ...
@@ -7773,6 +7775,8 @@ update-alternatives: using /usr/lib/x86_64-linux-gnu/blas/libblas.so to provide 
 Setting up libbz2-dev:amd64 (1.0.8-5.1ubuntu0.1) ...
 Setting up liblapack3:amd64 (3.12.0-3build1.1) ...
 update-alternatives: using /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3 to provide /usr/lib/x86_64-linux-gnu/liblapack.so.3 (liblapack.so.3-x86_64-linux-gnu) in auto mode
+Setting up libpng-tools (1.6.43-5ubuntu0.7) ...
+Setting up libpng-dev:amd64 (1.6.43-5ubuntu0.7) ...
 Setting up libjpeg-dev:amd64 (8c-2ubuntu11) ...
 Setting up r-base-core (4.3.3-2build2) ...
 
@@ -7805,7 +7809,8 @@ Processing triggers for hicolor-icon-theme (0.17-2) ...
 
 Running kernel seems to be up-to-date.
 
-No services need to be restarted.
+Restarting services...
+ systemctl restart php8.3-fpm.service
 
 No containers need to be restarted.
 
@@ -7864,7 +7869,7 @@ installing to /usr/local/lib/R/site-library/00LOCK-pscl/00new/pscl/libs
 * DONE (pscl)
 
 The downloaded source packages are in
-	‘/tmp/RtmpqUGitQ/downloaded_packages’
+	‘/tmp/RtmprNkls9/downloaded_packages’
 + Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
 R version 4.3.3 (2024-02-29) 
 Classes and Methods for R originally developed in the
@@ -7920,9 +7925,11 @@ LRT: 19.78302  p(chi2_2): 5.060242e-05
 
 == degenerate cases ==
 (sep) all-zero group A, hurdle: WARNING: system is computationally singular: reciprocal condition number = 7.02085e-30FALSE 
+(sep) all-zero group A, hurdle: done
 (sep) all-zero group A, zinb: WARNING: system is computationally singular: reciprocal condition number = 4.99392e-18FALSE 
-(sep) no zeros in group A, hurdle: ok
-(sep) no zeros in group A, zinb: ok
+(sep) all-zero group A, zinb: done
+(sep) no zeros in group A, hurdle: done
+(sep) no zeros in group A, zinb: done
 (sep) no zeros at all, hurdle: ERROR: invalid dependent variable, minimum count is not zero 
 (sep) no zeros at all, zinb: ERROR: invalid dependent variable, minimum count is not zero 
 
@@ -7933,28 +7940,28 @@ LRT: 19.78302  p(chi2_2): 5.060242e-05
 (tiny) 4 samples, hurdle: ERROR: contrasts can be applied only to factors with 2 or more levels 
 
 == theta at bound ==
-(bound) poisson-ish data, zinb: ok
+(bound) poisson-ish data, zinb: done
   theta: 14.99049  logLik: -116.5005 
-(bound) poisson-ish data, hurdle: ok
+(bound) poisson-ish data, hurdle: done
   theta: 5.449868  logLik: -113.0033 
 
 == versions ==
 R.version: R version 4.3.3 (2024-02-29) 
 pscl: 1.5.9  MASS: 7.3.60.0.1 
 ==================== julia format ====================
-  Activating new project at `/tmp/jl_gz1TCJ`
+  Activating new project at `/tmp/jl_9x8Qal`
   Installing known registries into `~/.julia`
        Added `General` registry to ~/.julia/registries
    Resolving package versions...
    Installed Preferences ───── v1.6.0
    Installed JuliaSyntax ───── v1.0.2
-   Installed PrecompileTools ─ v1.3.4
-   Installed Glob ──────────── v1.5.0
    Installed JuliaFormatter ── v2.14.0
    Installed CommonMark ────── v1.0.4
-    Updating `/tmp/jl_gz1TCJ/Project.toml`
+   Installed PrecompileTools ─ v1.3.4
+   Installed Glob ──────────── v1.5.0
+    Updating `/tmp/jl_9x8Qal/Project.toml`
   [98e50ef6] + JuliaFormatter v2.14.0
-    Updating `/tmp/jl_gz1TCJ/Manifest.toml`
+    Updating `/tmp/jl_9x8Qal/Manifest.toml`
   [a80b9123] + CommonMark v1.0.4
   [c27321d9] + Glob v1.5.0
   [98e50ef6] + JuliaFormatter v2.14.0
@@ -7976,71 +7983,76 @@ pscl: 1.5.9  MASS: 7.3.60.0.1
   [8dfed614] + Test v1.11.0
   [4ec0a83e] + Unicode v1.11.0
 Precompiling packages...
-   0.6 s  ✓ Glob
-   0.8 s  ✓ Preferences
-   0.6 s  ✓ PrecompileTools
-  13.6 s  ✓ CommonMark
-   0.6 s  ✓ CommonMark → CommonMarkMarkdownExt
-  16.6 s  ✓ JuliaSyntax
-  27.1 s  ✓ JuliaFormatter
-  7 dependencies successfully precompiled in 44 seconds. 12 already precompiled.
+   0.5 s  ✓ Glob
+   0.7 s  ✓ Preferences
+   0.4 s  ✓ PrecompileTools
+   9.3 s  ✓ CommonMark
+   0.5 s  ✓ CommonMark → CommonMarkMarkdownExt
+  11.1 s  ✓ JuliaSyntax
+  18.5 s  ✓ JuliaFormatter
+  7 dependencies successfully precompiled in 30 seconds. 12 already precompiled.
+ M test/cases/30-refusals.jl
+ M test/cases/31-model-boundaries.jl
+ M test/cases/32-rcall-conversions.jl
+ M test/cases/36-fit-responses.jl
+ M test/cases/60-results.jl
 ==================== julia ====================
 1.13.1
-  Activating new project at `/tmp/jl_W0GW9W`
+  Activating new project at `/tmp/jl_RuOP8p`
    Resolving package versions...
-   Installed StatsModels ───────────────── v0.7.10
    Installed Rmath_jll ─────────────────── v0.5.2+0
    Installed HypergeometricFunctions ───── v0.3.30
+   Installed StatsModels ───────────────── v0.7.10
    Installed InlineStrings ─────────────── v1.4.6
-   Installed DataStructures ────────────── v0.19.6
-   Installed AliasTables ───────────────── v1.1.3
-   Installed VersionParsing ────────────── v1.3.0
-   Installed OrderedCollections ────────── v2.0.2
    Installed RCall ─────────────────────── v0.14.14
+   Installed DataStructures ────────────── v0.19.6
+   Installed OrderedCollections ────────── v2.0.2
    Installed ShiftedArrays ─────────────── v2.0.0
-   Installed IteratorInterfaceExtensions ─ v1.0.0
-   Installed InvertedIndices ───────────── v1.3.1
-   Installed Compat ────────────────────── v4.18.1
-   Installed Statistics ────────────────── v1.11.5
    Installed StatsBase ─────────────────── v0.34.13
-   Installed DataAPI ───────────────────── v1.16.0
+   Installed VersionParsing ────────────── v1.3.0
+   Installed InvertedIndices ───────────── v1.3.1
+   Installed Statistics ────────────────── v1.11.5
    Installed StatsAPI ──────────────────── v1.8.0
    Installed SentinelArrays ────────────── v1.4.10
-   Installed StringManipulation ────────── v0.6.1
    Installed Conda ─────────────────────── v1.10.3
+   Installed DataAPI ───────────────────── v1.16.0
+   Installed IteratorInterfaceExtensions ─ v1.0.0
+   Installed Compat ────────────────────── v4.18.1
    Installed WinReg ────────────────────── v1.0.0
    Installed StructUtils ───────────────── v2.9.2
-   Installed DataValueInterfaces ───────── v1.0.0
-   Installed IrrationalConstants ───────── v0.2.6
-   Installed Requires ──────────────────── v1.3.1
+   Installed StringManipulation ────────── v0.6.1
+   Installed LogExpFunctions ───────────── v1.0.2
+   Installed JSON ──────────────────────── v1.10.0
    Installed Parsers ───────────────────── v3.0.0
+   Installed AliasTables ───────────────── v1.1.3
+   Installed DataValueInterfaces ───────── v1.0.0
    Installed Gamma ─────────────────────── v1.2.0
-   Installed PrettyTables ──────────────── v3.5.0
+   Installed IrrationalConstants ───────── v0.2.6
+   Installed Tables ────────────────────── v1.14.0
    Installed OpenSpecFun_jll ───────────── v0.5.6+0
    Installed StatsFuns ─────────────────── v2.2.1
-   Installed LogExpFunctions ───────────── v1.0.2
+   Installed PrettyTables ──────────────── v3.5.0
    Installed PtrArrays ─────────────────── v1.4.0
-   Installed Tables ────────────────────── v1.14.0
-   Installed JSON ──────────────────────── v1.10.0
-   Installed Rmath ─────────────────────── v0.9.0
-   Installed SpecialFunctions ──────────── v2.9.0
-   Installed DataFrames ────────────────── v1.8.2
    Installed PooledArrays ──────────────── v1.4.3
-   Installed Reexport ──────────────────── v1.2.2
-   Installed JLLWrappers ───────────────── v1.8.0
-   Installed Missings ──────────────────── v1.2.0
-   Installed TableTraits ───────────────── v1.0.1
+   Installed SpecialFunctions ──────────── v2.9.0
+   Installed Rmath ─────────────────────── v0.9.0
    Installed SortingAlgorithms ─────────── v1.2.3
+   Installed DataFrames ────────────────── v1.8.2
    Installed LaTeXStrings ──────────────── v1.4.1
    Installed Crayons ───────────────────── v4.2.0
+   Installed Reexport ──────────────────── v1.2.2
+   Installed Missings ──────────────────── v1.2.0
    Installed CategoricalArrays ─────────── v1.1.1
+   Installed Requires ──────────────────── v1.3.1
+   Installed JLLWrappers ───────────────── v1.8.0
+   Installed TableTraits ───────────────── v1.0.1
    Installed DocStringExtensions ───────── v0.9.5
   Installing 2 artifacts
-   Installed artifact Rmath       111.3 KiB
    Installed artifact OpenSpecFun 105.4 KiB
-    Updating `/tmp/jl_W0GW9W/Project.toml`
+   Installed artifact Rmath       111.3 KiB
+    Updating `/tmp/jl_RuOP8p/Project.toml`
   [6f49c342] + RCall v0.14.14
-    Updating `/tmp/jl_W0GW9W/Manifest.toml`
+    Updating `/tmp/jl_RuOP8p/Manifest.toml`
   [66dad0bd] + AliasTables v1.1.3
   [324d7699] + CategoricalArrays v1.1.1
   [34da2185] + Compat v4.18.1
@@ -8132,61 +8144,61 @@ Precompiling packages...
     Building Conda → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/8f06b0cfa4c514c7b9546756dbae91fcfbc92dc9/build.log`
     Building RCall → `~/.julia/scratchspaces/44cfe95a-1eb2-52ea-b672-e2afdf69b78f/a22e6179e35c0b504c4328cc79b6287c2e3cb74c/build.log`
 Precompiling packages...
-   0.8 s  ✓ Reexport
-   0.8 s  ✓ Statistics
-   0.8 s  ✓ DataAPI
-   1.1 s  ✓ InlineStrings
-   0.6 s  ✓ DataValueInterfaces
-   0.8 s  ✓ StatsAPI
-   0.9 s  ✓ InvertedIndices
-   1.4 s  ✓ Requires
-   1.3 s  ✓ OrderedCollections
-   2.4 s  ✓ IrrationalConstants
-   1.1 s  ✓ DocStringExtensions
-   0.6 s  ✓ ShiftedArrays
-   0.8 s  ✓ PtrArrays
-   0.9 s  ✓ VersionParsing
-   0.9 s  ✓ WinReg
-   0.7 s  ✓ IteratorInterfaceExtensions
-   0.6 s  ✓ LaTeXStrings
-   1.1 s  ✓ Compat
-   1.4 s  ✓ StructUtils
-   1.7 s  ✓ JLLWrappers
-   2.1 s  ✓ Crayons
-   0.8 s  ✓ Missings
-   3.0 s  ✓ SentinelArrays
-   1.6 s  ✓ Statistics → SparseArraysExt
-   1.0 s  ✓ PooledArrays
-   0.9 s  ✓ AliasTables
-   1.3 s  ✓ LogExpFunctions
-   0.6 s  ✓ TableTraits
-   0.7 s  ✓ Compat → CompatLinearAlgebraExt
-   3.1 s  ✓ DataStructures
-   1.0 s  ✓ Gamma
-   2.1 s  ✓ OpenSpecFun_jll
-   2.4 s  ✓ Rmath_jll
-   1.0 s  ✓ SortingAlgorithms
-   2.4 s  ✓ Tables
-   2.6 s  ✓ CategoricalArrays
-   9.4 s  ✓ StringManipulation
-   2.0 s  ✓ HypergeometricFunctions
-   1.1 s  ✓ Rmath
-   1.0 s  ✓ StructUtils → StructUtilsTablesExt
-   0.8 s  ✓ CategoricalArrays → CategoricalArraysSentinelArraysExt
-   4.4 s  ✓ SpecialFunctions
-   3.7 s  ✓ StatsBase
-   1.0 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
-   1.4 s  ✓ StatsFuns
-   2.6 s  ✓ StatsModels
-  33.5 s  ✓ Parsers
-   0.8 s  ✓ InlineStrings → ParsersExt
-  34.9 s  ✓ PrettyTables
-  12.4 s  ✓ JSON
-   0.8 s  ✓ CategoricalArrays → CategoricalArraysJSONExt
-   1.0 s  ✓ Conda
-  42.0 s  ✓ DataFrames
-   5.5 s  ✓ RCall
-  54 dependencies successfully precompiled in 97 seconds. 31 already precompiled.
+   0.5 s  ✓ Statistics
+   0.5 s  ✓ Reexport
+   0.6 s  ✓ DataAPI
+   0.7 s  ✓ InlineStrings
+   0.4 s  ✓ DataValueInterfaces
+   0.6 s  ✓ Statistics → SparseArraysExt
+   0.9 s  ✓ OrderedCollections
+   1.0 s  ✓ Requires
+   0.8 s  ✓ InvertedIndices
+   1.7 s  ✓ IrrationalConstants
+   0.6 s  ✓ DocStringExtensions
+   0.3 s  ✓ WinReg
+   0.5 s  ✓ ShiftedArrays
+   0.5 s  ✓ PtrArrays
+   0.4 s  ✓ IteratorInterfaceExtensions
+   0.8 s  ✓ VersionParsing
+   0.7 s  ✓ LaTeXStrings
+   0.8 s  ✓ StructUtils
+   1.2 s  ✓ Crayons
+   0.9 s  ✓ Compat
+   0.9 s  ✓ JLLWrappers
+   0.6 s  ✓ StatsAPI
+   1.9 s  ✓ SentinelArrays
+   0.6 s  ✓ Missings
+   0.7 s  ✓ PooledArrays
+   0.8 s  ✓ LogExpFunctions
+   0.5 s  ✓ AliasTables
+   0.3 s  ✓ TableTraits
+   0.6 s  ✓ Compat → CompatLinearAlgebraExt
+   2.0 s  ✓ DataStructures
+   0.8 s  ✓ Rmath_jll
+   0.7 s  ✓ Gamma
+   1.1 s  ✓ Tables
+   1.8 s  ✓ OpenSpecFun_jll
+   0.6 s  ✓ SortingAlgorithms
+   1.5 s  ✓ CategoricalArrays
+   0.8 s  ✓ Rmath
+   0.8 s  ✓ StructUtils → StructUtilsTablesExt
+   6.7 s  ✓ StringManipulation
+   1.9 s  ✓ HypergeometricFunctions
+   0.7 s  ✓ CategoricalArrays → CategoricalArraysSentinelArraysExt
+   2.6 s  ✓ SpecialFunctions
+   2.5 s  ✓ StatsBase
+   0.9 s  ✓ StatsFuns
+   0.7 s  ✓ CategoricalArrays → CategoricalArraysStatsBaseExt
+   1.2 s  ✓ StatsModels
+  21.0 s  ✓ Parsers
+   0.5 s  ✓ InlineStrings → ParsersExt
+  23.9 s  ✓ PrettyTables
+   9.5 s  ✓ JSON
+   0.5 s  ✓ CategoricalArrays → CategoricalArraysJSONExt
+   0.7 s  ✓ Conda
+  27.3 s  ✓ DataFrames
+   3.6 s  ✓ RCall
+  54 dependencies successfully precompiled in 65 seconds. 31 already precompiled.
 R version 4.3.3 (2024-02-29) \nRCALL-OK
     Updating registry at `~/.julia/registries/General.toml`
     Updating `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/Project.toml`
@@ -8281,16 +8293,16 @@ R version 4.3.3 (2024-02-29) \nRCALL-OK
   [8e850ede] + nghttp2_jll v1.67.1+0
         Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading. To see why use `status --outdated -m`
 Precompiling packages...
-   2.1 s  ✓ ZeroInflatedCounts
+   1.4 s  ✓ ZeroInflatedCounts
   1 dependency successfully precompiled in 2 seconds. 85 already precompiled.
      Testing ZeroInflatedCounts
-      Status `/tmp/jl_lL1naq/Project.toml`
+      Status `/tmp/jl_23225x/Project.toml`
   [4c88cf16] Aqua v0.8.18
   [6f49c342] RCall v0.14.14
   [a3e242c2] ZeroInflatedCounts v0.1.0 `~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl`
   [9a3f8284] Random v1.11.0
   [8dfed614] Test v1.11.0
-      Status `/tmp/jl_lL1naq/Manifest.toml`
+      Status `/tmp/jl_23225x/Manifest.toml`
   [66dad0bd] AliasTables v1.1.3
   [4c88cf16] Aqua v0.8.18
   [324d7699] CategoricalArrays v1.1.1
@@ -8389,6 +8401,206 @@ Precompiling packages...
   [3f19e933] p7zip_jll v17.8.2+0
         Info Packages marked with ⌅ have new versions available but compatibility constraints restrict them from upgrading.
 Precompiling for configuration --code-coverage=none --color=auto --warn-overwrite=yes --depwarn=yes --inline=yes --startup-file=no --track-allocation=none
-   1.9 s  ✓ Aqua
-  1 dependency successfully precompiled in 2 seconds. 94 already precompiled.
+   1.3 s  ✓ Aqua
+  1 dependency successfully precompiled in 1 seconds. 94 already precompiled.
      Testing Running tests...
+┌ Info: null simulation: Benjamini–Hochberg false discovery rate
+│   fdr = 0.0
+└   tested = 48
+ERROR: LoadError: Some tests did not pass: 632 passed, 4 failed, 2 errored, 0 broken.
+in expression starting at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/runtests.jl:26
+Test Summary:                           | Pass  Total  Time
+ZeroInflatedCounts — Aqua package shape |   11     11  9.3s
+
+refusals happen for the stated reasons: Test Failed at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:39
+  Expression: [f.taxon for f = fitted(res)] == ["fine"]
+   Evaluated: String[] == ["fine"]
+  Stacktrace:
+   [1] top-level scope
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:12
+   [2] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [3] macro expansion
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:39 [inlined]
+   [4] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+
+refusals happen for the stated reasons: Test Failed at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:48
+  Expression: length(pvalues(res)) == 1
+   Evaluated: 0 == 1
+  Stacktrace:
+   [1] top-level scope
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:12
+   [2] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [3] macro expansion
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:48 [inlined]
+   [4] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+
+refusals happen for the stated reasons: Test Failed at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:49
+  Expression: length(adjusted_pvalues(res)) == 1
+   Evaluated: 0 == 1
+  Stacktrace:
+   [1] top-level scope
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:12
+   [2] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [3] macro expansion
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/30-refusals.jl:49 [inlined]
+   [4] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+
+hurdle_nb rejects unusable fit responses: Error During Test at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:87
+  Got exception outside of a @test
+  MethodError: no method matching protect(::Int32)
+  The function `protect` exists, but no method is defined for this combination of argument types.
+  Closest candidates are:
+    protect(!Matched::Ptr{S}) where S<:Sxp
+     @ RCall ~/.julia/packages/RCall/uXeD3/src/types.jl:572
+  Stacktrace:
+    [1] setindex!(e::Ptr{EnvSxp}, v::Missing, s::String)
+      @ RCall ~/.julia/packages/RCall/uXeD3/src/methods.jl:596
+    [2] top-level scope
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:28
+    [3] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+    [4] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:88 [inlined]
+    [5] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+    [6] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:98 [inlined]
+    [7] macro expansion
+      @ ~/.julia/packages/RCall/uXeD3/src/macros.jl:70 [inlined]
+    [8] include(mapexpr::Function, mod::Module, _path::String)
+      @ Base ./Base.jl:310
+    [9] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/runtests.jl:34 [inlined]
+   [10] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [11] top-level scope
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/runtests.jl:31
+   [12] include(mapexpr::Function, mod::Module, _path::String)
+      @ Base ./Base.jl:310
+   [13] top-level scope
+      @ none:6
+   [14] eval(m::Module, e::Any)
+      @ Core ./boot.jl:489
+   [15] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:310
+   [16] _start()
+      @ Base ./client.jl:577
+
+zinb rejects unusable fit responses: Error During Test at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:87
+  Got exception outside of a @test
+  MethodError: no method matching protect(::Int32)
+  The function `protect` exists, but no method is defined for this combination of argument types.
+  Closest candidates are:
+    protect(!Matched::Ptr{S}) where S<:Sxp
+     @ RCall ~/.julia/packages/RCall/uXeD3/src/types.jl:572
+  Stacktrace:
+    [1] setindex!(e::Ptr{EnvSxp}, v::Missing, s::String)
+      @ RCall ~/.julia/packages/RCall/uXeD3/src/methods.jl:596
+    [2] top-level scope
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:28
+    [3] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+    [4] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:88 [inlined]
+    [5] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+    [6] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/36-fit-responses.jl:98 [inlined]
+    [7] macro expansion
+      @ ~/.julia/packages/RCall/uXeD3/src/macros.jl:70 [inlined]
+    [8] include(mapexpr::Function, mod::Module, _path::String)
+      @ Base ./Base.jl:310
+    [9] macro expansion
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/runtests.jl:34 [inlined]
+   [10] macro expansion
+      @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [11] top-level scope
+      @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/runtests.jl:31
+   [12] include(mapexpr::Function, mod::Module, _path::String)
+      @ Base ./Base.jl:310
+   [13] top-level scope
+      @ none:6
+   [14] eval(m::Module, e::Any)
+      @ Core ./boot.jl:489
+   [15] exec_options(opts::Base.JLOptions)
+      @ Base ./client.jl:310
+   [16] _start()
+      @ Base ./client.jl:577
+
+simulation recovery — ZINB: Test Failed at /home/runner/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/50-simulation-recovery.jl:112
+  Expression: 1.0 <= sum(theta) / length(theta) <= 8.0
+   Evaluated: 1.0 <= 63268.265579800725 <= 8.0
+  Stacktrace:
+   [1] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+   [2] macro expansion
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/50-simulation-recovery.jl:112 [inlined]
+   [3] macro expansion
+     @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [4] top-level scope
+     @ ~/work/ZeroInflatedCounts.jl/ZeroInflatedCounts.jl/test/cases/50-simulation-recovery.jl:69
+Test Summary:                                                    | Pass  Fail  Error  Total   Time
+ZeroInflatedCounts — behaviour                                   |  632     4      2    638  12.6s
+  oracle — known answers                                         |   11                  11   0.1s
+  oracle — hurdle separability, numerically                      |    2                   2   0.1s
+  oracle — ZINB zero probability stays in [0, 1]                 |  122                 122   0.0s
+  oracle — samplers reproduce the model means                    |    3                   3   0.2s
+  input contract — refused, not rounded                          |   16                  16   1.6s
+  input normalisation preserves sample and taxon order           |   17                  17   0.5s
+  both entry points reject invalid inputs before fitting         |   40                  40   0.0s
+  refusals happen for the stated reasons                         |   20     3            23   1.4s
+  the test's own arithmetic                                      |   13                  13   0.2s
+  prefit floors and precedence                                   |   30                  30   0.2s
+  statistical boundaries and unsorted multiple testing           |   13                  13   0.3s
+  R named-list conversion                                        |   63                  63   0.7s
+  controlled fit responses                                       |  176            2    178   2.8s
+    hurdle_nb forwards inputs and reports a successful fit       |   22                  22   0.8s
+    hurdle_nb rejects unusable fit responses                     |   30            1     31   0.8s
+    hurdle_nb clamps negative LR and retains theta boundary fits |   16                  16   0.1s
+    zinb forwards inputs and reports a successful fit            |   22                  22   0.3s
+    zinb rejects unusable fit responses                          |   30            1     31   0.1s
+    zinb clamps negative LR and retains theta boundary fits      |   16                  16   0.1s
+    ZINB collapse, empty probabilities, and the exact floor      |   10                  10   0.2s
+    missing pscl and validation precedence                       |    4                   4   0.1s
+    only successful taxa enter the BH family                     |   26                  26   0.3s
+  R fixtures restore the engine after an exception               |    4                   4   0.0s
+  cross-check: an independently written pscl call                |   24                  24   0.6s
+  the zero part's reading is measured, not assumed               |    5                   5   0.2s
+  simulation recovery — hurdle NB                                |    5                   5   0.1s
+  simulation recovery — ZINB                                     |    6     1             7   0.5s
+  null simulation — the reported false discovery rate            |    2                   2   0.7s
+  result accessors, adjustment, and human-readable summaries     |   59                  59   0.2s
+  smoke — package loads                                          |    1                   1   0.0s
+RNG of the outermost testset: Random.Xoshiro(0x43191981f01b1fe9, 0xbaa720251143b39e, 0xd5b97f30763fafb2, 0x1216c87602ce0bf5, 0x1e4d711d86c6fcf0)
+ERROR: Package ZeroInflatedCounts errored during testing
+Stacktrace:
+  [1] pkgerror(msg::String)
+    @ Pkg.Types /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/Types.jl:68
+  [2] test(ctx::Pkg.Types.Context, pkgs::Vector{PackageSpec}; coverage::Bool, julia_args::Cmd, test_args::Cmd, test_fn::Nothing, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool)
+    @ Pkg.Operations /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/Operations.jl:3199
+  [3] test
+    @ /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/Operations.jl:3077 [inlined]
+  [4] test(ctx::Pkg.Types.Context, pkgs::Vector{PackageSpec}; coverage::Bool, test_fn::Nothing, julia_args::Cmd, test_args::Cmd, force_latest_compatible_version::Bool, allow_earlier_backwards_compatible_versions::Bool, allow_reresolve::Bool, kwargs::@Kwargs{io::IOContext{IO}})
+    @ Pkg.API /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/API.jl:586
+  [5] test(pkgs::Vector{PackageSpec}; io::IOContext{IO}, kwargs::@Kwargs{})
+    @ Pkg.API /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/API.jl:172
+  [6] test(pkgs::Vector{PackageSpec})
+    @ Pkg.API /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/API.jl:161
+  [7] test(; name::Nothing, uuid::Nothing, version::Nothing, url::Nothing, rev::Nothing, path::Nothing, mode::PackageMode, subdir::Nothing, kwargs::@Kwargs{})
+    @ Pkg.API /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/API.jl:189
+  [8] test()
+    @ Pkg.API /opt/hostedtoolcache/julia/1.13.1/x64/share/julia/stdlib/v1.13/Pkg/src/API.jl:178
+  [9] top-level scope
+    @ none:1
+ [10] eval(m::Module, e::Any)
+    @ Core ./boot.jl:489
+ [11] exec_options(opts::Base.JLOptions)
+    @ Base ./client.jl:310
+ [12] _start()
+    @ Base ./client.jl:577

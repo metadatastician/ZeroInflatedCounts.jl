@@ -70,12 +70,8 @@
 
     # The hurdle zero part needs at least 4 samples.
     tiny_rows = [1, 2, 5] # Keep both groups so input validation reaches the sample floor.
-    res_tiny = hurdle_nb(
-        counts[tiny_rows, :],
-        groups[tiny_rows],
-        sizes[tiny_rows];
-        taxa = taxa,
-    )
+    res_tiny =
+        hurdle_nb(counts[tiny_rows, :], groups[tiny_rows], sizes[tiny_rows]; taxa = taxa)
     @test length(fitted(res_tiny)) == 0
     @test length(refused(res_tiny)) == 3
     @test all(r -> occursin("at least 4 samples", r.reason), refused(res_tiny))

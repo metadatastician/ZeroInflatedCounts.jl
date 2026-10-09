@@ -35,7 +35,8 @@ end
          zero_part_prob = rep(0.25, 8), warnings = c("first warning", "second warning"))
     """
 
-    for (kind, fit, r_kind) in ((:hurdle_nb, hurdle_nb, "hurdle"), (:zinb, zinb, "zeroinfl"))
+    for (kind, fit, r_kind) in
+        ((:hurdle_nb, hurdle_nb, "hurdle"), (:zinb, zinb, "zeroinfl"))
         @testset "$kind forwards inputs and reports a successful fit" begin
             fit_function = R"""
             local({
@@ -62,7 +63,8 @@ end
                 @test (f.log_fold_change, f.se_log_fold_change) == (0.7, 0.2)
                 @test (f.zero_log_odds, f.se_zero_log_odds) == (-0.4, 0.3)
                 @test f.theta == 2.5
-                @test (f.loglik_full, f.loglik_null, f.lr_statistic, f.df) == (-10, -13, 6, 2)
+                @test (f.loglik_full, f.loglik_null, f.lr_statistic, f.df) ==
+                      (-10, -13, 6, 2)
                 @test f.pvalue ≈ exp(-3)
                 @test f.p_adjusted == f.pvalue
                 @test f.theta_note === nothing
@@ -110,7 +112,8 @@ end
                 """
                 with_pscl_fixture(fit_function) do
                     res = fit(counts, groups, sizes)
-                    expected = isempty(message) ? "pscl returned no fit and no message" : message
+                    expected =
+                        isempty(message) ? "pscl returned no fit and no message" : message
                     @test only(failed(res)).message == expected
                 end
             end
@@ -123,7 +126,8 @@ end
 
         @testset "$kind clamps negative LR and retains theta boundary fits" begin
             for theta in (1.0e-8, 1.0e7)
-                response = R"modifyList($base_response, list(loglik_full = -14, theta = $theta))"
+                response =
+                    R"modifyList($base_response, list(loglik_full = -14, theta = $theta))"
                 fit_function = R"local({ answer <- $response; function(...) answer })"
                 with_pscl_fixture(fit_function) do
                     res = fit(counts, groups, sizes)
@@ -135,7 +139,10 @@ end
                     @test f.warnings[1:2] == ["first warning", "second warning"]
                     @test length(f.warnings) == 3
                     @test occursin("reduced model fitted better", last(f.warnings))
-                    @test occursin("taxon-1: the reduced model", last(res.provenance.warnings))
+                    @test occursin(
+                        "taxon-1: the reduced model",
+                        last(res.provenance.warnings),
+                    )
                 end
             end
         end
@@ -157,7 +164,10 @@ end
                           "no zero inflation is detectable; the NB GLM result applies"
                     @test isempty(pvalues(res))
                 elseif expected_type === TaxonFailed
-                    @test occursin("no fitted zero-part probability", only(failed(res)).message)
+                    @test occursin(
+                        "no fitted zero-part probability",
+                        only(failed(res)).message,
+                    )
                     @test isempty(pvalues(res))
                 end
                 # Hurdle fits do not apply the ZINB collapse rule.
@@ -208,7 +218,8 @@ end
                 @test adjusted_pvalues(res) ≈ [0.04, 0.02]
                 p = res.provenance
                 @test (p.n_tested, p.n_refused, p.n_failed) == (2, 1, 1)
-                @test p.warnings == ["larger-p: fixture warning", "smaller-p: fixture warning"]
+                @test p.warnings ==
+                      ["larger-p: fixture warning", "smaller-p: fixture warning"]
 
                 all_refused = fit(zeros(Int, 8, 2), groups, sizes)
                 @test length(refused(all_refused)) == 2

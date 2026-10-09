@@ -41,11 +41,7 @@
         end
     end
     for n in (3, 4)
-        inputs = check(
-            reshape([0, 1, 0, 1][1:n], :, 1),
-            ["a", "a", "b", "b"][1:n],
-            ones(n),
-        )
+        inputs = check(reshape([0, 1, 0, 1][1:n], :, 1), ["a", "a", "b", "b"][1:n], ones(n))
         expected = n == 3 ? "at least 4 samples" : "at least 3 positive counts"
         @test occursin(expected, refusal(:hurdle_nb, inputs, 1))
     end
