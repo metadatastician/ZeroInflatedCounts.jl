@@ -1,14 +1,15 @@
 # minted by: just repo-init julia-library (2026)
 # owner: hyperpolymath
 #
-# uuid = "a3e242c2-9e36-5c5c-93a0-5016fb9ae49b" is DERIVED at mint (UUIDv5 over the repo
-# identity — see repo-init's julia-library rule); it is stable across
-# re-mints of the same repo and is never hand-edited. If the mint could not
-# derive it (no uuidgen AND no python3 on the operator machine) it is
-# UNASSIGNED and Pkg refuses to load the package until the owner assigns one.
+# uuid is a UUIDv8, ADR-008 profile T (a v7 with its version nibble set to 8),
+# minted 2026-10-07 by standards scripts/uuid-v8.js per owner ruling D320
+# ("Julia package UUIDs are re-minted as v8, not exempt"). It replaces the
+# repo-init UUIDv5, which was derived over the wrong owner (hyperpolymath).
+# The package is not in General, so the re-mint orphans no registry entry.
+# Do not hand-edit it again: a package UUID is its identity once registered.
 
 name = "ZeroInflatedCounts"
-uuid = "a3e242c2-9e36-5c5c-93a0-5016fb9ae49b"
+uuid = "01a115f9-21c7-8000-b6e0-bc56248543c1"
 description = "Hurdle and zero-inflated negative binomial models for sequencing count data: R pscl in production, a Julia likelihood oracle in tests, and Agda proofs of the model identities."
 authors = ["Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>"]
 license = "MPL-2.0"

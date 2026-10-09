@@ -78,7 +78,7 @@ function check_inputs(
     if length(size_factors) > 0 && any(!isfinite(s) for s in size_factors)
         throw(ArgumentError("size factors must be finite"))
     end
-    if any(s -> s <= 0, size_factors)
+    if any(s <= 0 for s in size_factors)
         throw(ArgumentError("size factors must be strictly positive"))
     end
 
@@ -109,12 +109,12 @@ function check_inputs(
     end
 
     if taxa === nothing
-        taxon_names = ["taxon-" * string(j) for j = 1:p]
+        taxon_names = String["taxon-" * string(j) for j = 1:p]
     else
         length(taxa) == p || throw(
             ArgumentError("taxa has $(length(taxa)) entries but counts has $p columns"),
         )
-        taxon_names = string.(taxa)
+        taxon_names = String[string(t) for t in taxa]
     end
 
     return ZIInputs(

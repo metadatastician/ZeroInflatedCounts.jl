@@ -210,19 +210,27 @@ end
 """
     rand_poisson(rng, λ) -> Int
 
-Poisson draw by inversion, `p(k)` built up by the recurrence
-`p(k+1) = p(k) λ/(k+1)`. Exact; `O(λ)` per draw, which is what the simulations
-in this suite can afford and is impossible to get subtly wrong.
+Poisson draw by inversion: the smallest `k` whose cumulative probability
+reaches a uniform draw `u`, with `p(k)` built up by the recurrence
+`p(k+1) = p(k) λ/(k+1)`. `O(λ)` per draw, which is what the simulations in
+this suite can afford.
+
+Refuses a `λ` for which `exp(-λ)` underflows to zero, where inversion from
+`k = 0` cannot start. Once past the mode, a term too small to change the
+running sum means the remaining tail is below rounding, and the draw stops
+there instead of looping on a sum that can no longer reach `u`.
 """
 function rand_poisson(rng::AbstractRNG, λ::Float64)
     λ <= 0 && return 0
-    target = rand(rng)
+    u = rand(rng)
     k = 0
     p = exp(-λ)
+    p > 0 || throw(ArgumentError("rand_poisson: exp(-λ) underflows at λ = $λ"))
     acc = p
-    while acc < target && p > 0
+    while acc < u
         k += 1
         p *= λ / k
+        k > λ && acc + p == acc && break
         acc += p
     end
     return k

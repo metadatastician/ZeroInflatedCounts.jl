@@ -109,7 +109,16 @@ end
     @test covered_zero / length(zero) >= 0.70
     # θ is recovered within a factor, not to three digits: it is the hardest
     # parameter here and this is a smoke check on the sign of the mistake.
-    @test 1.0 <= sum(theta) / length(theta) <= 8.0
+    # The MEDIAN, not the mean: with n = 20 per group the NB size MLE runs to
+    # the boundary (θ̂ → ∞) whenever a replicate is underdispersed by chance,
+    # so θ̂ has no finite expectation and one boundary fit decides the mean
+    # (measured at this seed: 2 of 10 replicates at θ̂ ≈ 2e5 and 4e5, the other
+    # 8 between 0.5 and 4.9). The median still needs most replicates in range.
+    sorted_theta = sort(theta)
+    m = length(sorted_theta)
+    median_theta =
+        isodd(m) ? sorted_theta[(m+1)÷2] : (sorted_theta[m÷2] + sorted_theta[m÷2+1]) / 2
+    @test 1.0 <= median_theta <= 8.0
 end
 
 @testset "null simulation — the reported false discovery rate" begin
