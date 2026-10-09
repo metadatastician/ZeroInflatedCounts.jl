@@ -216,11 +216,11 @@ in this suite can afford and is impossible to get subtly wrong.
 """
 function rand_poisson(rng::AbstractRNG, λ::Float64)
     λ <= 0 && return 0
-    target = rand(rng) * exp(-λ)
+    target = rand(rng)
     k = 0
     p = exp(-λ)
     acc = p
-    while acc < target
+    while acc < target && p > 0
         k += 1
         p *= λ / k
         acc += p
