@@ -1,91 +1,61 @@
 // SPDX-License-Identifier: CC-BY-SA-4.0
 // SPDX-FileCopyrightText: 2026 Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
-= AFFIRMATION — ZeroInflatedCounts, as of <YYYY-MM-DD>
+= AFFIRMATION — ZeroInflatedCounts.jl, as of 2026-10-09
+Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
 :toc: macro
 :toclevels: 2
+:icons: font
 :std-docs: https://github.com/hyperpolymath/standards/blob/main/docs
 
-_the No-Bullshit file: what we affirm was true and checkable at this moment._
+_What we affirm was true and checkable at one commit, and nothing more._
 
-[NOTE]
-====
-*This file is a template.* Replace the `{{…}}` placeholders and the `<…>` anchor
-fields, then re-run your project's own checks in the same session before
-signing. It conforms to *profile A (evidential)* of the
-link:{std-docs}/AFFIRMATION-STANDARD.adoc[AFFIRMATION authoring standard]. A
-policy-surface repo should use profile B (MUST / INTEND / WISH) instead — see
-that standard for the profile B skeleton.
-
-An *affirmation* is a solemn declaration of the truth of a statement, made by
-someone who _declines to swear an oath_ — our truth-as-best-believed at a
-stamped instant, binding on our honesty, not a claim of infallibility. It is the
-third of the README / EXPLAINME / AFFIRMATION trio:
-
-[cols="1,3,2",options="header"]
-|===
-| File | Answers | Tense
-| `README.adoc` | _Where is this going, and why?_ — steering, intent, vision | future / aspirational
-| `EXPLAINME.adoc` | _How is it built, and what's the evidence?_ — engineering | descriptive / mechanism
-| *`AFFIRMATION.adoc`* (this file) | _What can we honestly affirm was *true and checkable* at a stamped moment?_ | a frozen instant, falsifiable
-|===
-
-This file is *optional*. Delete it rather than carry an affirmation you have not
-re-verified — a stale affirmation is worse than none.
-====
+This file conforms to *profile A (evidential)* of the
+link:{std-docs}/AFFIRMATION-STANDARD.adoc[AFFIRMATION authoring standard].
 
 toc::[]
 
 == What this is, and how it works
 
-*What it is.* A short, dated, signed snapshot of what hyperpolymath can honestly and
-verifiably claim about *ZeroInflatedCounts* at one exact commit. Nothing here is
-marketing and nothing is a promise about the future — those live in the README.
-This file is the receipt.
+*What it is.* A dated, signed snapshot of what can honestly be claimed about
+*ZeroInflatedCounts.jl* at the single commit named in <<verifiable-anchor>>.
+It is a receipt, not a roadmap: plans live in `README.adoc` and in
+`docs/method-conditions/zero-inflation-and-hurdle.adoc`.
 
-*What the project is.* Hurdle and zero-inflated negative binomial models for sequencing count data: R pscl in production, a Julia likelihood oracle in tests, and Agda proofs of the model identities.
+*What the project is.* A Julia package that fits hurdle negative binomial
+(`hurdle_nb`) and zero-inflated negative binomial (`zinb`) models to one count
+table, one taxon at a time, by calling R's `pscl` through RCall. A pure-Julia
+log-likelihood lives in the test suite only, as an independent oracle. The
+fits are meant to be shown beside a plain NB GLM, never instead of it.
 
-*How it stays trustworthy.* Three moving parts:
-
-. *Ground truth, not memory.* Every claim below must be produced by _running the
-  project's own checks_ in the session that writes this file (build, tests,
-  typecheck, `just audit`). Where a status doc, the `Justfile`, or memory says
-  otherwise, the live run wins and the contradiction is flagged here.
-. *A frozen anchor.* The file names the exact commit SHA, branch, UTC timestamp,
-  working-tree delta and toolchain (see <<verifiable-anchor>>), so "true" always
-  means "true _at this point_". Move the SHA and this file is a draft until it
-  is re-run.
-. *A real signature.* It is landed by a *signed git commit*; that signature over
-  this content at the anchored SHA is what makes the affirmation tamper-evident
-  and attributable — not the prose alone.
-
-*We are fallible.* This is our best honest belief, not a proof of its own
-correctness. Treat it as a falsifiable claim, not gospel.
+*How it stays trustworthy.* Every claim below was produced by running the
+command cited next to it, in the session that wrote this file. The anchor
+fixes the commit, the time and the toolchain. The owner's signed commit is
+the signature.
 
 == The epistemic contract (read this before you trust _or_ attack)
 
-This document records hyperpolymath's *best belief* at the timestamp below. It is
-*not a guarantee of correctness.* The only guarantee is *no intentional
-overclaim*: where something is proven we say "proven"; where it is a documented
-trust boundary, an experiment, or an unwired module, we say so; where a claim is
-the README's aspiration rather than a checked result, we say so. An honest claim
-that later turns out false is an *error to be fixed* — not a lie.
+This file records a best belief at the timestamp below. It is not a guarantee
+of correctness. The only guarantee is *no intentional overclaim*: what was
+run is reported with its counts; what was not run is named as not run.
 
-What you may conclude from this file:
+What you may conclude:
 
-* Every claim below was produced by *running the tool* in the session that wrote
-  this file — not from memory, not copied forward from a previous affirmation,
-  and not read off a status document.
-* Where a live run and a status document disagreed, the live run won and the
-  status document is named as stale in <<outstanding>>.
+* Each "affirmed" row in <<solid>> was produced by a command run at the
+  anchor SHA in this session, and the output quoted is the output seen.
+* Where a status document disagreed with the live run, the live run won and
+  the document is named in <<companions>>.
 
 What you may *not* conclude:
 
-* That anything is true *now*. This file describes the commit in
-  <<verifiable-anchor>> and nothing else.
-* That unlisted things pass. *Silence is not a claim.*
+* That anything is true at a later commit.
+* That anything unlisted passes. *Silence is not a claim.*
+* That the test suite passes. At this anchor it does not; see
+  <<outstanding>>.
+* That the statistical methods are calibrated. The suite contains regression
+  alarms, deliberately loose; see <<nuance>>.
 
-*Standing invitation to refute.* You are invited to bulldoze any claim in this
-file. Bring a counter-example, a failing run, or a contradicting source.
+*Standing invitation to refute.* Bring a counter-example, a failing run or a
+contradicting source.
 
 [#verifiable-anchor]
 == Verifiable anchor
@@ -94,30 +64,40 @@ file. Bring a counter-example, a failing run, or a contradicting source.
 |===
 | Field | Value
 
-| Project
-| ZeroInflatedCounts
-
 | Repo
-| `hyperpolymath/ZeroInflatedCounts.jl`
+| `metadatastician/ZeroInflatedCounts.jl` (the README badges and links still
+  say `hyperpolymath/`; the repo was transferred, see <<companions>>)
 
 | Branch
 | `main`
 
 | Commit (HEAD)
-| `<full 40-character SHA — never abbreviated, never a tag>`
+| `e27b7e436707dd6a07ce7de9fa35cd67f6377adb`
 
 | Permalink
-| https://github.com/hyperpolymath/ZeroInflatedCounts.jl/tree/<full 40-character SHA>
+| https://github.com/metadatastician/ZeroInflatedCounts.jl/tree/e27b7e436707dd6a07ce7de9fa35cd67f6377adb
 
 | Verified (UTC)
-| `<ISO-8601 with the Z suffix, e.g. 2026-09-09T00:52:11Z>`
+| `2026-10-09T08:04:48Z` (test run started; it ended `2026-10-09T08:06:22Z`).
+  Agda check at `2026-10-09T08:05:19Z`, repeated with a planted-failure
+  control at `2026-10-09T08:09:15Z`. GitHub CI read at
+  `2026-10-09T08:05:45Z`; repo description read at `2026-10-09T08:10:04Z`.
 
 | Working-tree delta at verification
-| `clean`, or every modified and untracked file present when the checks ran,
-  with an explicit statement of whether it affects the results below.
+| One tracked file modified: this file, `docs/AFFIRMATION.adoc`, the
+  uncommitted draft itself, which no check reads. No untracked file. Two
+  git-ignored files were generated by the checks themselves: `Manifest.toml`
+  (written by `Pkg.instantiate`, since no manifest is committed) and
+  `verification/proofs/agda/Properties.agdai` (Agda's interface cache).
+  Neither affects the results. Outside the repo: R package `pscl` was
+  installed from CRAN into a scratch library (`R_LIBS_USER`), as the CI job
+  does with `install.packages("pscl")`.
 
 | Toolchain
-| `<every compiler, prover and runtime version the claims depend on>`
+| Julia 1.12.6; R 4.5.0 (2025-04-11); pscl 1.5.9 (CRAN, installed
+  2026-10-09); RCall 0.14.14 and Aqua 0.8.18 (resolved fresh by
+  `Pkg.instantiate`; no committed manifest); Agda 2.7.0.1 with
+  agda-stdlib 3.0 at `2ffa8b7d4e8e818717ad643d184f055a4d1b0447`
 
 | Affirmed by
 | Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk>
@@ -132,101 +112,355 @@ If you are reading this at a later commit, the claims may have drifted. Re-run
 <<reproduce>> and write a fresh affirmation; do not trust a stale one.
 ====
 
+[#changes-since]
+== Changes since `d987960`
+
+An earlier draft of this file was anchored at
+`d987960149fb8e0c130518aa305006424ef5aa76`. Every claim here was re-measured
+at the new anchor; none was copied forward. `git log --oneline
+d987960..e27b7e4` lists two commits, and `git diff --stat` between them
+reports 13 files changed, 9435 insertions and 17 deletions.
+
+* `685b264` (#9) changes `Project.toml` only. It re-mints the package UUID
+  from `a3e242c2-9e36-5c5c-93a0-5016fb9ae49b` to
+  `01a115f9-21c7-8000-b6e0-bc56248543c1`, and its comment cites ADR-008
+  profile T and owner ruling D320.
+* `e27b7e4` (#10, from branch `arena/01a10883-zeroinflatedcounts-jl`):
+** `src/core/models.jl` moves the non-finite standard-error check and the
+   `theta_note` computation after the ZINB zero-probability block.
+** `src/core/pscl.jl` now reports `converged` only when both the full and
+   the null fit report convergence; before, only the full fit was read.
+** New test files `31-model-boundaries.jl`, `32-rcall-conversions.jl`,
+   `36-fit-responses.jl` and `60-results.jl`, 59 added lines in
+   `20-input-contract.jl`, and one added assertion in `30-refusals.jl`. Two
+   testsets in `36-fit-responses.jl` abort at this anchor; see
+   <<outstanding>>.
+** Three temporary probe files are present at the anchor:
+*** `.github/workflows/zz-probe.yml`, 156 lines. Its header reads
+    "TEMPORARY probe workflow … Deleted before the PR lands." It runs on
+    pushes to `arena/**` branches, holds `contents: write`, and its last step
+    commits as "Jonathan D.A. Jewell" and pushes to the triggering branch.
+*** `probe/last-probe.txt`, 8606 lines. Its first line names
+    `sha=0fedf8ccaae89418d0d57f320a2714bdb691b51d
+    ref=arena/01a10883-zeroinflatedcounts-jl`.
+*** `probe/pscl-probe.R`, 140 lines. Its header reads "TEMPORARY probe
+    script — deleted before the PR lands."
+** The probe workflow also has an entry in `.github/workflows/actions.lock`.
+   The same three files and the same lock entry were deleted by `d987960`
+   (#8), whose subject ends
+   "remove PR #7 probe leftovers".
+
+[#companions]
 == Companion documents and repo metadata (cross-check)
 
-The files a sceptic should read against this one — *including any that
-contradict it*. A contradiction named here is honest; one the reader finds for
-themselves is not.
+Read these against this file. Several *contradict the live run*; in each case
+the live run at the anchor wins and the document is stale.
 
-* `README.adoc` — the aspirational claims this file is measured against.
-* `docs/EXPLAINME.adoc` — the mechanism.
-* `docs/AUDIT.adoc` — the standing conformance audit.
-* `*_chora.deed` (repo deed) — machine-readable repo metadata (AI allocation + ply tree).
-* `<any status document, dashboard or percentage that disagrees with the state
-  below — name it and say which one wins>`
+* `README.adoc` — *stale.* It says "Status: not implemented … The package
+  loads, but it exports no functions" and that `Pkg.test()` runs Aqua plus
+  "one placeholder behaviour test". At the anchor, `src/ZeroInflatedCounts.jl`
+  exports 13 names (`hurdle_nb`, `zinb`, `fitted`, `refused`, `failed`,
+  `pvalues`, `adjusted_pvalues`, `summary_table`, `TaxonFit`, `TaxonRefused`,
+  `TaxonFailed`, `ZIFit`, `Provenance`), confirmed by `names()` after
+  `using ZeroInflatedCounts`. The suite runs 11 Aqua checks and 638 behaviour
+  tests, of which 636 passed.
+* GitHub repo description — *consistent.* It now reads "Julia hurdle and
+  zero-inflated negative-binomial models for sequencing counts (hurdle_nb,
+  zinb), cross-checked against R pscl. Pre-release: the formal proofs its
+  spec requires do not exist yet." It is not stored in git, so this is a
+  reading taken by a GraphQL query at `2026-10-09T08:10:04Z`, not a property
+  of the anchor.
+* `ZeroInflatedCounts.jl_chora.deed` — *stale.* Its `status` clause records
+  `:phase incubating` since 2026-10-02 with the note "Only the
+  method-conditions specification exists."
+* `docs/status/ROADMAP.adoc` — *stale.* "Only the method-conditions
+  specification exists", nothing "implemented, tested against R, or proved
+  yet", and "Implement `hurdle_nb` and `zinb`" still listed as a next step.
+  Implemented and tested against R are contradicted by the live run; proved
+  is still true.
+* `CLAUDE.md` — *stale.* Its IS-NOT line says the repo is not "an
+  implementation yet (only the method-conditions specification exists)".
+* `docs/method-conditions/zero-inflation-and-hurdle.adoc`, section "Evidence
+  planned before the methods count as implemented" — opens "None of this
+  exists yet." Known answers, the independent `pscl` reference and the
+  negative controls now exist as tests (see <<solid>>); the Agda proofs do
+  not. The section is therefore partly stale and partly still true.
+* `test/cases/10-oracle-known-answers.jl`, header comment — says the checks
+  are done "so that the Agda development in verification/proofs/agda/ is
+  checking the same statements". *Not true at the anchor:* that directory
+  holds only the template module (see <<outstanding>>).
+* `docs/EXPLAINME.adoc` — still the generic "RSR Template Repo - Explainme";
+  it says nothing about this package's mechanism.
+* `docs/status/PROOF-STATUS.adoc` — "0% proven", 0 of 7 template proof
+  obligations. Consistent with the live state.
+* `README.adoc` badges and links name `hyperpolymath/ZeroInflatedCounts.jl`;
+  the git remote is `metadatastician/ZeroInflatedCounts.jl`.
 
 == The honest state (one breath)
 
-`<One paragraph. If it needs two, the repo is not ready for an affirmation.>`
+The two model entry points exist, but `main` is red at the anchor:
+`Pkg.test()` with R 4.5.0 and pscl 1.5.9 passed 11 of 11 Aqua checks and
+636 behaviour assertions, then exited 1 because two testsets in
+`test/cases/36-fit-responses.jl` aborted on an RCall error before their
+remaining assertions ran, the same "636 passed, 0 failed, 2 errored" that both
+GitHub CI test jobs reported on R 4.3.3. The testsets that completed cover an
+independent oracle, the input contract, every refusal, a cross-check against
+a separately written `pscl` call, and small simulation-recovery and
+null-simulation runs. The three Agda proofs the specification requires do not
+exist, so by the specification's own rule the methods do not yet count as
+implemented. The README, deed, roadmap and `CLAUDE.md` still describe a
+package with no functions, and three temporary probe files whose headers say
+they are deleted before the PR lands are present at the anchor.
 
+[#solid]
 === What is solid (and how we checked)
 
 [cols="2,1,3",options="header"]
 |===
 | Claim | Status | Evidence (command, and what it printed)
-| _e.g. The library builds clean_ | affirmed | `just build` at the anchor SHA — exit 0
-| _e.g. The ABI seam typechecks_ | affirmed | `idris2 --typecheck src/interface/abi.ipkg` — 0 errors
-| _e.g. Feature X is complete_ | aspiration | README §… — *not checked*, do not read as affirmed
+
+| The package passes Aqua's package-shape checks
+| affirmed
+| `julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'` —
+  "ZeroInflatedCounts — Aqua package shape \| Pass 11 \| Total 11"
+
+| 636 behaviour assertions pass, and none fails
+| affirmed (the run still exited 1)
+| same run — "ZeroInflatedCounts — behaviour \| Pass 636 \| Error 2 \|
+  Total 638", then "Some tests did not pass: 636 passed, 0 failed, 2
+  errored, 0 broken" and "Package ZeroInflatedCounts errored during
+  testing", exit 1. The two errors are not passes; see <<outstanding>>.
+
+| The pure-Julia oracle agrees with hand-computable values, hurdle
+  separability, ZINB zero probability in [0, 1], and the samplers' means
+| affirmed (numerically)
+| `test/cases/10-oracle-known-answers.jl`, same run. Its testsets printed
+  Pass 11, 2, 122 and 3 of the same totals. These are numerical tests, not
+  proofs.
+
+| Malformed input tables are refused before R is called
+| affirmed
+| `test/cases/20-input-contract.jl`, same run: "input contract — refused,
+  not rounded" Pass 16 of 16, "input normalisation preserves sample and
+  taxon order" 17 of 17, "both entry points reject invalid inputs before
+  fitting" 40 of 40
+
+| Each refusal in the specification fires for its stated reason
+| affirmed
+| `test/cases/30-refusals.jl`, same run: "refusals happen for the stated
+  reasons" Pass 23 of 23, "the test's own arithmetic" 13 of 13.
+  `test/cases/31-model-boundaries.jl`: "prefit floors and precedence" 30 of
+  30, "statistical boundaries and unsorted multiple testing" 13 of 13
+
+| The package's fits agree with an independently written `pscl` call
+| affirmed
+| `test/cases/40-pscl-cross-check.jl`, same run: "cross-check: an
+  independently written pscl call" Pass 24 of 24, "the zero part's reading
+  is measured, not assumed" 5 of 5. Log-likelihood comparisons use
+  `rtol = 1.0e-9`. Ran on R 4.5.0 without error.
+
+| Planted coefficients are recovered; a null simulation gives few
+  discoveries
+| affirmed (loose floor)
+| `test/cases/50-simulation-recovery.jl`, same run: hurdle NB Pass 5 of 5,
+  ZINB 7 of 7, null simulation 2 of 2. The null run logged "fdr = 0.0,
+  tested = 48" against a test bound of `fdr <= 0.15`.
+
+| R named lists convert, and result accessors and summaries behave as
+  specified
+| affirmed
+| same run: `test/cases/32-rcall-conversions.jl` "R named-list conversion"
+  Pass 63 of 63; `test/cases/60-results.jl` "result accessors, adjustment,
+  and human-readable summaries" 59 of 59
+
+| The Agda module typechecks under `--safe --without-K`
+| affirmed, but not about the model
+| `agda --library-file=<file naming agda-stdlib 3.0> -l standard-library-3.0
+  -i . --safe --without-K Properties.agda` in `verification/proofs/agda/` —
+  printed "Checking Properties", exit 0. The same command on a scratch copy
+  with a planted `1 ≡ 2` lemma exited 42 with "1 != 2 of type ℕ", so the
+  check can fail. The module holds template lemmas only (see
+  <<outstanding>>).
 |===
 
+[#nuance]
 === The honest nuance you must not lose
 
-Where a true claim above is easily over-read. This section is what separates an
-affirmation from marketing.
-
-* `<e.g. "the tests pass" — 55 static assertion sites, not the 1,282
-  assertion EXECUTIONS a loop-amplified counter reports>`
+* *636 is executions, not distinct assertions.* `grep -cE
+  "@test(_throws)?\b" test/cases/*.jl` gives 264 source lines carrying a
+  test macro (102 at `d987960`); loops in several files run some of them many
+  times.
+* *The two errors are in a test fixture, not in a model fit.* Both stack
+  traces have RCall's `setindex!(::Ptr{EnvSxp}, ::Missing, ::String)` as the
+  innermost frame, raising "MethodError: no method matching
+  protect(::Int32)", and neither stack passes through the package's own
+  source. The failing line,
+  `test/cases/36-fit-responses.jl:98`, interpolates each case value into R,
+  and the last case's value is Julia `missing`. Measured separately: `using
+  RCall; v = missing; R"x <- $v"` exits 1 with the same MethodError on RCall
+  0.14.14, and the same line with `v = NaN` exits 0. CI shows the same two
+  errors on RCall 0.14.6 (Julia 1.9 job) and 0.14.14 (Julia 1 job), so the
+  error is not specific to this machine.
+* *What the abort left unrun is read from the source, not measured.* Each of
+  the two aborted testsets printed Pass 30, Error 1 of 31. By reading the
+  file, the six earlier cases (5 assertions each) completed, including the
+  non-finite standard-error cases that exercise the reordered check in
+  `src/core/models.jl`. The `missing` standard-error case, the two
+  "no fit" message cases and the "controlled bridge error" case did not run
+  for either model.
+* *The simulation tests are regression alarms, not calibration.* Each
+  recovery test runs 10 repeats at 20 samples per group and requires the
+  planted value inside the 95% interval in at least 70% of repeats. The file
+  says so itself: "a regression alarm for a broken estimator, not a
+  calibration certificate." The ZINB dispersion check uses a median over the
+  repeats with a bound of [1, 8].
+* *The null simulation covers `hurdle_nb` only*, 8 repeats of 6 taxa, and
+  "fdr" there is discoveries divided by taxa tested under a global null.
+  `zinb` has no null-simulation test at the anchor.
+* *The cross-check shares R and `pscl` with the code under test.* It guards
+  against a mistake in this package's bridge (wrong sign, dropped offset,
+  wrong pair of log-likelihoods), not against a defect in `pscl` itself.
+* *Dependencies were resolved fresh.* No `Manifest.toml` is committed, so a
+  later `Pkg.instantiate` may resolve different RCall or Aqua versions. CI's
+  Julia 1.9 job resolved RCall 0.14.6, not 0.14.14.
+* *The Agda check needed a local fix.* The machine's `~/.agda/libraries`
+  points at files that no longer exist, so the repo's own
+  `bash scripts/check-proofs.sh agda` printed "RESULT: FAIL (1 failure(s),
+  0 unexpected pass(es))" for an environment reason, not a proof reason. The
+  file was then checked with an explicit library file, as shown in
+  <<solid>>.
 
 === Known-incomplete but honestly fenced
 
-Gaps that fail *loudly* rather than silently. Name the guard that makes the
-failure loud — a gap with no guard belongs in <<outstanding>> instead.
-
-* `<gap>` — fenced by `<the check, postulate or fail-closed stub that
-  catches it>`
+* *Taxa whose fit cannot be computed* are returned as `TaxonRefused` (a
+  condition visible in the counts) or `TaxonFailed` (`pscl` reported a
+  failure), and neither carries a p-value. This is fenced by
+  `test/cases/30-refusals.jl` and `test/cases/60-results.jl`, which
+  completed, and by the parts of `test/cases/36-fit-responses.jl` that ran
+  before the abort.
+* *A machine without R cannot load the package.* `RCall` is a hard
+  dependency in `Project.toml`, so the failure is a load error, not a silent
+  fallback.
 
 [#outstanding]
 === Outstanding / weak / refuted (no spin)
 
-Known gaps, trust boundaries, postulates, unwired modules and stale docs.
-*Silence is not affirmation* — name what you have not verified, and name
-anything this session *refuted*.
-
-[IMPORTANT]
-====
-Never delete a refuted claim. Deleting it is exactly the spin this genre exists
-to prevent — mark it refuted and say what refuted it.
-====
+* *Refuted: the test suite passes.* `Pkg.test()` exited 1 at the anchor,
+  with two errored testsets ("hurdle_nb rejects unusable fit responses" and
+  "zinb rejects unusable fit responses", both at
+  `test/cases/36-fit-responses.jl:87`). See <<nuance>> for the cause and for
+  what did not run.
+* *Not proved: the three model identities.* The specification requires Agda
+  proofs (`--safe --without-K`) that the hurdle log-likelihood separates, that
+  the truncated-NB normaliser is positive for μ > 0, and that the ZINB zero
+  probability lies in [0, 1]. `verification/proofs/agda/Properties.agda` is
+  the unmodified template: `append-length`, `suc-monotone`, and two record
+  types. None concerns the model. By the specification's own rule, the
+  methods do not yet count as implemented.
+* *Present at the anchor: three temporary probe files* (see
+  <<changes-since>>). Their own headers say they are deleted before the PR
+  lands. The workflow did not run at the anchor, because it triggers only on
+  pushes to `arena/**` and this commit is on `main`. No claim is made about
+  its output or about `probe/pscl-probe.R`, which was not run.
+* *GitHub CI at the anchor, read but not relied on.* All 71 check runs for
+  the commit were read with `gh api --paginate`. 49 succeeded, 17 were
+  skipped and 5 failed: "Test (Test + Aqua) (1, ubuntu-24.04)", "Test (Test
+  + Aqua) (1.9, ubuntu-24.04)", the Pages `build`, `estate-rules`, and
+  "governance / Allowlist Preflight". Both test jobs used R 4.3.3 with pscl
+  1.5.9 and printed "636 passed, 0 failed, 2 errored, 0 broken". There were
+  30 workflow runs, and the Docs workflow ended in `startup_failure`. The
+  "Static analysis (JET)" and "Format (JuliaFormatter)" jobs succeeded. The
+  commit has no legacy commit statuses. The CI results corroborate the local
+  run; no affirmed row rests on them.
+* *Not run in this session:* `just` recipes (`just test`, `just fmt-check`,
+  `just lint`, `just ci`), because `mise.toml` is not trusted on this machine
+  and was deliberately left untrusted; JET analysis and the formatter check,
+  which run only in CI; the Idris2 ABI files under `src/interface/` and
+  `verification/proofs/idris2/`, and the Zig FFI under
+  `src/interface/ffi/`, which are template and unrelated to the models; the
+  shell tests under `tests/`; the probe script `probe/pscl-probe.R`. No claim
+  is made about any of them beyond the CI results quoted above.
+* *Stale documents:* `README.adoc`, the deed's `status` clause,
+  `docs/status/ROADMAP.adoc`, `CLAUDE.md`, `docs/EXPLAINME.adoc`, and the
+  header comment of `test/cases/10-oracle-known-answers.jl`, as listed in
+  <<companions>>.
+* *Refuted this session:* the README's statements that the package "exports
+  no functions" and that the suite is "Aqua.test_all (11 checks) and one
+  placeholder behaviour test", and the "Only the method-conditions
+  specification exists" line in the deed, `docs/status/ROADMAP.adoc` and
+  `CLAUDE.md`. The live run contradicts all of them.
 
 [#reproduce]
 == Reproduce it yourself
 
+Needs Julia ≥ 1.9, R with the `pscl` package, and network access for the
+first `Pkg.instantiate`.
+
 [source,bash]
 ----
-git clone https://github.com/hyperpolymath/ZeroInflatedCounts.jl
+git clone https://github.com/metadatastician/ZeroInflatedCounts.jl
 cd ZeroInflatedCounts.jl
-git checkout <full 40-character SHA>
-# <the exact commands, in order, with their expected output>
+git checkout e27b7e436707dd6a07ce7de9fa35cd67f6377adb
+
+Rscript -e 'library(pscl); cat(R.version.string, "| pscl",
+  as.character(packageVersion("pscl")), "\n")'
+# expected here: R version 4.5.0 (2025-04-11) | pscl 1.5.9
+
+export R_HOME="$(R RHOME)"
+julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+# expected: Aqua package shape  Pass 11            Total 11
+#           behaviour           Pass 636  Error 2  Total 638
+#           "Some tests did not pass: 636 passed, 0 failed, 2 errored,
+#           0 broken", then "Package ZeroInflatedCounts errored during
+#           testing", exit 1 (CI on R 4.3.3 printed the same counts)
+
+julia --project=. -e 'using RCall; v = missing; R"x <- $v"'
+# expected: MethodError: no method matching protect(::Int32), exit 1
+# (the cause of both errors; with v = NaN the same line exits 0)
+
+cd verification/proofs/agda
+agda -l standard-library -i . --safe --without-K Properties.agda
+# expected: exit 0 (template lemmas only; nothing about the model)
 ----
 
 == One-line characterisation (quote this)
 
-> `<the one sentence Jonathan D.A. Jewell is willing to be quoted on>`
+> ZeroInflatedCounts.jl at `e27b7e4` fits hurdle NB and ZINB models through
+> R `pscl` and passes 11 Aqua checks and 636 behaviour assertions, but its
+> test suite exits 1 on two RCall errors in a test fixture, it carries three
+> temporary probe files, and the Agda proofs its own specification requires
+> do not exist yet.
 
 == Joint attestation
 
 We, the undersigned, assert that *to the best of our joint belief at the
-timestamp above, every claim in this file is true and was checked as described*
-— with no intentional overclaim, and with the open gaps stated rather than
-hidden.
+timestamp above, every claim in this file is true and was checked as
+described*, with no intentional overclaim, and with the open gaps stated
+rather than hidden.
 
-* *Engineering party (AI):* `<exact model identifier>` — ran the checks recorded
-  here at `<ISO-8601 UTC>` and stands behind the wording above as a faithful
-  report of those runs.
-* *Owner / maintainer:* Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk> — _signs by committing
-  this file with `-S`; the git commit signature over this content, at the
-  commit SHA recorded above, is the cryptographic form of this affirmation._
+* *Engineering party (AI):* `claude-opus-5-5` — ran the checks recorded here
+  between `2026-10-09T08:04:28Z` and `2026-10-09T08:12:55Z` and stands behind
+  the wording above as a faithful report of those runs.
+* *Owner / maintainer:* Jonathan D.A. Jewell <j.d.a.jewell@open.ac.uk> —
+  _signs by committing this file with `-S`; the git commit signature over this
+  content, at the commit SHA recorded above, is the cryptographic form of this
+  affirmation._
 
 [source,bash]
 ----
-git commit -S -s docs/AFFIRMATION.adoc -m "docs: affirm state at <sha>"
+git commit -S -s docs/AFFIRMATION.adoc \
+  -m "docs: re-anchor AFFIRMATION.adoc at e27b7e4 (as of 2026-10-09)"
 git log --show-signature -1
 ----
 
 [WARNING]
 ====
-Do not use `--no-verify`. The pre-commit hook enforces the SPDX header, and an
-affirmation landed past its own repo's gates is self-refuting.
+Do not use `--no-verify`. An affirmation landed past its own repo's gates is
+self-refuting. The checkout this draft was written in had no git hook
+installed (`core.hooksPath` unset, nothing but samples in the hooks
+directory). The repo installs its own hooks through `.github/hooks/install.sh`
+(a pre-push deed and k9 gate) or `just install-hooks` (a pre-commit hook
+running `just fmt-check`, `just lint` and `just assail`).
 ====
 
 _Landed by a signed git commit. Verify with `git log --show-signature` that the
