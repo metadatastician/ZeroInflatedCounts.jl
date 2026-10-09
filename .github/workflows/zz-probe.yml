@@ -1,0 +1,156 @@
+# SPDX-License-Identifier: MPL-2.0
+# TEMPORARY probe workflow — the iteration harness while the implementation is
+# built. It runs the toolchains the real gates will use and publishes their
+# OUTPUT to the branch (job logs are not reachable from the development
+# sandbox, so stdout/stderr is committed instead). Deleted before the PR lands.
+name: Probe
+
+on:
+  push:
+    branches: ["arena/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    name: toolchain probe
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - name: Init output
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          : > "$RUNNER_TEMP/out.txt"
+          echo "sha=$GITHUB_SHA ref=$GITHUB_REF_NAME" >> "$RUNNER_TEMP/out.txt"
+
+      - name: Agda — install
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq agda agda-stdlib
+            agda --version
+            dpkg -l agda agda-stdlib | tail -3
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — configure stdlib
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            LIB="$(dpkg -L agda-stdlib | grep -E '/standard-library\.agda-lib$' | head -1 || true)"
+            if [ -z "${LIB:-}" ]; then
+              SRC="$(dpkg -L agda-stdlib | grep -E '/Data/Nat/Base\.agda$' | head -1)"
+              ROOT="${SRC%/Data/Nat/Base.agda}"
+              LIB="$ROOT/standard-library.agda-lib"
+              printf 'name: standard-library\ninclude: .\n' | sudo tee "$LIB" >/dev/null
+            fi
+            sudo chmod -R a+rwX "$(dirname "$LIB")"
+            mkdir -p "$HOME/.agda"
+            printf '%s\n' "$LIB" > "$HOME/.agda/libraries"
+            printf '%s\n' "standard-library" > "$HOME/.agda/defaults"
+            echo "SRCROOT=$(dirname "$LIB")" >> "$GITHUB_ENV"
+            cat "$HOME/.agda/libraries"
+            ls "$(dirname "$LIB")" | head
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — probe existing proof
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            cd verification/proofs/agda
+            agda --safe Properties.agda; echo "rc-safe=$?"
+            agda --safe --without-K Properties.agda; echo "rc-safe-without-K=$?"
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — dump stdlib rational API
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            SRC="${SRCROOT:-/usr/share/agda-stdlib/src}"
+            echo "=== src root ==="; ls "$SRC" | head -30
+            echo "=== Data/Rational files ==="
+            ls "$SRC/Data/Rational" "$SRC/Data/Rational/Unnormalised" 2>/dev/null
+            echo "=== Data/Rational/Properties.agda (FULL) ==="
+            cat "$SRC/Data/Rational/Properties.agda"
+            echo "=== Data/Rational/Solver.agda (FULL) ==="
+            cat "$SRC/Data/Rational/Solver.agda"
+            echo "=== Data/List/Properties.agda: sum/++/filter names ==="
+            grep -nE "^[^ ].*(sum|filter|length|\+\+)" "$SRC/Data/List/Properties.agda" | head -60
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Agda — dump base and unnormalised
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            SRC="${SRCROOT:-/usr/share/agda-stdlib/src}"
+            echo "=== Data/Rational/Base.agda ==="
+            cat "$SRC/Data/Rational/Base.agda"
+            echo "=== Data/Rational/Unnormalised/Base.agda (head 160) ==="
+            head -160 "$SRC/Data/Rational/Unnormalised/Base.agda" 2>/dev/null || true
+            echo "=== Data/Nat/Properties.agda: selected lemmas ==="
+            grep -nE "^[^ ].*(∸|mono|≤)" "$SRC/Data/Nat/Properties.agda" | grep ":" | head -80
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: R — install pscl
+        continue-on-error: true
+        run: |
+          {
+            set -x
+            sudo apt-get install -y -qq r-base-core r-base-dev || true
+            Rscript -e 'library(pscl)' 2>/dev/null || sudo Rscript -e 'install.packages("pscl", repos="https://cloud.r-project.org", lib="/usr/local/lib/R/site-library")'
+            Rscript -e 'cat(R.version.string, "\n"); library(pscl); cat("pscl", as.character(packageVersion("pscl")), "\n"); cat("MASS", as.character(packageVersion("MASS")), "\n")'
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: R — pscl parameterisation probe
+        continue-on-error: true
+        run: |
+          {
+            echo "==================== R pscl probe ===================="
+            Rscript probe/pscl-probe.R
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Julia — setup
+        continue-on-error: true
+        uses: julia-actions/setup-julia@v3.0.2
+        with:
+          version: "1"
+
+      - name: Julia — format check
+        continue-on-error: true
+        run: |
+          {
+            echo "==================== julia format ===================="
+            julia -e 'using Pkg; Pkg.activate(mktempdir()); Pkg.add("JuliaFormatter"); using JuliaFormatter; all([format(p; overwrite=false) for p in ("src", "test")]) || exit(1)'
+            git status --short || true
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Julia — package and RCall
+        continue-on-error: true
+        timeout-minutes: 25
+        run: |
+          {
+            echo "==================== julia ===================="
+            julia -e 'println(VERSION)'
+            julia -e 'using Pkg; Pkg.activate(mktempdir()); Pkg.add("RCall"); using RCall; R"cat(R.version.string, \"\\n\")"; println("RCALL-OK")'
+            julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.test()'
+          } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
+
+      - name: Publish probe output
+        if: always()
+        run: |
+          set -euo pipefail
+          mkdir -p probe
+          tr -d "\r" < "$RUNNER_TEMP/out.txt" > probe/last-probe.txt
+          git config user.email "j.d.a.jewell@open.ac.uk"
+          git config user.name "Jonathan D.A. Jewell"
+          git add probe/last-probe.txt
+          git commit -m "probe: publish toolchain output [skip ci]" || true
+          git push origin "HEAD:${GITHUB_REF_NAME}" || true

@@ -74,6 +74,7 @@
     tiny = [1, 2, 5]
     res_tiny = hurdle_nb(counts[tiny, :], groups[tiny], sizes[tiny]; taxa = taxa)
     @test length(fitted(res_tiny)) == 0
+    @test length(refused(res_tiny)) == 3
     @test all(r -> occursin("at least 4 samples", r.reason), refused(res_tiny))
 
     # The caller's prevalence floor is applied, and says so. This table passes

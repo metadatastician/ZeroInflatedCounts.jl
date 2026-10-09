@@ -45,3 +45,62 @@
     @test res.provenance.method === :hurdle_nb
     @test length(res.fits) == size(counts, 2)
 end
+
+@testset "input normalisation preserves sample and taxon order" begin
+    counts = Int16[0 4; 3 0; 5 2; 0 1]
+    groups = [:treated, :treated, :control, :control]
+    sizes = Float32[0.5, 1, 2, 4]
+    inputs = ZeroInflatedCounts.check_inputs(
+        view(counts, :, :),
+        groups,
+        sizes;
+        taxa = [:zeta, :alpha],
+    )
+    @test inputs.counts isa Matrix{Int}
+    @test inputs.counts == counts
+    @test inputs.groups == ["treated", "treated", "control", "control"]
+    @test inputs.size_factors isa Vector{Float64}
+    @test inputs.size_factors == [0.5, 1.0, 2.0, 4.0]
+    @test inputs.taxa == ["zeta", "alpha"]
+    @test inputs.ref == "control"
+    @test inputs.contrast == "treated"
+    @test inputs.min_prevalence == 0.0
+
+    for floor in (0, 1)
+        reversed = ZeroInflatedCounts.check_inputs(
+            counts,
+            groups,
+            sizes;
+            ref = :treated,
+            min_prevalence = floor,
+        )
+        @test reversed.ref == "treated"
+        @test reversed.contrast == "control"
+        @test reversed.taxa == ["taxon-1", "taxon-2"]
+        @test reversed.min_prevalence === Float64(floor)
+    end
+end
+
+@testset "both entry points reject invalid inputs before fitting" begin
+    counts = [0 4; 3 0; 5 2; 0 1]
+    groups = ["a", "a", "b", "b"]
+    sizes = ones(4)
+    for fit in (hurdle_nb, zinb)
+        @test_throws ArgumentError fit(zeros(Int, 0, 2), String[], Float64[])
+        @test_throws ArgumentError fit(zeros(Int, 4, 0), groups, sizes)
+        @test_throws ArgumentError fit(counts, groups[1:3], sizes)
+        @test_throws ArgumentError fit(counts, groups, sizes[1:3])
+        @test_throws ArgumentError fit(Float64.(counts), groups, sizes)
+        @test_throws ArgumentError fit(counts .- 1, groups, sizes)
+        @test_throws ArgumentError fit(counts, fill("a", 4), sizes)
+        @test_throws ArgumentError fit(counts, ["a", "b", "c", "c"], sizes)
+        @test_throws ArgumentError fit(counts, groups, sizes; ref = "missing")
+        @test_throws ArgumentError fit(counts, groups, sizes; taxa = String[])
+        for bad_size in (NaN, Inf, -Inf, 0.0, -1.0)
+            @test_throws ArgumentError fit(counts, groups, [1.0, 1.0, 1.0, bad_size])
+        end
+        for floor in (-eps(), nextfloat(1.0), NaN, Inf, -Inf)
+            @test_throws ArgumentError fit(counts, groups, sizes; min_prevalence = floor)
+        end
+    end
+end

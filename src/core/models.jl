@@ -191,16 +191,6 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
         return TaxonFailed(taxon, "pscl reported non-convergence (converged = FALSE)")
     end
 
-    if !isfinite(se_count) || !isfinite(se_zero)
-        return TaxonFailed(
-            taxon,
-            "the covariance matrix is not positive definite: " *
-            "the standard error of the group coefficient is not finite",
-        )
-    end
-
-    theta_note = theta_note_for(theta)
-
     if kind === :zinb
         zero_prob = _as_floats(raw, "zero_part_prob")
         if isempty(zero_prob)
@@ -216,6 +206,16 @@ function fit_taxon(kind::Symbol, inputs::ZIInputs, j::Int)
             )
         end
     end
+
+    if !isfinite(se_count) || !isfinite(se_zero)
+        return TaxonFailed(
+            taxon,
+            "the covariance matrix is not positive definite: " *
+            "the standard error of the group coefficient is not finite",
+        )
+    end
+
+    theta_note = theta_note_for(theta)
 
     lr = 2 * (loglik_full - loglik_null)
     if lr < 0

@@ -97,7 +97,8 @@ zic_fit <- function(y, g, s, kind, levels) {
          loglik_full = as.numeric(logLik(full)),
          loglik_null = as.numeric(logLik(null)),
          zero_part_prob = zero_part_prob,
-         converged = if (is.null(full$converged)) TRUE else isTRUE(full$converged),
+         converged = (if (is.null(full$converged)) TRUE else isTRUE(full$converged)) &&
+                     (if (is.null(null$converged)) TRUE else isTRUE(null$converged)),
          warnings = w,
          stage = "")
 }
