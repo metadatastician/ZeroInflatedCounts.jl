@@ -123,12 +123,12 @@ jobs:
         with:
           version: "1"
 
-      - name: Julia — format (writes, then the publish step commits)
+      - name: Julia — format check
         continue-on-error: true
         run: |
           {
             echo "==================== julia format ===================="
-            julia -e 'using Pkg; Pkg.activate(mktempdir()); Pkg.add("JuliaFormatter"); using JuliaFormatter; for p in ("src", "test"); format(p); end'
+            julia -e 'using Pkg; Pkg.activate(mktempdir()); Pkg.add("JuliaFormatter"); using JuliaFormatter; all([format(p; overwrite=false) for p in ("src", "test")]) || exit(1)'
             git status --short || true
           } >> "$RUNNER_TEMP/out.txt" 2>&1 || true
 
@@ -151,6 +151,6 @@ jobs:
           tr -d "\r" < "$RUNNER_TEMP/out.txt" > probe/last-probe.txt
           git config user.email "j.d.a.jewell@open.ac.uk"
           git config user.name "Jonathan D.A. Jewell"
-          git add probe src test
-          git commit -m "probe: publish toolchain output (and JuliaFormatter's own formatting) [skip ci]" || true
+          git add probe/last-probe.txt
+          git commit -m "probe: publish toolchain output [skip ci]" || true
           git push origin "HEAD:${GITHUB_REF_NAME}" || true
