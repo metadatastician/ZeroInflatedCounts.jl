@@ -10,14 +10,11 @@ set.seed(11)
 
 section <- function(name) cat("\n== ", name, " ==\n", sep = "")
 attempt <- function(tag, expr) {
-    r <- tryCatch(expr, error = function(e) e, warning = function(w) w)
-    if (inherits(r, "error")) {
-        cat(tag, "ERROR:", conditionMessage(r), "\n")
-    } else if (inherits(r, "warning")) {
-        cat(tag, "WARNING:", conditionMessage(r), "\n")
-    } else {
-        cat(tag, "ok\n")
-    }
+    r <- tryCatch(withCallingHandlers(expr, warning = function(w) {
+        cat(tag, "WARNING:", conditionMessage(w), "\n")
+        invokeRestart("muffleWarning")
+    }), error = function(e) e)
+    if (inherits(r, "error")) cat(tag, "ERROR:", conditionMessage(r), "\n") else cat(tag, "done\n")
     invisible(r)
 }
 
