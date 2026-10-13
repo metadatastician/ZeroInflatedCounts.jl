@@ -68,7 +68,7 @@ workflows:
         - 'actions/upload-pages-artifact@v5.0.0'
         - 'haskell-actions/setup@v2.12.1'
     '.github/workflows/push-email-notify.yml':
-        - 'hyperpolymath/smtp-notify-action@v0.3.0'
+        - 'hyperpolymath/smtp-notify-action@v0.5.0'
     '.github/workflows/quality.yml':
         - 'actions/checkout@v7.0.1'
         - 'editorconfig-checker/action-editorconfig-checker@v3.0.0'
@@ -104,11 +104,6 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'julia-actions/setup-julia@v3.0.2'
 dependencies:
-    'Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6':
-        ref: '6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
-        commit: 'sha1-6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
-        owner_id: 580492
-        repo_id: 298565987
     'actions/attest-build-provenance@v4.2.2':
         ref: 'v4.2.2'
         commit: 'sha1-4d101475d8b20a2381f78447822ac1eab6504dd8'
@@ -251,9 +246,9 @@ dependencies:
         commit: 'sha1-2155aa26a21758f2ba119f61bc7e0e1981c106fb'
         owner_id: 6759885
         repo_id: 1275650185
-    'hyperpolymath/smtp-notify-action@v0.3.0':
-        ref: 'v0.3.0'
-        commit: 'sha1-22e7bdb322c430c1d0dac6b3bb307f4bb139d0be'
+    'hyperpolymath/smtp-notify-action@v0.5.0':
+        ref: 'v0.5.0'
+        commit: 'sha1-c1c9fa07992a02c1fd3d67a0dc1b08cccb852aef'
         owner_id: 6759885
         repo_id: 1352485172
     'hyperpolymath/standards@da2c748aad55c1a1dcba00b60fe4a35017bc6540':
@@ -271,7 +266,7 @@ dependencies:
             - 'github/codeql-action@cdf488f595d80d6e07e03d4674febd5ab45fa938'
             - 'goto-bus-stop/setup-zig@abea47f85e598557f500fa1fd2ab7464fcb39406'
             - 'ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc'
-            - 'Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
+            - 'swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
             - 'webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555'
     'julia-actions/cache@v3':
         ref: 'v3'
@@ -313,6 +308,11 @@ dependencies:
         commit: 'sha1-d209202bc7d53ff1cc128f7f907dac145c9d6ae9'
         owner_id: 545988
         repo_id: 366408409
+    'swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6':
+        ref: '6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
+        commit: 'sha1-6323deb102c322ba6fcbdcafc7e3dddab59af2b6'
+        owner_id: 580492
+        repo_id: 298565987
     'webfactory/ssh-agent@e83874834305fe9a4a2997156cb26c5de65a8555':
         ref: 'e83874834305fe9a4a2997156cb26c5de65a8555'
         commit: 'sha1-e83874834305fe9a4a2997156cb26c5de65a8555'
