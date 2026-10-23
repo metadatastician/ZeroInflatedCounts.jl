@@ -41,13 +41,13 @@ workflows:
     '.github/workflows/julia-ci.yml':
         - 'actions/checkout@v7.0.1'
         - 'julia-actions/cache@v3'
-        - 'julia-actions/setup-julia@v3.0.2'
+        - 'julia-actions/setup-julia@v3.0.3'
     '.github/workflows/julia-docs.yml':
         - 'actions/checkout@v7.0.1'
         - 'julia-actions/cache@v3'
         - 'julia-actions/julia-buildpkg@v1'
         - 'julia-actions/julia-docdeploy@v1'
-        - 'julia-actions/setup-julia@v3.0.2'
+        - 'julia-actions/setup-julia@v3.0.3'
     '.github/workflows/k9-validate.yml':
         - 'actions/checkout@v7.0.1'
         - 'hyperpolymath/k9-ecosystem@main'
@@ -102,7 +102,7 @@ workflows:
         - 'oven-sh/setup-bun@v2.2.0'
     '.github/workflows/zz-probe.yml':
         - 'actions/checkout@v7.0.1'
-        - 'julia-actions/setup-julia@v3.0.2'
+        - 'julia-actions/setup-julia@v3.0.3'
 dependencies:
     'actions/attest-build-provenance@v4.2.2':
         ref: 'v4.2.2'
@@ -283,9 +283,9 @@ dependencies:
         commit: 'sha1-e62cc8fd639797a0c2922a437d5b1b81c4a12787'
         owner_id: 53965732
         repo_id: 222156169
-    'julia-actions/setup-julia@v3.0.2':
-        ref: 'v3.0.2'
-        commit: 'sha1-fa02766e078afaaf09b14210362cee14137e6a32'
+    'julia-actions/setup-julia@v3.0.3':
+        ref: 'v3.0.3'
+        commit: 'sha1-da908477b5db94c10ffce8cfea9f2b3b9d5db687'
         owner_id: 53965732
         repo_id: 202020219
     'ossf/scorecard-action@2d1146689b8cda280b9bc96326124645441f03bc':

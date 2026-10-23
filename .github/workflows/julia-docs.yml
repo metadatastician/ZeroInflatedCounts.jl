@@ -36,7 +36,7 @@ jobs:
             echo "::error::docs-site declared but no Documenter build: docs/Project.toml, docs/make.jl and docs/src/ are required. Either add the build or remove this workflow."
             exit 1
           fi
-      - uses: julia-actions/setup-julia@v3.0.2
+      - uses: julia-actions/setup-julia@v3.0.3
         with:
           version: "1"
       - uses: julia-actions/cache@v3

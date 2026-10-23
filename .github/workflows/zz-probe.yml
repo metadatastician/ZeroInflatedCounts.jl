@@ -119,7 +119,7 @@ jobs:
 
       - name: Julia — setup
         continue-on-error: true
-        uses: julia-actions/setup-julia@v3.0.2
+        uses: julia-actions/setup-julia@v3.0.3
         with:
           version: "1"
 

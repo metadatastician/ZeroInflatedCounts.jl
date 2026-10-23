@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: julia-actions/setup-julia@v3.0.2
+      - uses: julia-actions/setup-julia@v3.0.3
         with:
           version: "1"
       - name: Check formatting (check mode — never writes in CI)
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: julia-actions/setup-julia@v3.0.2
+      - uses: julia-actions/setup-julia@v3.0.3
         with:
           version: "1"
       - uses: julia-actions/cache@v3
@@ -140,7 +140,7 @@ jobs:
         os: [ubuntu-24.04]
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: julia-actions/setup-julia@v3.0.2
+      - uses: julia-actions/setup-julia@v3.0.3
         with:
           version: ${{ matrix.julia }}
       - uses: julia-actions/cache@v3
