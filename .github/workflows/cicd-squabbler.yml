@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MPL-2.0
+# CICD Squabbler gate (doctrine 5: squabble, don't bypass). Added by the
+# standards pin applier (scripts/apply-workflow-pins-remote.sh
+# --ensure-squabbler); the applier keeps this pin current. `chains` blocks a
+# dependency cycle or a dead upstream; `fight` reports and runs only with
+# the optional Administration-read credential.
+name: CICD Squabbler
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  squabble:
+    permissions:
+      contents: read
+      pull-requests: read
+      attestations: read
+    uses: metadatastician/standards/.github/workflows/cicd-squabbler-reusable.yml@60382738566ffbb7d6bf364b12f4f583e12af750
+    with:
+      pr-number: ${{ github.event.pull_request.number && format('{0}', github.event.pull_request.number) || '' }}
+    secrets:
+      ADMINISTRATION_READ_TOKEN: ${{ secrets.HYPATIA_SCAN_PAT }}
