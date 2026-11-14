@@ -10,6 +10,13 @@ https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 ==== Fixed
 
+* `.github/workflows/actions.lock`: the leaf record for
+  `hyperpolymath/cicd-suite@0da816c0` repeated its own SHA as its `ref:`, which
+  the runner refuses (`invalid lockfile pin`, SQ-LOCK-01). `hyperpolymath/cicd-suite`
+  has no tags, and both of its pinned commits are on its `main`, so the record now
+  names `main`. The `commit:` and the key are unchanged. The other tag-keyed
+  records that the lock gate reports (canon rule 10) are a separate matter and
+  are not touched here.
 * A table whose size factors are all equal no longer fails every taxon.
   `log(size_factor)` is then constant, aliased with the zero-part intercept,
   and `pscl` failed with "non-finite value supplied by optim". It is now
