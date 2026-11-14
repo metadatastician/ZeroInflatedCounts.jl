@@ -236,7 +236,7 @@ dependencies:
         owner_id: 6759885
         repo_id: 1284026967
     'hyperpolymath/cicd-suite@0da816c05ae7486671d863e07935f93981c0c2d5':
-        ref: '0da816c05ae7486671d863e07935f93981c0c2d5'
+        ref: 'main'
         commit: 'sha1-0da816c05ae7486671d863e07935f93981c0c2d5'
         owner_id: 6759885
         repo_id: 1326697643
