@@ -122,7 +122,7 @@ d987960..e27b7e4` lists two commits, and `git diff --stat` between them
 reports 13 files changed, 9435 insertions and 17 deletions.
 
 * `685b264` (#9) changes `Project.toml` only. It re-mints the package UUID
-  from `a3e242c2-9e36-5c5c-93a0-5016fb9ae49b` to
+  from the legacy ID `#uuid"a3e242c2-9e36-5c5c-93a0-5016fb9ae49b"` to
   `01a115f9-21c7-8000-b6e0-bc56248543c1`, and its comment cites ADR-008
   profile T and owner ruling D320.
 * `e27b7e4` (#10, from branch `arena/01a10883-zeroinflatedcounts-jl`):

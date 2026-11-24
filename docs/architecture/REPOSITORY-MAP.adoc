@@ -77,6 +77,10 @@ predecessors did.
 | yes
 | git reads .mailmap from the worktree root only
 
+| `.uuid-v8-exempt`
+| yes
+| exact paths for raw output containing external UUIDs
+
 | `.windsurfrules`
 | yes
 | -
