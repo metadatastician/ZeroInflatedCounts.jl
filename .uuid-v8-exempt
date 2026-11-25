@@ -1,3 +1,0 @@
-# Preserve the raw Julia probe output, including Pkg's external scratchspace
-# UUID in logged paths. This exemption applies only to the captured log.
-probe/last-probe.txt

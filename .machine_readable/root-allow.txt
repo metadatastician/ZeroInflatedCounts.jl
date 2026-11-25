@@ -52,7 +52,6 @@ coordination.k9.ncl        # repo-local session binding (template-mandated)
 mise.toml                  # the toolchain: every tool at "latest" (PROVISIONING-STANDARD §4)
 mise.lock                  # makes "latest" concrete: version + per-platform checksum; mise reads it beside mise.toml
 .hypatia-ignore            # the Hypatia scanner reads it from the repo root
-.uuid-v8-exempt            # exact paths for raw output containing external UUIDs
 ?.coderabbit.yaml          # CodeRabbit reads its config from the root only; pins Docstring Coverage to mode: warning (estate decision, not a vendor default). Optional: only the template and the repos whose rulesets require the CodeRabbit context carry it
 .clinerules                # AI editor rules. Cline/Cursor/Windsurf read these from the project
 .cursorrules               # ROOT, so the copies formerly under .machine_readable/ai/ were inert.
