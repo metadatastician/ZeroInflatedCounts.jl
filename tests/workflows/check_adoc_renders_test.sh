@@ -12,7 +12,8 @@
 
 set -euo pipefail
 
-CHECKER="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)/scripts/check-adoc-renders.sh"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+CHECKER="$REPO_ROOT/scripts/check-adoc-renders.sh"
 FIXTURE=$(mktemp -d)
 trap 'rm -rf "$FIXTURE"' EXIT
 
@@ -124,3 +125,32 @@ git -C "$FIXTURE" rm -q --cached --ignore-unmatch 'defect-*.adoc' >/dev/null
 "$CHECKER" "$FIXTURE" | grep -q '^PASS:'
 
 echo "PASS: clean and empty repos accepted; four defect classes rejected that bare asciidoctor exits 0 on"
+
+# A percentage renders cleanly, so check the census against the summary table.
+# Read Done and Total from the document so this still passes as proofs are added.
+proof_status="$REPO_ROOT/docs/status/PROOF-STATUS.adoc"
+if ! awk -F '|' '
+    /^== / { in_summary = ($0 == "== Summary"); next }
+    in_summary && $2 ~ /^[[:space:]]*\*Total\*[[:space:]]*$/ {
+        total_rows++
+        total = $3
+        done = $4
+        gsub(/[[:space:]*]/, "", total)
+        gsub(/[[:space:]*]/, "", done)
+    }
+    in_summary && /^\*Overall\*:/ { overall_rows++; overall = $0 }
+    END {
+        expected = "*Overall*: " done " of " total " proven"
+        if (total_rows != 1 || total !~ /^[0-9]+$/ || done !~ /^[0-9]+$/)
+            exit 1
+        if (overall_rows != 1 || overall != expected) {
+            printf "Expected one census line: %s\n", expected
+            exit 1
+        }
+    }
+' "$proof_status" >&2; then
+    echo "FAIL: $proof_status must report the Done and Total counts from its Summary table" >&2
+    exit 1
+fi
+
+echo "PASS: proof census reports the Done and Total counts"
